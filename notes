@@ -1,0 +1,6 @@
+not need to iterate if distance between point and center is outside of a circle of radius 2 for the mandelbrot set
+not sure if valid for julia set,
+
+would keeping track of previous valued help detect cycles ?
+
+look at how to parallelize for s p e e d
