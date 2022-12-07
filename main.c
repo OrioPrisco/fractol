@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 16:09:12 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2022/12/05 16:22:58 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2022/12/07 16:16:42 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 #include <stdio.h>
 #include <math.h>
 
-#define WIDTH 601
+#define WIDTH 500
 #define HEIGHT 500
-#define MIN(A,B) (((A)>(B))?(B):(A))
+#define SCALE 200.0
 
 typedef struct s_img
 {
@@ -37,13 +37,48 @@ typedef struct s_env
 	void	*win;
 	void	*mlx;
 	t_img	*frame;
+	int		iter;
 }	t_env;
+
+typedef struct s_complex
+{
+	double	real;
+	double	imag;
+}	t_complex;
+
+typedef struct s_coord
+{
+	double	x;
+	double	y;
+}	t_coord;
+
+t_complex	square_complex(t_complex num)
+{
+	t_complex	ret;
+
+	ret.real = (num.real * num.real) - (num.imag * num.imag);
+	ret.imag = 2 * (num.real * num.imag);
+	return (ret);
+}
+
+t_complex	add_complex(t_complex c1, t_complex c2)
+{
+	t_complex	result;
+
+	result.real = c1.real + c2.real;
+	result.imag = c1.imag + c2.imag;
+	return (result);
+}
+
+double	dist_complex_origin(t_complex num)
+{
+	return (num.real * num.real + num.imag * num.imag);
+}
 
 int	quit_prg(t_env *env)
 {
 	mlx_destroy_window(env->mlx, env->win);
 	mlx_destroy_display(env->mlx);
-//	free(env->mlx);
 	exit(0);
 }
 
@@ -55,50 +90,62 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int*)dest = color;
 }
 
-int	deal_key(int key, void *param)
+void draw(t_env *env)
 {
-	(void)param;
+	int			x;
+	int			y;
+	int			iter;
+	t_complex	z;
+	t_complex	c;
+
+	x = 0;
+	while (x < env->frame->width)
+	{
+		y = 0;
+		while (y < env->frame->height)
+		{
+			c.real = (x - env->frame->width / 2) / SCALE;
+			c.imag = (y - env->frame->height / 2) / SCALE;
+			z = c;
+			iter = 0;
+			my_mlx_pixel_put(env->frame, x, y, 0x0000ffff);
+			while (iter++ < env->iter)
+			{
+				z = add_complex(square_complex(z), c);
+				if (dist_complex_origin(z) > 4)
+				{
+					my_mlx_pixel_put(env->frame, x, y, 0x00ff0000);
+					break;
+				}
+			}
+			y++;
+		}
+		x++;
+	}
+	mlx_put_image_to_window(env->mlx, env->win, env->frame->img, 0, 0);
+}
+
+int	deal_key(int key, t_env *env)
+{
 	write(1, &key, 1);
 	
+	if (key == 'p')
+	{
+		env->iter++;
+		draw(env);
+	}
+	if (key == 'm')
+	{
+		env->iter--;
+		draw(env);
+	}
 	if (key == 65307)
-		quit_prg(param);
+		quit_prg(env);
 	return (0);
 }
 
-double	dist(int x, int y, int x2, int y2)
+int	my_expose(t_env *env)
 {
-	double	dx;
-	double	dy;
-
-	dx = x2 - x;
-	if (dx < 0)
-		dx = -dx;
-	dy = y2 - y;
-	if (dy < 0)
-		dy = -dy;
-	return (sqrt((dx * dx) + (dy * dy)));
-}
-
-int dist2(int x, int y, int x2, int y2, t_img *img)
-{
-
-	return (1 - (int)(MIN(dist(x, y, x2, y2),
-		dist(x2, y2, img->width / 2, img->height / 3)))
-		/ dist(x2, y2, img->width / 2, img->height / 3)) * 0xFF;
-}
-int	my_loop(t_env *env)
-{
-	int			color;
-
-	for (int x = 0; x < env->frame->width; x++)
-	{
-	for (int y = 0; y < env->frame->height; y++)
-	{
-	color =  dist2(x, y, 0, 0, env->frame) << 16;
-	color += dist2(x, y, env->frame->width, 0, env->frame) << 8;
-	color += dist2(x, y, env->frame->width / 2, env-> frame->height, env->frame) << 0;
-	my_mlx_pixel_put(env->frame, x, y, color);
-	}}
 	mlx_put_image_to_window(env->mlx, env->win, env->frame->img, 0, 0);
 }
 
@@ -114,6 +161,7 @@ int main()
 	env.win = mlx_new_window(env.mlx, WIDTH, HEIGHT, "Foo bar");
 	if (!env.win)
 		return (2);
+	env.iter = 1;
 	img.img = mlx_new_image(env.mlx, WIDTH, HEIGHT);
 	img.data = mlx_get_data_addr(img.img, &img.bits_per_pixel,
 		&img.line_length, &img.endian);
@@ -121,8 +169,9 @@ int main()
 	img.width = WIDTH;
 	printf("image %p\n", img.img);
 	mlx_key_hook(env.win, &deal_key, &env);
-	mlx_loop_hook(env.mlx, my_loop, &env);
-	mlx_expose_hook(env.win, my_loop, &env);
+//	mlx_loop_hook(env.mlx, my_loop, &env);
+	mlx_expose_hook(env.win, my_expose, &env);
 	mlx_hook(env.win, DestroyNotify, StructureNotifyMask , &quit_prg, &env);
+	draw(&env);
 	mlx_loop(env.mlx);
 }
