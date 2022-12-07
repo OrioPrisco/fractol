@@ -17,9 +17,8 @@
 #include <stdio.h>
 #include <math.h>
 
-#define WIDTH 500
-#define HEIGHT 500
-#define SCALE 200.0
+#define WIDTH 800
+#define HEIGHT 800
 
 typedef struct s_img
 {
@@ -32,25 +31,21 @@ typedef struct s_img
 	int		width;
 }	t_img;
 
-typedef struct s_env
-{
-	void	*win;
-	void	*mlx;
-	t_img	*frame;
-	int		iter;
-}	t_env;
-
 typedef struct s_complex
 {
 	double	real;
 	double	imag;
 }	t_complex;
 
-typedef struct s_coord
+typedef struct s_env
 {
-	double	x;
-	double	y;
-}	t_coord;
+	void		*win;
+	void		*mlx;
+	t_img		*frame;
+	int			iter;
+	double		scale;
+	t_complex	camera_center;
+}	t_env;
 
 t_complex	square_complex(t_complex num)
 {
@@ -90,6 +85,8 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 	*(unsigned int*)dest = color;
 }
 
+const int g_palette[] = {0x0000ff, 0x00ff00, 0x000f60, 0xff0000, 0x0f6000};
+
 void draw(t_env *env)
 {
 	int			x;
@@ -104,17 +101,17 @@ void draw(t_env *env)
 		y = 0;
 		while (y < env->frame->height)
 		{
-			c.real = (x - env->frame->width / 2) / SCALE;
-			c.imag = (y - env->frame->height / 2) / SCALE;
+			c.real = (x - env->camera_center.real) / env->scale;
+			c.imag = (y - env->camera_center.imag) / env->scale;
 			z = c;
 			iter = 0;
-			my_mlx_pixel_put(env->frame, x, y, 0x0000ffff);
+			my_mlx_pixel_put(env->frame, x, y, 0x0);
 			while (iter++ < env->iter)
 			{
 				z = add_complex(square_complex(z), c);
 				if (dist_complex_origin(z) > 4)
 				{
-					my_mlx_pixel_put(env->frame, x, y, 0x00ff0000);
+					my_mlx_pixel_put(env->frame, x, y, g_palette[iter % 5]);
 					break;
 				}
 			}
@@ -130,17 +127,25 @@ int	deal_key(int key, t_env *env)
 	write(1, &key, 1);
 	
 	if (key == 'p')
-	{
 		env->iter++;
-		draw(env);
-	}
 	if (key == 'm')
-	{
 		env->iter--;
-		draw(env);
-	}
+	if (key == '8')
+		env->scale *= 1.1;
+	if (key == '/')
+		env->scale /= 1.1;
+	if (key == 'w')
+		env->camera_center.imag += env->frame->height / (env->scale / 20);
+	if (key == 's')
+		env->camera_center.imag -= env->frame->height / (env->scale / 20);
+	if (key == 'a')
+		env->camera_center.real += env->frame->width /  (env->scale / 20);
+	if (key == 'd')
+		env->camera_center.real -= env->frame->width /  (env->scale / 20);
 	if (key == 65307)
 		quit_prg(env);
+	printf("center : %f %f\n", env->camera_center.real, env->camera_center.imag);
+	draw(env);
 	return (0);
 }
 
@@ -162,11 +167,14 @@ int main()
 	if (!env.win)
 		return (2);
 	env.iter = 1;
+	env.scale = 200;
 	img.img = mlx_new_image(env.mlx, WIDTH, HEIGHT);
 	img.data = mlx_get_data_addr(img.img, &img.bits_per_pixel,
 		&img.line_length, &img.endian);
 	img.height = HEIGHT;
 	img.width = WIDTH;
+	env.camera_center.real = env.frame->width / 2;
+	env.camera_center.imag = env.frame->height / 2;
 	printf("image %p\n", img.img);
 	mlx_key_hook(env.win, &deal_key, &env);
 //	mlx_loop_hook(env.mlx, my_loop, &env);
