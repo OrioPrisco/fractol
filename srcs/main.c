@@ -16,59 +16,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-
-#define WIDTH 800
-#define HEIGHT 800
-
-typedef struct s_img
-{
-	void	*img;
-	char	*data;
-	int		line_length;
-	int		bits_per_pixel;
-	int		endian;
-	int		height;
-	int		width;
-}	t_img;
-
-typedef struct s_complex
-{
-	double	real;
-	double	imag;
-}	t_complex;
-
-typedef struct s_env
-{
-	void		*win;
-	void		*mlx;
-	t_img		*frame;
-	int			iter;
-	double		scale;
-	t_complex	camera_center;
-}	t_env;
-
-t_complex	square_complex(t_complex num)
-{
-	t_complex	ret;
-
-	ret.real = (num.real * num.real) - (num.imag * num.imag);
-	ret.imag = 2 * (num.real * num.imag);
-	return (ret);
-}
-
-t_complex	add_complex(t_complex c1, t_complex c2)
-{
-	t_complex	result;
-
-	result.real = c1.real + c2.real;
-	result.imag = c1.imag + c2.imag;
-	return (result);
-}
-
-double	dist_complex_origin(t_complex num)
-{
-	return (num.real * num.real + num.imag * num.imag);
-}
+#include "fractol.h"
 
 int	quit_prg(t_env *env)
 {
@@ -99,15 +47,9 @@ const int g_palette2[] = {
 						0xff5700
 					};
 
-int	min(int a, int b)
-{
-	return (a<b)?a:b;
-}
-
-int	max(int a, int b)
-{
-	return (a>b)?a:b;
-}
+//TODO : if at any point in the iterations z is in this circle
+//then it is definitely in the set
+const	t_complex	g_offset = {0.25, 0}; // dist = 0.5
 
 void draw(t_env *env)
 {
@@ -134,9 +76,8 @@ void draw(t_env *env)
 			while (iter++ < env->iter)
 			{
 				z = add_complex(square_complex(z), c);
-				if (dist_complex_origin(z) > 4)
+				if (dist_origin_squared(z) > 4)
 				{
-					int color = 9 * ((double)iter) / env->iter ;
 					my_mlx_pixel_put(env->frame, x, y, g_palette2[iter % 9]);
 					break;
 				}
@@ -178,6 +119,7 @@ int	deal_key(int key, t_env *env)
 int	my_expose(t_env *env)
 {
 	mlx_put_image_to_window(env->mlx, env->win, env->frame->img, 0, 0);
+	return (0);
 }
 
 int main()
@@ -195,7 +137,7 @@ int main()
 	env.iter = 1;
 	env.scale = 200;
 	img.img = mlx_new_image(env.mlx, WIDTH, HEIGHT);
-	img.data = mlx_get_data_addr(img.img, &img.bits_per_pixel,
+	img.data = (unsigned char *)mlx_get_data_addr(img.img, &img.bits_per_pixel,
 		&img.line_length, &img.endian);
 	img.height = HEIGHT;
 	img.width = WIDTH;
