@@ -56,9 +56,20 @@ const int		g_palette2[] = {
 	0xff5700
 };
 
-//TODO : if at any point in the iterations z is in this circle
+//TODO : if at any point in the iterations z is in one of these circles
 //then it is definitely in the set
-const t_complex	g_offset = {0.25, 0}; // dist = 0.5
+// or maybe not
+// maybe only check this after at least 10/20 iterations, then i think it's safe
+// make my own tools to check that
+const t_complex	g_offset = {0.25, 0}; // dist = 0.5 // 
+const t_complex	g_offset2 = {0, 0}; // dist = 0.25 //super cheap to check
+
+
+//TODO: keep an array of WIDTH*HEIGHT t_complexes,
+//      to make iterative deepening very cheap
+//TODO : determine how many iterations are stricly required for crtain scale
+//       and how many are recommended. Then increase iterations 
+//       in the background when you have nothing to do
 
 void	draw(t_env *env)
 {
