@@ -116,15 +116,18 @@ void draw(t_env *env)
 	int			iter;
 	t_complex	z;
 	t_complex	c;
+	t_complex	top_left;
 
+	top_left.real = (env->camera_center.real - ((env->frame->width / env->scale) / 2));
+	top_left.imag = (env->camera_center.imag - ((env->frame->height / env->scale) / 2));
 	x = 0;
 	while (x < env->frame->width)
 	{
 		y = 0;
 		while (y < env->frame->height)
 		{
-			c.real = (env->camera_center.real - ((env->frame->width / env->scale) / 2)) + x / env->scale;
-			c.imag = (env->camera_center.imag - ((env->frame->height / env->scale) / 2)) + y / env->scale;
+			c.real = top_left.real + x / env->scale;
+			c.imag = top_left.imag + y / env->scale;
 			z = c;
 			iter = 0;
 			my_mlx_pixel_put(env->frame, x, y, 0x0);
