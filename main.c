@@ -86,6 +86,28 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 }
 
 const int g_palette[] = {0x0000ff, 0x00ff00, 0x000f60, 0xff0000, 0x0f6000};
+const int g_palette2[] = {
+						0xb40982,
+						0x4e54cb,
+						0x4e94cb,
+						0x4edfcb,
+						0x4edf00,
+						0xb1df00,
+						0xffdf00,
+						0xff9a00,
+						0xff6b00,
+						0xff5700
+					};
+
+int	min(int a, int b)
+{
+	return (a<b)?a:b;
+}
+
+int	max(int a, int b)
+{
+	return (a>b)?a:b;
+}
 
 void draw(t_env *env)
 {
@@ -101,8 +123,8 @@ void draw(t_env *env)
 		y = 0;
 		while (y < env->frame->height)
 		{
-			c.real = (x - env->camera_center.real) / env->scale;
-			c.imag = (y - env->camera_center.imag) / env->scale;
+			c.real = (env->camera_center.real - ((env->frame->width / env->scale) / 2)) + x / env->scale;
+			c.imag = (env->camera_center.imag - ((env->frame->height / env->scale) / 2)) + y / env->scale;
 			z = c;
 			iter = 0;
 			my_mlx_pixel_put(env->frame, x, y, 0x0);
@@ -111,7 +133,8 @@ void draw(t_env *env)
 				z = add_complex(square_complex(z), c);
 				if (dist_complex_origin(z) > 4)
 				{
-					my_mlx_pixel_put(env->frame, x, y, g_palette[iter % 5]);
+					int color = max(0, min(9, env->iter - iter));
+					my_mlx_pixel_put(env->frame, x, y, g_palette2[color]);
 					break;
 				}
 			}
@@ -135,16 +158,16 @@ int	deal_key(int key, t_env *env)
 	if (key == '/')
 		env->scale /= 1.1;
 	if (key == 'w')
-		env->camera_center.imag += env->frame->height / (env->scale / 20);
+		env->camera_center.imag -= env->frame->height / (env->scale * 20 );
 	if (key == 's')
-		env->camera_center.imag -= env->frame->height / (env->scale / 20);
+		env->camera_center.imag += env->frame->height / (env->scale * 20);
 	if (key == 'a')
-		env->camera_center.real += env->frame->width /  (env->scale / 20);
+		env->camera_center.real -= env->frame->width /  (env->scale * 20);
 	if (key == 'd')
-		env->camera_center.real -= env->frame->width /  (env->scale / 20);
+		env->camera_center.real += env->frame->width /  (env->scale * 20);
 	if (key == 65307)
 		quit_prg(env);
-	printf("center : %f %f\n", env->camera_center.real, env->camera_center.imag);
+	printf("\ncenter : %f %f\nscale : %f\n", env->camera_center.real, env->camera_center.imag, env->scale);
 	draw(env);
 	return (0);
 }
@@ -173,8 +196,8 @@ int main()
 		&img.line_length, &img.endian);
 	img.height = HEIGHT;
 	img.width = WIDTH;
-	env.camera_center.real = env.frame->width / 2;
-	env.camera_center.imag = env.frame->height / 2;
+	env.camera_center.real = 0;//env.frame->width / 2;
+	env.camera_center.imag = 0;//env.frame->height / 2;
 	printf("image %p\n", img.img);
 	mlx_key_hook(env.win, &deal_key, &env);
 //	mlx_loop_hook(env.mlx, my_loop, &env);
