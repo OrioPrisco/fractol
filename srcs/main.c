@@ -112,21 +112,21 @@ void	draw(t_env *env)
 int	deal_key(int key, t_env *env)
 {
 	write(1, &key, 1);
-	if (key == XK_P)
+	if (key == XK_p)
 		env->iter++;
-	if (key == XK_M)
+	if (key == XK_m)
 		env->iter--;
 	if (key == XK_8)
 		env->scale *= 1.1;
 	if (key == XK_slash)
 		env->scale /= 1.1;
-	if (key == XK_W || key == XK_Up)
+	if (key == XK_w || key == XK_Up)
 		env->camera_center.imag -= env->frame->height / (env->scale * 20);
-	if (key == XK_S || key == XK_Down)
+	if (key == XK_s || key == XK_Down)
 		env->camera_center.imag += env->frame->height / (env->scale * 20);
-	if (key == XK_A || key == XK_Left)
+	if (key == XK_a || key == XK_Left)
 		env->camera_center.real -= env->frame->width / (env->scale * 20);
-	if (key == XK_D || key == XK_Right)
+	if (key == XK_d || key == XK_Right)
 		env->camera_center.real += env->frame->width / (env->scale * 20);
 	if (key == XK_Escape)
 		quit_prg(env);
