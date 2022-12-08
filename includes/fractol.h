@@ -46,10 +46,10 @@ typedef struct s_env
 double		dist_origin_squared(t_complex num);
 t_complex	add_complex(t_complex c1, t_complex c2);
 t_complex	square_complex(t_complex num);
-int	quit_prg(t_env *env);
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void draw(t_env *env);
-int	deal_key(int key, t_env *env);
-int	my_expose(t_env *env);
+int			quit_prg(t_env *env);
+void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
+void		draw(t_env *env);
+int			deal_key(int key, t_env *env);
+int			my_expose(t_env *env);
 
 #endif
