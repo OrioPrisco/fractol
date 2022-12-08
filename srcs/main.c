@@ -17,6 +17,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "fractol.h"
+#include <X11/keysym.h>
 
 int	quit_prg(t_env *env)
 {
@@ -100,23 +101,23 @@ void	draw(t_env *env)
 int	deal_key(int key, t_env *env)
 {
 	write(1, &key, 1);
-	if (key == 'p')
+	if (key == XK_P)
 		env->iter++;
-	if (key == 'm')
+	if (key == XK_M)
 		env->iter--;
-	if (key == '8')
+	if (key == XK_8)
 		env->scale *= 1.1;
-	if (key == '/')
+	if (key == XK_slash)
 		env->scale /= 1.1;
-	if (key == 'w')
+	if (key == XK_W || key == XK_Up)
 		env->camera_center.imag -= env->frame->height / (env->scale * 20);
-	if (key == 's')
+	if (key == XK_S || key == XK_Down)
 		env->camera_center.imag += env->frame->height / (env->scale * 20);
-	if (key == 'a')
+	if (key == XK_A || key == XK_Left)
 		env->camera_center.real -= env->frame->width / (env->scale * 20);
-	if (key == 'd')
+	if (key == XK_D || key == XK_Right)
 		env->camera_center.real += env->frame->width / (env->scale * 20);
-	if (key == 65307)
+	if (key == XK_Escape)
 		quit_prg(env);
 	printf("\ncenter : %f %f\nscale : %f\n", env->camera_center.real, env->camera_center.imag, env->scale);
 	draw(env);
