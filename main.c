@@ -120,11 +120,11 @@ void draw(t_env *env)
 
 	top_left.real = (env->camera_center.real - ((env->frame->width / env->scale) / 2));
 	top_left.imag = (env->camera_center.imag - ((env->frame->height / env->scale) / 2));
-	x = 0;
-	while (x < env->frame->width)
+	y = 0;
+	while (y < env->frame->height)
 	{
-		y = 0;
-		while (y < env->frame->height)
+		x = 0;
+		while (x < env->frame->width)
 		{
 			c.real = top_left.real + x / env->scale;
 			c.imag = top_left.imag + y / env->scale;
@@ -136,14 +136,14 @@ void draw(t_env *env)
 				z = add_complex(square_complex(z), c);
 				if (dist_complex_origin(z) > 4)
 				{
-					int color = max(0, min(9, env->iter - iter));
-					my_mlx_pixel_put(env->frame, x, y, g_palette2[color]);
+					int color = 9 * ((double)iter) / env->iter ;
+					my_mlx_pixel_put(env->frame, x, y, g_palette2[iter % 9]);
 					break;
 				}
 			}
-			y++;
+			x++;
 		}
-		x++;
+		y++;
 	}
 	mlx_put_image_to_window(env->mlx, env->win, env->frame->img, 0, 0);
 }
