@@ -130,7 +130,32 @@ int	deal_key(int key, t_env *env)
 		env->camera_center.real += env->frame->width / (env->scale * 20);
 	if (key == XK_Escape)
 		quit_prg(env);
-	printf("\ncenter : %f %f\nscale : %f\n", env->camera_center.real, env->camera_center.imag, env->scale);
+	printf("\ncenter : %f %f\nscale : %f\n iter : %d\n", env->camera_center.real, env->camera_center.imag, env->scale, env->iter);
+	draw(env);
+	return (0);
+}
+
+int	my_mouse_hook(int button, int x, int y, t_env *env)
+{
+	t_complex	top_left;
+
+
+	printf("mouse event : %d \n", button);
+	if (button == 4)
+		env->scale *= 1.1;
+	if (button == 5)
+		env->scale /= 1.1;
+	if (button == 1)
+	{
+	top_left.real = (env->camera_center.real
+		- ((env->frame->width / env->scale) / 2));
+	top_left.imag = (env->camera_center.imag
+		- ((env->frame->height / env->scale) / 2));
+	top_left.real = top_left.real + x / env->scale;
+	top_left.imag = top_left.imag + y / env->scale;
+	env->camera_center = top_left;
+	}
+
 	draw(env);
 	return (0);
 }
@@ -166,6 +191,7 @@ int	main(void)
 	mlx_key_hook(env.win, &deal_key, &env);
 	mlx_expose_hook(env.win, my_expose, &env);
 	mlx_hook(env.win, DestroyNotify, StructureNotifyMask, &quit_prg, &env);
+	mlx_mouse_hook(env.win, my_mouse_hook, &env);
 	draw(&env);
 	mlx_loop(env.mlx);
 }
