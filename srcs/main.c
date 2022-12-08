@@ -20,8 +20,10 @@
 
 int	quit_prg(t_env *env)
 {
+	mlx_destroy_image(env->mlx, env->frame->img);
 	mlx_destroy_window(env->mlx, env->win);
 	mlx_destroy_display(env->mlx);
+	free(env->mlx);
 	exit(0);
 }
 
