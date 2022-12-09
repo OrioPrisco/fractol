@@ -13,7 +13,8 @@
 NAME			=	fractol
 CC				=	cc
 SRC				=	main.c\
-					complex.c
+					complex.c\
+					draw.c
 
 SRC_FOLDER		=	srcs/
 

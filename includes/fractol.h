@@ -15,6 +15,7 @@
 
 # define WIDTH 800
 # define HEIGHT 800
+# include <stddef.h>
 
 typedef struct s_complex
 {
@@ -51,5 +52,6 @@ void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void		draw(t_env *env);
 int			deal_key(int key, t_env *env);
 int			my_expose(t_env *env);
+size_t mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations);
 
 #endif
