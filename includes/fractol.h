@@ -34,15 +34,47 @@ typedef struct s_img
 	int				width;
 }	t_img;
 
+typedef struct s_iter_result
+{
+	t_complex	z;
+	t_complex	c;
+	int			iter;
+}	t_iter_result;
+
 typedef struct s_env
 {
-	void		*win;
-	void		*mlx;
-	t_img		*frame;
-	int			iter;
-	double		scale;
-	t_complex	camera_center;
+	void			*win;
+	void			*mlx;
+	t_img			*frame;
+	int				iter;
+	double			scale;
+	t_complex		camera_center;
 }	t_env;
+
+typedef enum e_direction {
+	UP = 0,
+	LEFT = 1,
+	DOWN = 2,
+	RIGHT = 3,
+}	t_direction;
+
+typedef struct s_range	t_range;
+
+//tree structure
+//borders can be shared with childrens, but how to determine who owns a border ?
+//I suppose the border belongs to the topmost range, and it will be it's job
+//to remove children reference to freed borders
+//structure can be kept between runs, and ranges whose borders stopped at the
+//previous value of iteration can be deepened
+typedef struct s_range
+{
+	t_complex		top_left;
+	t_range			*subdivisions;
+	t_iter_result	*borders[4];
+	int				bounds[4];
+	t_direction		filled;
+
+}	t_range;
 
 double		dist_origin_squared(t_complex num);
 t_complex	add_complex(t_complex c1, t_complex c2);
@@ -54,5 +86,6 @@ int			deal_key(int key, t_env *env);
 int			my_expose(t_env *env);
 size_t		mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations);
 t_complex	calculate_top_left(t_env *env);
+int			init_env(t_env *env, t_img *img);
 
 #endif

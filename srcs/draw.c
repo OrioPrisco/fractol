@@ -99,6 +99,37 @@ void	draw(t_env *env)
 	mlx_put_image_to_window(env->mlx, env->win, env->frame->img, 0, 0);
 }
 
+//either assume that a value inside of env->iter_result set to 0 + 0i
+//is unitialized, or somehow pass info to chlidren about which borders were
+//calculated
+/*
+void	iterate_line(t_env *env, t_range	*rect)
+{
+	int			d_x;
+	int			d_y;
+	int			dir;
+	int			i;
+
+	dir = -1;
+	while (dir < 4)
+	{
+		if ((rect->filled & dir++))
+			continue ;
+		d_x = rect->bounds[dir] / ft_maxint(1, ft_absint(rect->bounds[dir]));
+		d_y = rect->bounds[(dir + 2) % 4]
+			/ ft_maxint(1, ft_absint(rect->bounds[(dir + 2) % 4]));
+	}
+}*/
+/*
+void	boundary_trace_fractal(t_env *env,
+	size_t (*f)(t_complex *, t_complex, size_t), t_range rectangle)
+{
+	t_range	other;
+	
+	return ;
+}
+*/
+
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations)
 {
 	size_t		iter;

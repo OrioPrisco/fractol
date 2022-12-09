@@ -14,12 +14,14 @@ NAME			=	fractol
 CC				=	cc
 SRC				=	main.c\
 					complex.c\
-					draw.c
+					draw.c\
+					env.c
 
 SRC_FOLDER		=	srcs/
 
 HEADERS_FOLDER	=	includes/\
-					minilibx-linux
+					minilibx-linux/\
+					libft/includes/
 
 OBJS = $(patsubst %.c,$(OBJ_FOLDER)%.o,$(SRC))
 

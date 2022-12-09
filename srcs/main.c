@@ -21,8 +21,12 @@
 
 int	quit_prg(t_env *env)
 {
-	mlx_destroy_image(env->mlx, env->frame->img);
-	mlx_destroy_window(env->mlx, env->win);
+	if (!env->mlx)
+		exit(0);
+	if (env->frame->img)
+		mlx_destroy_image(env->mlx, env->frame->img);
+	if (env->win)
+		mlx_destroy_window(env->mlx, env->win);
 	mlx_destroy_display(env->mlx);
 	free(env->mlx);
 	exit(0);
@@ -89,23 +93,8 @@ int	main(void)
 	t_env	env;
 	t_img	img;
 
-	env.mlx = mlx_init();
-	env.frame = &img;
-	if (!env.mlx)
-		return (1);
-	env.win = mlx_new_window(env.mlx, WIDTH, HEIGHT, "Foo bar");
-	if (!env.win)
-		return (2);
-	env.iter = 1;
-	env.scale = 200;
-	img.img = mlx_new_image(env.mlx, WIDTH, HEIGHT);
-	img.data = (unsigned char *)mlx_get_data_addr(img.img, &img.bits_per_pixel,
-			&img.line_length, &img.endian);
-	img.height = HEIGHT;
-	img.width = WIDTH;
-	env.camera_center.real = 0;
-	env.camera_center.imag = 0;
-	printf("image %p\n", img.img);
+	if (init_env(&env, &img))
+		quit_prg(&env);
 	mlx_key_hook(env.win, &deal_key, &env);
 	mlx_expose_hook(env.win, my_expose, &env);
 	mlx_hook(env.win, DestroyNotify, StructureNotifyMask, &quit_prg, &env);
