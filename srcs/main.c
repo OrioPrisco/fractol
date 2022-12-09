@@ -28,7 +28,6 @@ int	quit_prg(t_env *env)
 	exit(0);
 }
 
-
 int	deal_key(int key, t_env *env)
 {
 	write(1, &key, 1);
@@ -50,7 +49,8 @@ int	deal_key(int key, t_env *env)
 		env->camera_center.real += env->frame->width / (env->scale * 20);
 	if (key == XK_Escape)
 		quit_prg(env);
-	printf("\ncenter : %f %f\nscale : %f\n iter : %d\n", env->camera_center.real, env->camera_center.imag, env->scale, env->iter);
+	printf("\ncenter: %f %f\nscale: %f\n iter: %d\n", env->camera_center.real,
+		env->camera_center.imag, env->scale, env->iter);
 	draw(env);
 	return (0);
 }
@@ -59,7 +59,6 @@ int	my_mouse_hook(int button, int x, int y, t_env *env)
 {
 	t_complex	top_left;
 
-
 	printf("mouse event : %d \n", button);
 	if (button == 4)
 		env->scale *= 1.1;
@@ -67,15 +66,14 @@ int	my_mouse_hook(int button, int x, int y, t_env *env)
 		env->scale /= 1.1;
 	if (button == 1)
 	{
-	top_left.real = (env->camera_center.real
-		- ((env->frame->width / env->scale) / 2));
-	top_left.imag = (env->camera_center.imag
-		- ((env->frame->height / env->scale) / 2));
-	top_left.real = top_left.real + x / env->scale;
-	top_left.imag = top_left.imag + y / env->scale;
-	env->camera_center = top_left;
+		top_left.real = (env->camera_center.real
+				- ((env->frame->width / env->scale) / 2));
+		top_left.imag = (env->camera_center.imag
+				- ((env->frame->height / env->scale) / 2));
+		top_left.real = top_left.real + x / env->scale;
+		top_left.imag = top_left.imag + y / env->scale;
+		env->camera_center = top_left;
 	}
-
 	draw(env);
 	return (0);
 }

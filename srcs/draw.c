@@ -50,7 +50,6 @@ const int		g_palette2[] = {
 const t_complex	g_offset = {0.25, 0}; // dist = 0.5 // 
 const t_complex	g_offset2 = {0, 0}; // dist = 0.25 //super cheap to check
 
-
 //TODO : keep an array of WIDTH*HEIGHT t_complexes,
 //       to make iterative deepening very cheap
 //TODO : determine how many iterations are stricly required for crtain scale
@@ -60,6 +59,17 @@ const t_complex	g_offset2 = {0, 0}; // dist = 0.25 //super cheap to check
 //		 the same value, flood fill it
 //		 otherwise divide into two rectangles and recurse
 
+t_complex	calculate_top_left(t_env *env)
+{
+	t_complex	top_left;
+
+	top_left.real = (env->camera_center.real
+			- ((env->frame->width / env->scale) / 2));
+	top_left.imag = (env->camera_center.imag
+			- ((env->frame->height / env->scale) / 2));
+	return (top_left);
+}
+
 void	draw(t_env *env)
 {
 	int			x;
@@ -68,10 +78,7 @@ void	draw(t_env *env)
 	t_complex	c;
 	t_complex	top_left;
 
-	top_left.real = (env->camera_center.real
-		- ((env->frame->width / env->scale) / 2));
-	top_left.imag = (env->camera_center.imag
-		- ((env->frame->height / env->scale) / 2));
+	top_left = calculate_top_left(env);
 	y = 0;
 	while (y < env->frame->height)
 	{
@@ -92,14 +99,14 @@ void	draw(t_env *env)
 	mlx_put_image_to_window(env->mlx, env->win, env->frame->img, 0, 0);
 }
 
-size_t mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations)
+size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations)
 {
 	size_t		iter;
 	t_complex	num;
 
 	num = *z;
 	iter = iterations;
-	while(iter)
+	while (iter)
 	{
 		num = add_complex(square_complex(num), c);
 		if (dist_origin_squared(num) > 4)
