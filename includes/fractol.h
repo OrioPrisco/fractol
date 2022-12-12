@@ -72,7 +72,7 @@ typedef struct s_range
 	t_range			*subdivisions;
 	t_iter_result	*borders[4];
 	int				bounds[4];
-	t_direction		filled;
+	char			filled[4];
 
 }	t_range;
 

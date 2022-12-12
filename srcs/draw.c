@@ -102,33 +102,59 @@ void	draw(t_env *env)
 //either assume that a value inside of env->iter_result set to 0 + 0i
 //is unitialized, or somehow pass info to chlidren about which borders were
 //calculated
-/*
-void	iterate_line(t_env *env, t_range	*rect)
+// returns 1 in case of error
+void	free_lines(t_iter_resuts *borders[4], char filled[4])
 {
-	int			d_x;
-	int			d_y;
-	int			dir;
-	int			i;
+	int	dir;
 
-	dir = -1;
+	dir = 0;
 	while (dir < 4)
 	{
-		if ((rect->filled & dir++))
-			continue ;
-		d_x = rect->bounds[dir] / ft_maxint(1, ft_absint(rect->bounds[dir]));
-		d_y = rect->bounds[(dir + 2) % 4]
-			/ ft_maxint(1, ft_absint(rect->bounds[(dir + 2) % 4]));
+		if (filled[dir++])
+		{
+			free(borders[dir]);
+		}
 	}
-}*/
-/*
-void	boundary_trace_fractal(t_env *env,
-	size_t (*f)(t_complex *, t_complex, size_t), t_range rectangle)
+}
+
+//returns 0 in case of success, or something else if an error occured
+int	iterate_chunk_borders(t_env *env, t_chunk *chunk,
+	size_t (*f)(t_complex *, t_complex, size_t))
+{
+	int	dir;
+	int	end;
+	int	i;
+
+	dir = 0;
+	while (dir < 4)
+	{
+		if (chunk->filled[dir++])
+			continue ;
+		i = chunk->bounds[(dir + 1) % 2];
+		end = chunk->bounds[2 + ((dir + 1) % 2)];
+		chunk->borders[dir] = ft_calloc(end - i, sizeof(**borders));
+		if (!chunk)
+			return (1, free_lines(borders, filled));
+		while (i < end)
+		{
+			chunk->borders[i]->z.real = i * (dir % 2) / env->scale;
+			chunk->borders[i]->z.imag = i * ((dir + 1) % 2) / env->scale;
+			chunk->borders[i]->z = add_complex(chunk->borders[i]->z,
+					chunk->borders[i]->top_left);
+			chunk->borders[i]-> c = borders[i]->c;
+			chunk->borders[i]->iter = f(&chunk->borders[i]->z,
+					chunk->borders[i]->z, env->iter);
+		}
+	}
+}
+
+void	boundary_trace_fractal(t_env *env, t_chunk chunk,
+	size_t (*f)(t_complex *, t_complex, size_t))
 {
 	t_range	other;
-	
+
 	return ;
 }
-*/
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations)
 {
