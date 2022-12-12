@@ -58,7 +58,7 @@ typedef enum e_direction {
 	RIGHT = 3,
 }	t_direction;
 
-typedef struct s_range	t_range;
+typedef struct s_chunk	t_chunk;
 
 //tree structure
 //borders can be shared with childrens, but how to determine who owns a border ?
@@ -66,15 +66,15 @@ typedef struct s_range	t_range;
 //to remove children reference to freed borders
 //structure can be kept between runs, and ranges whose borders stopped at the
 //previous value of iteration can be deepened
-typedef struct s_range
+typedef struct s_chunk
 {
 	t_complex		top_left;
-	t_range			*subdivisions;
+	t_chunk			*subdivisions;
 	t_iter_result	*borders[4];
 	int				bounds[4];
-	char			filled[4];
+	char			filled;
 
-}	t_range;
+}	t_chunk;
 
 double		dist_origin_squared(t_complex num);
 t_complex	add_complex(t_complex c1, t_complex c2);

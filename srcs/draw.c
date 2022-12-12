@@ -11,7 +11,9 @@
 /* ************************************************************************** */
 
 #include "fractol.h"
+#include "libft.h"
 #include "mlx.h"
+#include <stdlib.h>
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -103,7 +105,7 @@ void	draw(t_env *env)
 //is unitialized, or somehow pass info to chlidren about which borders were
 //calculated
 // returns 1 in case of error
-void	free_lines(t_iter_resuts *borders[4], char filled[4])
+void	free_lines(t_iter_result *borders[4], char filled[4])
 {
 	int	dir;
 
@@ -117,43 +119,117 @@ void	free_lines(t_iter_resuts *borders[4], char filled[4])
 	}
 }
 
+//if x or y is on the border, use the border value
+//this way the same function works for the case where the chunk is very squished
+//and the general case
+void	color_chunk(t_img *img, t_chunk *chunk)
+{
+	int	x;
+	int	y;
+	int	color;
+
+	x = chunk->bounds[LEFT];
+	while (x <= chunk->bounds[RIGHT])
+	{
+		y = chunk->bounds[UP];
+		color = g_palette2[chunk->borders[UP][0].iter % 9];
+		while (y <= chunk->bounds[LEFT])
+		{
+			if (x == chunk->bounds[LEFT])
+				color = g_palette2[chunk->borders[LEFT]
+				[(y - chunk->bounds[UP])].iter % 9];
+			if (x == chunk->bounds[RIGHT])
+				color = g_palette2[chunk->borders[RIGHT]
+				[(y - chunk->bounds[UP])].iter % 9];
+			my_mlx_pixel_put(img, x, y, color);
+			y++;
+		}
+	x++;
+	}
+}
+
 //returns 0 in case of success, or something else if an error occured
+//i is ps on screen
+//i - off is pos in array
 int	iterate_chunk_borders(t_env *env, t_chunk *chunk,
 	size_t (*f)(t_complex *, t_complex, size_t))
 {
 	int	dir;
 	int	end;
 	int	i;
+	int	off;
 
-	dir = 0;
-	while (dir < 4)
+	dir = -1;
+	while (++dir < 4)
 	{
-		if (chunk->filled[dir++])
+		if (chunk->filled & (1 << dir))
 			continue ;
 		i = chunk->bounds[(dir + 1) % 2];
+		off = i;
 		end = chunk->bounds[2 + ((dir + 1) % 2)];
-		chunk->borders[dir] = ft_calloc(end - i, sizeof(**borders));
+		chunk->borders[dir] = ft_calloc(end - i, sizeof(**(chunk->borders)));
 		if (!chunk)
-			return (1, free_lines(borders, filled));
+			return (free_lines(chunk->borders, &chunk->filled), 1);
 		while (i < end)
 		{
-			chunk->borders[i]->z.real = i * (dir % 2) / env->scale;
-			chunk->borders[i]->z.imag = i * ((dir + 1) % 2) / env->scale;
-			chunk->borders[i]->z = add_complex(chunk->borders[i]->z,
-					chunk->borders[i]->top_left);
-			chunk->borders[i]-> c = borders[i]->c;
-			chunk->borders[i]->iter = f(&chunk->borders[i]->z,
-					chunk->borders[i]->z, env->iter);
+			chunk->borders[i - off]->z.real = i * (dir % 2) / env->scale;
+			chunk->borders[i - off]->z.imag = i * ((dir + 1) % 2) / env->scale;
+			chunk->borders[i - off]->z = add_complex(chunk->borders[i - off]->z,
+					chunk->top_left);
+			chunk->borders[i - off]-> c = chunk->borders[i - off]->c;
+			chunk->borders[i - off]->iter = f(&chunk->borders[i - off]->z,
+					chunk->borders[i - off]->z, env->iter);
 		}
 	}
+	return (0);
 }
 
-void	boundary_trace_fractal(t_env *env, t_chunk chunk,
+//handle size < 2
+int	boundary_trace_fractal_r(t_env *env, t_chunk *chunk,
 	size_t (*f)(t_complex *, t_complex, size_t))
 {
-	t_range	other;
+	int	dir;
+	int	i;
+	int	end;
+	int	iter;
 
-	return ;
+	if (iterate_chunk_borders(env, chunk, f))
+		return (1);
+	dir = 0;
+	iter = chunk->borders[0][0].iter;
+	while (dir < 4)
+	{
+		i = 0;
+		end = chunk->bounds[2 + ((dir + 1) % 2)] - chunk->bounds[(dir + 1) % 2];
+		if (end < 2)
+			return (color_chunk(env->frame, chunk), 0);
+		while (i < end)
+		{
+			if (iter != chunk->borders[dir][i].iter)
+				;//return SUBDIVIDE
+			i++;
+		}
+	}
+	color_chunk(env->frame, chunk);
+	return (0);
+}
+
+int	boundary_trace_fractal(t_env *env,
+	size_t (*f)(t_complex *, t_complex, size_t))
+{
+	t_chunk	chunk;
+	int		i;
+
+	i = 0;
+	while (i < 4)
+		chunk.borders[i++] = 0;
+	chunk.bounds[UP] = 0;
+	chunk.bounds[LEFT] = 0;
+	chunk.bounds[DOWN] = env->frame->height - 1;
+	chunk.bounds[RIGHT] = env->frame->width - 1;
+	chunk.filled = 0;
+	chunk.subdivisions = 0;
+	return (boundary_trace_fractal_r(env, &chunk, f));
 }
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations)
