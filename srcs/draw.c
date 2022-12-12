@@ -184,7 +184,6 @@ int	iterate_chunk_borders(t_env *env, t_chunk *chunk,
 	return (0);
 }
 
-//handle size < 2
 int	boundary_trace_fractal_r(t_env *env, t_chunk *chunk,
 	size_t (*f)(t_complex *, t_complex, size_t))
 {
@@ -197,12 +196,13 @@ int	boundary_trace_fractal_r(t_env *env, t_chunk *chunk,
 		return (1);
 	dir = 0;
 	iter = chunk->borders[0][0].iter;
+	if ((chunk->bounds[DOWN] - chunk->bounds[UP] < 2)
+		|| (chunk->bounds[RIGHT] - chunk->bounds[LEFT] < 2))
+		return (color_chunk(env->frame, chunk), 0);
 	while (dir < 4)
 	{
 		i = 0;
 		end = chunk->bounds[2 + ((dir + 1) % 2)] - chunk->bounds[(dir + 1) % 2];
-		if (end < 2)
-			return (color_chunk(env->frame, chunk), 0);
 		while (i < end)
 		{
 			if (iter != chunk->borders[dir][i].iter)
@@ -210,8 +210,7 @@ int	boundary_trace_fractal_r(t_env *env, t_chunk *chunk,
 			i++;
 		}
 	}
-	color_chunk(env->frame, chunk);
-	return (0);
+	return (color_chunk(env->frame, chunk), 0);
 }
 
 int	boundary_trace_fractal(t_env *env,
