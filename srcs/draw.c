@@ -14,6 +14,7 @@
 #include "libft.h"
 #include "mlx.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -72,8 +73,12 @@ t_complex	calculate_top_left(t_env *env)
 	return (top_left);
 }
 
+size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations);
+int	boundary_trace_fractal(t_env *env,
+	size_t (*f)(t_complex *, t_complex, size_t));
 void	draw(t_env *env)
 {
+/*
 	int			x;
 	int			y;
 	int			iter;
@@ -99,20 +104,23 @@ void	draw(t_env *env)
 		y++;
 	}
 	mlx_put_image_to_window(env->mlx, env->win, env->frame->img, 0, 0);
+*/
+	printf("hello from draw\n");
+	boundary_trace_fractal(env, mandelbrot_iterate);
 }
 
 //either assume that a value inside of env->iter_result set to 0 + 0i
 //is unitialized, or somehow pass info to chlidren about which borders were
 //calculated
 // returns 1 in case of error
-void	free_lines(t_iter_result *borders[4], char filled[4])
+void	free_lines(t_iter_result *borders[4], char filled)
 {
 	int	dir;
 
 	dir = 0;
 	while (dir < 4)
 	{
-		if (filled[dir++])
+		if (filled & 1 << dir++)
 		{
 			free(borders[dir]);
 		}
@@ -128,29 +136,39 @@ void	color_chunk(t_img *img, t_chunk *chunk)
 	int	y;
 	int	color;
 
-	x = chunk->bounds[LEFT];
-	while (x <= chunk->bounds[RIGHT])
+	printf("coloring : %d,%d;%d,%d", chunk->bounds[LEFT], chunk->bounds[UP], chunk->bounds[RIGHT], chunk->bounds[DOWN]);
+	y = chunk->bounds[UP];
+	while (y < chunk->bounds[DOWN])
 	{
-		y = chunk->bounds[UP];
-		color = g_palette2[chunk->borders[UP][0].iter % 9];
-		while (y <= chunk->bounds[LEFT])
+		x = chunk->bounds[LEFT];
+		if (y == chunk->bounds[DOWN] - 1)
+			color = g_palette2[chunk->borders[UP][x - chunk->bounds[LEFT]].iter % 9];
+		while (x < chunk->bounds[RIGHT])
 		{
-			if (x == chunk->bounds[LEFT])
+			if (x == chunk->bounds[LEFT]) {
 				color = g_palette2[chunk->borders[LEFT]
 				[(y - chunk->bounds[UP])].iter % 9];
-			if (x == chunk->bounds[RIGHT])
+				//printf(">");
+			}
+			else if (x == chunk->bounds[RIGHT] - 1) {
 				color = g_palette2[chunk->borders[RIGHT]
 				[(y - chunk->bounds[UP])].iter % 9];
+				//printf("<");
+			}
+			else
+				//printf(".");
 			my_mlx_pixel_put(img, x, y, color);
-			y++;
+			x++;
 		}
-	x++;
+		//printf("\n");
+		y++;
 	}
 }
 
 //returns 0 in case of success, or something else if an error occured
 //i is ps on screen
 //i - off is pos in array
+// TODO : split inner loop into a iterate_border (singular) function
 int	iterate_chunk_borders(t_env *env, t_chunk *chunk,
 	size_t (*f)(t_complex *, t_complex, size_t))
 {
@@ -166,22 +184,59 @@ int	iterate_chunk_borders(t_env *env, t_chunk *chunk,
 			continue ;
 		i = chunk->bounds[(dir + 1) % 2];
 		off = i;
-		end = chunk->bounds[2 + ((dir + 1) % 2)];
+		end = chunk->bounds[2 + ((dir + 1) % 2)] + 1;
 		chunk->borders[dir] = ft_calloc(end - i, sizeof(**(chunk->borders)));
 		if (!chunk)
-			return (free_lines(chunk->borders, &chunk->filled), 1);
+			return (free_lines(chunk->borders, chunk->filled), 1);
 		while (i < end)
 		{
-			chunk->borders[i - off]->z.real = i * (dir % 2) / env->scale;
-			chunk->borders[i - off]->z.imag = i * ((dir + 1) % 2) / env->scale;
-			chunk->borders[i - off]->z = add_complex(chunk->borders[i - off]->z,
-					chunk->top_left);
-			chunk->borders[i - off]-> c = chunk->borders[i - off]->c;
-			chunk->borders[i - off]->iter = f(&chunk->borders[i - off]->z,
-					chunk->borders[i - off]->z, env->iter);
+			chunk->borders[dir][i - off].z.real = i * (dir % 2) / env->scale;
+			chunk->borders[dir][i - off].z.imag = i * ((dir + 1) % 2) / env->scale;
+			chunk->borders[dir][i - off].z = add_complex(
+				chunk->borders[dir][i - off].z, chunk->top_left);
+			chunk->borders[dir][i - off].c = chunk->borders[dir][i - off].z;
+			chunk->borders[dir][i - off].iter = f(&chunk->borders[dir]
+				[i - off].z, chunk->borders[dir][i - off].z, env->iter);
+			i++;
 		}
 	}
 	return (0);
+}
+
+
+int	boundary_trace_fractal_r(t_env *env, t_chunk *chunk,
+	size_t (*f)(t_complex *, t_complex, size_t));
+
+int	subdivide_chunk(t_env *env, t_chunk *chunk,
+	size_t (*f)(t_complex *, t_complex, size_t))
+{
+	t_chunk	c1;
+	t_chunk	c2;
+	int		up;
+
+	c1 = *chunk;
+	c2 = *chunk;
+	up = !(chunk->filled & 1 << UP || chunk->filled & 1 << DOWN);
+	c1.filled = ~(1 << (LEFT + up) % 4);
+	c2.filled = ~(1 << (RIGHT + up) % 4);
+	c1.bounds[(LEFT + up) % 4] = (chunk->bounds[(LEFT + up) % 4]
+			+ chunk->bounds[(RIGHT + up) % 4]) / 2;
+	c2.bounds[(RIGHT + up) % 4] = (chunk->bounds[(LEFT + up) % 4]
+			+ chunk->bounds[(RIGHT + up) % 4]) / 2;
+	c1.borders[(UP + up) % 4] += chunk->bounds[(RIGHT + up) % 4]
+		- chunk->bounds[(LEFT + up) % 4];
+	c1.borders[(DOWN + up) % 4] += chunk->bounds[(RIGHT + up) % 4]
+		- chunk->bounds[(LEFT + up) % 4];
+	c1.borders[(LEFT + up) % 4] = ft_calloc(sizeof(**c1.borders),
+			c1.bounds[(DOWN + up) % 4] - c1.bounds[(UP + up) % 4]);
+	/*printf("dividing chunk %d,%d;%d,%d\n", chunk->bounds[LEFT], chunk->bounds[UP], chunk->bounds[RIGHT], chunk->bounds[DOWN]);
+	c2.borders[(RIGHT + up) % 4] = c1.borders[(LEFT + up) % 4];
+	printf("into c1 %d,%d;%d,%d\n", c1.bounds[LEFT], c1.bounds[UP], c1.bounds[RIGHT], c1.bounds[DOWN]);
+	printf("and  c2 %d,%d;%d,%d\n", c2.bounds[LEFT], c2.bounds[UP], c2.bounds[RIGHT], c2.bounds[DOWN]);*/
+	if (boundary_trace_fractal_r(env, &c1, f)
+		|| boundary_trace_fractal_r(env, &c2, f))
+		return (free_lines(c1.borders, c1.filled), 1);
+	return (free (c1.borders[(LEFT + up) % 4]), 0);
 }
 
 int	boundary_trace_fractal_r(t_env *env, t_chunk *chunk,
@@ -194,19 +249,19 @@ int	boundary_trace_fractal_r(t_env *env, t_chunk *chunk,
 
 	if (iterate_chunk_borders(env, chunk, f))
 		return (1);
-	dir = 0;
+	dir = -1;
 	iter = chunk->borders[0][0].iter;
 	if ((chunk->bounds[DOWN] - chunk->bounds[UP] < 2)
 		|| (chunk->bounds[RIGHT] - chunk->bounds[LEFT] < 2))
 		return (color_chunk(env->frame, chunk), 0);
-	while (dir < 4)
+	while (++dir < 4)
 	{
 		i = 0;
 		end = chunk->bounds[2 + ((dir + 1) % 2)] - chunk->bounds[(dir + 1) % 2];
 		while (i < end)
 		{
 			if (iter != chunk->borders[dir][i].iter)
-				;//return SUBDIVIDE
+				return (subdivide_chunk(env, chunk, f));
 			i++;
 		}
 	}
@@ -216,19 +271,23 @@ int	boundary_trace_fractal_r(t_env *env, t_chunk *chunk,
 int	boundary_trace_fractal(t_env *env,
 	size_t (*f)(t_complex *, t_complex, size_t))
 {
-	t_chunk	chunk;
-	int		i;
+	t_chunk	chnk;
+	int		error_code;
 
-	i = 0;
-	while (i < 4)
-		chunk.borders[i++] = 0;
-	chunk.bounds[UP] = 0;
-	chunk.bounds[LEFT] = 0;
-	chunk.bounds[DOWN] = env->frame->height - 1;
-	chunk.bounds[RIGHT] = env->frame->width - 1;
-	chunk.filled = 0;
-	chunk.subdivisions = 0;
-	return (boundary_trace_fractal_r(env, &chunk, f));
+	chnk.bounds[UP] = 0;
+	chnk.bounds[LEFT] = 0;
+	chnk.bounds[DOWN] = env->frame->height - 1;
+	chnk.bounds[RIGHT] = env->frame->width - 1;
+	chnk.borders[UP] = ft_calloc(sizeof(**chnk.borders), env->frame->width);
+	chnk.borders[LEFT] = ft_calloc(sizeof(**chnk.borders), env->frame->height);
+	chnk.borders[DOWN] = ft_calloc(sizeof(**chnk.borders), env->frame->width);
+	chnk.borders[RIGHT] = ft_calloc(sizeof(**chnk.borders), env->frame->height);
+	chnk.filled = 0;
+	chnk.subdivisions = 0;
+	if (!(chnk.borders[0] && chnk.borders[1] && chnk.borders[2] && chnk.borders[3]))
+		return (free_lines(chnk.borders, 0), 1);
+	error_code = boundary_trace_fractal_r(env, &chnk, f);
+	return (free_lines(chnk.borders, 0), error_code);
 }
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations)
