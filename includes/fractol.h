@@ -68,8 +68,6 @@ typedef struct s_chunk	t_chunk;
 //previous value of iteration can be deepened
 typedef struct s_chunk
 {
-	t_complex		top_left;
-	t_chunk			*subdivisions;
 	t_iter_result	*borders[4];
 	int				bounds[4];
 	char			filled;
@@ -86,6 +84,7 @@ int			deal_key(int key, t_env *env);
 int			my_expose(t_env *env);
 size_t		mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations);
 t_complex	calculate_top_left(t_env *env);
+t_complex	complex(double real, double imag);
 int			init_env(t_env *env, t_img *img);
 
 #endif
