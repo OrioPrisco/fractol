@@ -34,3 +34,12 @@ t_complex	square_complex(t_complex num)
 	ret.imag = 2 * (num.real * num.imag);
 	return (ret);
 }
+
+t_complex	complex(double real, double imag)
+{
+	t_complex num;
+
+	num.real = real;
+	num.imag = imag;
+	return (num);
+}
