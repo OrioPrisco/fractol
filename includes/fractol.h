@@ -69,7 +69,8 @@ typedef struct s_chunk	t_chunk;
 typedef struct s_chunk
 {
 	t_iter_result	*borders[4];
-	int				bounds[4];
+	int				top_left[2];
+	int				dimensions[2];
 	char			filled;
 
 }	t_chunk;
