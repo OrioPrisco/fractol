@@ -56,6 +56,10 @@ typedef enum e_direction {
 	LEFT = 1,
 	DOWN = 2,
 	RIGHT = 3,
+	U = UP,
+	L = LEFT,
+	D = DOWN,
+	R = RIGHT,
 }	t_direction;
 
 typedef struct s_chunk	t_chunk;
