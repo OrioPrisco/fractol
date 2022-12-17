@@ -53,14 +53,9 @@ const int		g_palette2[] = {
 const t_complex	g_offset = {0.25, 0}; // dist = 0.5 // 
 const t_complex	g_offset2 = {0, 0}; // dist = 0.25 //super cheap to check
 
-//TODO : keep an array of WIDTH*HEIGHT t_complexes,
-//       to make iterative deepening very cheap
 //TODO : determine how many iterations are stricly required for crtain scale
 //       and how many are recommended. Then increase iterations 
 //       in the background when you have nothing to do
-//TODO : calculate the values of countours of rectangles, and if everything is
-//		 the same value, flood fill it
-//		 otherwise divide into two rectangles and recurse
 
 t_complex	calculate_top_left(t_env *env)
 {
@@ -84,10 +79,6 @@ void	draw(t_env *env)
 	mlx_put_image_to_window(env->mlx, env->win, env->frame->img, 0, 0);
 }
 
-//either assume that a value inside of env->iter_result set to 0 + 0i
-//is unitialized, or somehow pass info to chlidren about which borders were
-//calculated
-// returns 1 in case of error
 void	free_lines(t_iter_result *borders[4], char filled)
 {
 	int	dir;
@@ -123,9 +114,6 @@ void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter)
 	}
 }
 
-//if x or y is on the border, use the border value
-//this way the same function works for the case where the chunk is very squished
-//and the general case
 void	color_small_chunk(t_img *img, t_chunk *chunk, int iter, t_env* env)
 {
 	int	x;
@@ -161,8 +149,8 @@ int	iterate_chunk_borders(t_env *env, t_chunk *chunk,
 	size_t (*f)(t_complex *, t_complex, size_t))
 {
 	t_direction	dir;
-	int	i;
 	t_complex	top_left;
+	int			i;
 
 	dir = -1;
 	top_left = add_complex(

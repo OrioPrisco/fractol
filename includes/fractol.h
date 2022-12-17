@@ -64,12 +64,6 @@ typedef enum e_direction {
 
 typedef struct s_chunk	t_chunk;
 
-//tree structure
-//borders can be shared with childrens, but how to determine who owns a border ?
-//I suppose the border belongs to the topmost range, and it will be it's job
-//to remove children reference to freed borders
-//structure can be kept between runs, and ranges whose borders stopped at the
-//previous value of iteration can be deepened
 typedef struct s_chunk
 {
 	t_iter_result	*borders[4];
