@@ -198,16 +198,16 @@ int	subdivide_chunk(t_env *env, t_chunk *chunk,
 	c2 = *chunk;
 	h_split = (!(chunk->filled & 1 << UP) || !(chunk->filled & 1 << DOWN));
 	c1.filled = ~(1 << (LEFT - h_split) % 4);
-	c2.filled = ~1;
+	c2.filled = ~0;
 	c1.top_left[h_split] += chunk->dimensions[h_split] / 2;
 	c1.dimensions[h_split] -= chunk->dimensions[h_split] / 2;
 	c2.dimensions[h_split] -= c1.dimensions[h_split];
 	c1.borders[(UP + h_split) % 4] += c2.dimensions[h_split];
 	c1.borders[(DOWN + h_split) % 4] += c2.dimensions[h_split];
-	c1.borders[(LEFT + h_split) % 4] = shared_border;
-	c2.borders[(RIGHT + h_split) % 4] = shared_border;
-	boundary_trace_fractal_r(env, &c2, f);
+	c1.borders[(LEFT - h_split) % 4] = shared_border;
+	c2.borders[(RIGHT - h_split) % 4] = shared_border;
 	boundary_trace_fractal_r(env, &c1, f);
+	boundary_trace_fractal_r(env, &c2, f);
 	return (0);
 }
 
