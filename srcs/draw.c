@@ -131,7 +131,7 @@ void	color_small_chunk(t_img *img, t_chunk *chunk, int iter, t_env* env)
 		{
 			if (y == chunk->top_left[1])
 			{
-				color = chunk->borders[UP][x - chunk->top_left[0]].iter % 9;
+				color = chunk->borders[UP][x - chunk->top_left[0]].iter;
 				color = (color == iter)? 0 : g_palette2[color % 9];
 			}
 			else if (x == chunk->top_left[0]) {
@@ -196,7 +196,7 @@ int	subdivide_chunk(t_env *env, t_chunk *chunk,
 
 	c1 = *chunk;
 	c2 = *chunk;
-	h_split = !(!(chunk->filled & 1 << UP) || !(chunk->filled & 1 << DOWN));
+	h_split = (!(chunk->filled & 1 << UP) || !(chunk->filled & 1 << DOWN));
 	c1.filled = ~(1 << (LEFT - h_split) % 4);
 	c2.filled = ~1;
 	c1.top_left[h_split] += chunk->dimensions[h_split] / 2;
