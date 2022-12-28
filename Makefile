@@ -18,7 +18,8 @@ SRC				=	main.c\
 					env.c\
 					hooks.c\
 					color_chunk.c\
-					mandelbrot.c
+					mandelbrot.c\
+					debug.c
 
 
 SRC_FOLDER		=	srcs/

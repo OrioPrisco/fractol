@@ -20,9 +20,15 @@
 #include <unistd.h>
 #include <stdlib.h>
 
+void	draw_3b1b_dbg(t_env *env);
+
 void	draw(t_env *env)
 {
+#ifdef DEBUG
+	draw_3b1b_dbg(env);
+#else
 	boundary_trace_fractal(env, mandelbrot_iterate);
+#endif
 	mlx_put_image_to_window(env->mlx, env->win, env->frame->img, 0, 0);
 }
 
