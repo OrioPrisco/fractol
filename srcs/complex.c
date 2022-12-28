@@ -31,15 +31,26 @@ t_complex	square_complex(t_complex num)
 	t_complex	ret;
 
 	ret.real = (num.real * num.real) - (num.imag * num.imag);
-	ret.imag = 2 * (num.real * num.imag);
+	ret.imag = 2 * num.real * num.imag;
 	return (ret);
 }
 
 t_complex	complex(double real, double imag)
 {
-	t_complex num;
+	t_complex	num;
 
 	num.real = real;
 	num.imag = imag;
 	return (num);
+}
+
+t_complex	calculate_top_left(t_env *env)
+{
+	t_complex	top_left;
+
+	top_left.real = (env->camera_center.real
+			- ((env->frame->width / env->scale) / 2));
+	top_left.imag = (env->camera_center.imag
+			- ((env->frame->height / env->scale) / 2));
+	return (top_left);
 }

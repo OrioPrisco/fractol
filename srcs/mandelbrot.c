@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mandelbrot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/05 16:09:12 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2022/12/07 16:16:42 by OrioPrisc        ###   ########.fr       */
+/*   Created: 2022/12/28 11:54:05 by OrioPrisc         #+#    #+#             */
+/*   Updated: 2022/12/28 12:55:07 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
 #include "fractol.h"
-#include "fractol_hooks.h"
-#include <X11/X.h>
+#include "fractals.h"
 
-int	main(void)
+size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations)
 {
-	t_env	env;
-	t_img	img;
+	size_t		iter;
+	t_complex	num;
 
-	if (init_env(&env, &img))
-		quit_prg(&env);
-	mlx_key_hook(env.win, &deal_key, &env);
-	mlx_expose_hook(env.win, my_expose, &env);
-	mlx_hook(env.win, DestroyNotify, StructureNotifyMask, &quit_prg, &env);
-	mlx_mouse_hook(env.win, my_mouse_hook, &env);
-	draw(&env);
-	mlx_loop(env.mlx);
+	num = *z;
+	iter = iterations;
+	while (iter)
+	{
+		num = add_complex(square_complex(num), c);
+		if (dist_origin_squared(num) > 4)
+			return (*z = num, iterations - iter);
+		iter--;
+	}
+	return (*z = num, iterations);
 }

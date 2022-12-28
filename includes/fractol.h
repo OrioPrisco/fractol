@@ -81,9 +81,9 @@ void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void		draw(t_env *env);
 int			deal_key(int key, t_env *env);
 int			my_expose(t_env *env);
-size_t		mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations);
 t_complex	calculate_top_left(t_env *env);
 t_complex	complex(double real, double imag);
 int			init_env(t_env *env, t_img *img);
-
+int			boundary_trace_fractal(t_env *env,
+				size_t (*f)(t_complex *, t_complex, size_t));
 #endif

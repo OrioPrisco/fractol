@@ -15,7 +15,11 @@ CC				=	cc
 SRC				=	main.c\
 					complex.c\
 					draw.c\
-					env.c
+					env.c\
+					hooks.c\
+					color_chunk.c\
+					mandelbrot.c
+
 
 SRC_FOLDER		=	srcs/
 
