@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fractals.h                                         :+:      :+:    :+:   */
+/*   complex.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/28 12:53:38 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2022/12/28 12:54:50 by OrioPrisc        ###   ########.fr       */
+/*   Created: 2022/12/28 13:02:48 by OrioPrisc         #+#    #+#             */
+/*   Updated: 2022/12/28 13:08:08 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FRACTALS_H
-# define FRACTALS_H
+#ifndef COMPLEX_H
+# define COMPLEX_H
 
-//the definition of t_complex is needed
-# include "fractol.h"
+typedef struct s_complex
+{
+	double	real;
+	double	imag;
+}	t_complex;
 
-size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations);
-int		boundary_trace_fractal(t_env *env,
-			size_t (*f)(t_complex *, t_complex, size_t));
+struct					s_env;
+typedef struct s_env	t_env;
 
+double		dist_origin_squared(t_complex num);
+t_complex	add_complex(t_complex c1, t_complex c2);
+t_complex	square_complex(t_complex num);
+t_complex	calculate_top_left(t_env *env);
+t_complex	complex(double real, double imag);
 #endif

@@ -16,12 +16,7 @@
 # define WIDTH 800
 # define HEIGHT 800
 # include <stddef.h>
-
-typedef struct s_complex
-{
-	double	real;
-	double	imag;
-}	t_complex;
+# include "complex.h"
 
 typedef struct s_img
 {
@@ -73,17 +68,11 @@ typedef struct s_chunk
 
 }	t_chunk;
 
-double		dist_origin_squared(t_complex num);
-t_complex	add_complex(t_complex c1, t_complex c2);
-t_complex	square_complex(t_complex num);
 int			quit_prg(t_env *env);
 void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void		draw(t_env *env);
 int			deal_key(int key, t_env *env);
 int			my_expose(t_env *env);
-t_complex	calculate_top_left(t_env *env);
-t_complex	complex(double real, double imag);
 int			init_env(t_env *env, t_img *img);
-int			boundary_trace_fractal(t_env *env,
-				size_t (*f)(t_complex *, t_complex, size_t));
+
 #endif
