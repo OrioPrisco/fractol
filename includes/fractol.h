@@ -29,13 +29,6 @@ typedef struct s_img
 	int				width;
 }	t_img;
 
-typedef struct s_iter_result
-{
-	t_complex	z;
-	t_complex	c;
-	int			iter;
-}	t_iter_result;
-
 typedef struct s_env
 {
 	void			*win;
@@ -46,33 +39,6 @@ typedef struct s_env
 	t_complex		camera_center;
 }	t_env;
 
-typedef enum e_direction {
-	UP = 0,
-	LEFT = 1,
-	DOWN = 2,
-	RIGHT = 3,
-	U = UP,
-	L = LEFT,
-	D = DOWN,
-	R = RIGHT,
-}	t_direction;
-
-typedef struct s_chunk	t_chunk;
-
-typedef struct s_chunk
-{
-	t_iter_result	*borders[4];
-	int				top_left[2];
-	int				dimensions[2];
-	char			filled;
-
-}	t_chunk;
-
-int			quit_prg(t_env *env);
-void		my_mlx_pixel_put(t_img *img, int x, int y, int color);
-void		draw(t_env *env);
-int			deal_key(int key, t_env *env);
-int			my_expose(t_env *env);
 int			init_env(t_env *env, t_img *img);
 
 #endif
