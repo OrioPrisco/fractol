@@ -17,7 +17,7 @@
 # include "fractol.h"
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations);
-int		boundary_trace_fractal(t_env *env,
+int		boundary_trace_fractal(t_camera *camera,
 			size_t (*f)(t_complex *, t_complex, size_t));
 
 #endif

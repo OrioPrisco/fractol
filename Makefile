@@ -19,7 +19,8 @@ SRC				=	main.c\
 					hooks.c\
 					color_chunk.c\
 					mandelbrot.c\
-					debug.c
+					debug.c\
+					camera.c
 
 
 SRC_FOLDER		=	srcs/

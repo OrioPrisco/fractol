@@ -43,14 +43,3 @@ t_complex	complex(double real, double imag)
 	num.imag = imag;
 	return (num);
 }
-
-t_complex	calculate_top_left(t_env *env)
-{
-	t_complex	top_left;
-
-	top_left.real = (env->camera_center.real
-			- ((env->frame->width / env->scale) / 2));
-	top_left.imag = (env->camera_center.imag
-			- ((env->frame->height / env->scale) / 2));
-	return (top_left);
-}

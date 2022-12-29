@@ -29,17 +29,28 @@ typedef struct s_img
 	int				width;
 }	t_img;
 
+typedef struct s_camera
+{
+	int			iter;
+	double		scale;
+	t_complex	center;
+	t_complex	top_left;
+	t_complex	step;
+	t_img		work_buffer;
+}	t_camera;
+
 typedef struct s_env
 {
 	void			*win;
 	void			*mlx;
 	t_img			*frame;
-	int				iter;
-	double			scale;
-	t_complex		camera_center;
+	t_camera		camera;
 	char			debug;
 }	t_env;
 
-int			init_env(t_env *env, t_img *img);
+int		init_env(t_env *env, t_img *img);
+void	update_camera(t_camera *camera);
+void	zoom_camera(t_camera *camera, double scale);
+void	move_camera(t_camera *camera, t_complex movement);
 
 #endif
