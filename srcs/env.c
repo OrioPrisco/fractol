@@ -31,6 +31,8 @@ int	init_env(t_env *env, t_img *img)
 	env->camera_center.imag = 0;
 	env->debug = 0;
 	img->img = mlx_new_image(env->mlx, WIDTH, HEIGHT);
+	if (!img->img)
+		return (1);
 	img->data = (unsigned char *)mlx_get_data_addr(img->img,
 			&img->bits_per_pixel, &img->line_length, &img->endian);
 	img->height = HEIGHT;
