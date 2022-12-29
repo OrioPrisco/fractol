@@ -24,11 +24,10 @@ void	draw_3b1b_dbg(t_env *env);
 
 void	draw(t_env *env)
 {
-#ifdef DEBUG
-	draw_3b1b_dbg(env);
-#else
-	boundary_trace_fractal(env, mandelbrot_iterate);
-#endif
+	if (env->debug)
+		draw_3b1b_dbg(env);
+	else
+		boundary_trace_fractal(env, mandelbrot_iterate);
 	mlx_put_image_to_window(env->mlx, env->win, env->frame->img, 0, 0);
 }
 
@@ -64,6 +63,8 @@ int	deal_key(int key, t_env *env)
 		env->camera_center.real -= env->frame->width / (env->scale * 20);
 	if (key == XK_d || key == XK_Right)
 		env->camera_center.real += env->frame->width / (env->scale * 20);
+	if (key == XK_F1)
+		env->debug = !env->debug;
 	if (key == XK_Escape)
 		quit_prg(env);
 	printf("\ncenter: %f %f\nscale: %f\n iter: %d\n", env->camera_center.real,

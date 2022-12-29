@@ -37,6 +37,7 @@ typedef struct s_env
 	int				iter;
 	double			scale;
 	t_complex		camera_center;
+	char			debug;
 }	t_env;
 
 int			init_env(t_env *env, t_img *img);
