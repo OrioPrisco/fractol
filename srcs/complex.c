@@ -12,7 +12,7 @@
 
 #include "fractol.h"
 
-double	dist_origin_squared(t_complex num)
+t_complex_part	dist_origin_squared(t_complex num)
 {
 	return (num.real * num.real + num.imag * num.imag);
 }
@@ -35,7 +35,7 @@ t_complex	square_complex(t_complex num)
 	return (ret);
 }
 
-t_complex	complex(double real, double imag)
+t_complex	complex(t_complex_part real, t_complex_part imag)
 {
 	t_complex	num;
 

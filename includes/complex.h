@@ -13,18 +13,20 @@
 #ifndef COMPLEX_H
 # define COMPLEX_H
 
+typedef double			t_complex_part;
+
 typedef struct s_complex
 {
-	double	real;
-	double	imag;
+	t_complex_part	real;
+	t_complex_part	imag;
 }	t_complex;
 
 struct					s_env;
 typedef struct s_env	t_env;
 
-double		dist_origin_squared(t_complex num);
-t_complex	add_complex(t_complex c1, t_complex c2);
-t_complex	square_complex(t_complex num);
-t_complex	calculate_top_left(t_env *env);
-t_complex	complex(double real, double imag);
+t_complex_part		dist_origin_squared(t_complex num);
+t_complex			add_complex(t_complex c1, t_complex c2);
+t_complex			square_complex(t_complex num);
+t_complex			calculate_top_left(t_env *env);
+t_complex			complex(t_complex_part real, t_complex_part imag);
 #endif
