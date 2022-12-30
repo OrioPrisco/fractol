@@ -32,7 +32,7 @@ typedef struct s_img
 typedef struct s_camera
 {
 	int			iter;
-	double		scale;
+	long double	scale;
 	t_complex	center;
 	t_complex	top_left;
 	t_complex	step;

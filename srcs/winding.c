@@ -20,7 +20,7 @@ static t_direction8	direction(t_complex num)
 {
 	double	cardinality;
 
-	cardinality = fabs(num.real / num.imag);
+	cardinality = fabsl(num.real / num.imag);
 	if (cardinality < .25)
 	{
 		if (num.imag > 0)
