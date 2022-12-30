@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "mlx.h"
+#include "winding.h"
 
 static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 				size_t (*f)(t_complex *, t_complex, size_t));
@@ -40,6 +41,10 @@ const t_complex	g_offset2 = {0, 0}; // dist = 0.25 //super cheap to check
 //TODO : determine how many iterations are stricly required for crtain scale
 //       and how many are recommended. Then increase iterations 
 //       in the background when you have nothing to do
+// depending on where we are, values are more or less stable
+// near the tangent part of the cardiod and 1st continent, values are very
+// stable, and might require infinitely many iterations
+// seems like iterative deepening is the way
 static int	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 	size_t (*f)(t_complex *, t_complex, size_t))
 {
@@ -117,6 +122,8 @@ static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 			i++;
 		}
 	}
+	if (chunk->borders[0][0].iter != camera->iter && contains_zero(chunk))
+		return (subdivide_chunk(camera, chunk, f));
 	return (color_uniform_chunk(&camera->work_buffer, chunk, camera->iter), 0);
 }
 
