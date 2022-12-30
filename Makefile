@@ -41,7 +41,7 @@ all: $(NAME)
 bonus: all
 
 $(NAME): $(OBJS) $(LIBS)
-	cc $(OBJS) -Llibft -lft -Lminilibx-linux -lmlx -lXext -lX11 -lm -lbsd -o $(NAME)
+	cc $(CFLAGS) $(OBJS) -Llibft -lft -Lminilibx-linux -lmlx -lXext -lX11 -lm -lbsd -o $(NAME)
 
 $(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c
 	$(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) $< -o $@
