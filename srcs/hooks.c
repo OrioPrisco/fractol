@@ -27,7 +27,7 @@ void	draw(t_env *env)
 	if (env->debug)
 		draw_3b1b_dbg(env);
 	else
-		boundary_trace_fractal(&env->camera, mandelbrot_iterate);
+		boundary_trace_fractal(&env->camera, mandelbrot_iterate, 0);
 	mlx_put_image_to_window(
 		env->mlx, env->win, env->camera.work_buffer.img, 0, 0);
 }
@@ -71,6 +71,7 @@ int	deal_key(int key, t_env *env)
 	if (key == XK_Escape)
 		quit_prg(env);
 	draw(env);
+	printf("iter %d\n", env->camera.iter);
 	return (0);
 }
 

@@ -72,6 +72,7 @@ void	draw_3b1b_dbg(t_env *env)
 	int			x;
 	int			y;
 	size_t		iter;
+	t_complex	c;
 	t_complex	z;
 
 	y = -1;
@@ -80,16 +81,16 @@ void	draw_3b1b_dbg(t_env *env)
 		x = -1;
 		while (++x < env->camera.work_buffer.width)
 		{
-			z.real = env->camera.top_left.real + x * env->camera.step.real;
-			z.imag = env->camera.top_left.imag + y * env->camera.step.imag;
-			iter = mandelbrot_iterate(&z,
-					complex(0.45, 0.1428), env->camera.iter);
+			c.real = env->camera.top_left.real + x * env->camera.step.real;
+			c.imag = env->camera.top_left.imag + y * env->camera.step.imag;
+			z = complex(0, 0);
+			iter = mandelbrot_iterate(&z, c, env->camera.iter, 0);
 			if (iter == (size_t)env->camera.iter)
 				my_mlx_pixel_put(&env->camera.work_buffer, x, y, 0x0);
 			else
 				my_mlx_pixel_put(&env->camera.work_buffer, x, y,
-					angle_to_color(get_angle(mandelbrot_i(z, complex
-								(0.45, 0.1428), env->camera.iter - iter))));
+					angle_to_color(get_angle(mandelbrot_i(z, c,
+								env->camera.iter - iter))));
 		}
 	}
 }

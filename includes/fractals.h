@@ -13,11 +13,15 @@
 #ifndef FRACTALS_H
 # define FRACTALS_H
 
-//the definition of t_complex is needed
+//the definition of t_complex and t_camera are needed
+# include "complex.h"
 # include "fractol.h"
 
-size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations);
+typedef size_t	t_fractal_iterator (t_complex *, t_complex, size_t, void *);
+
+size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
+			void *data);
 int		boundary_trace_fractal(t_camera *camera,
-			size_t (*f)(t_complex *, t_complex, size_t));
+			t_fractal_iterator *f, void *data);
 
 #endif

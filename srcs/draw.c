@@ -17,9 +17,10 @@
 #include <stdio.h>
 #include "mlx.h"
 #include "winding.h"
+#include "fractals.h"
 
 static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
-				size_t (*f)(t_complex *, t_complex, size_t));
+				t_fractal_iterator *f, void *data);
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -46,7 +47,7 @@ const t_complex	g_offset2 = {0, 0}; // dist = 0.25 //super cheap to check
 // stable, and might require infinitely many iterations
 // seems like iterative deepening is the way
 static int	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
-	size_t (*f)(t_complex *, t_complex, size_t))
+	t_fractal_iterator *f, void *data)
 {
 	t_direction	dir;
 	int			i;
@@ -68,7 +69,7 @@ static int	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 						chunk->top_left[1] * camera->step.imag));
 			chunk->borders[dir][i].c = chunk->borders[dir][i].z;
 			chunk->borders[dir][i].iter = f(&chunk->borders[dir][i].z,
-					chunk->borders[dir][i].z, camera->iter);
+					chunk->borders[dir][i].z, camera->iter, data);
 			i++;
 		}
 	}
@@ -76,7 +77,7 @@ static int	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 }
 
 static int	subdivide_chunk(t_camera *camera, t_chunk *chunk,
-	size_t (*f)(t_complex *, t_complex, size_t))
+	t_fractal_iterator *f, void *data)
 {
 	t_chunk			c1;
 	t_chunk			c2;
@@ -95,18 +96,18 @@ static int	subdivide_chunk(t_camera *camera, t_chunk *chunk,
 	c1.borders[(DOWN + h_split) % 4] += c2.dimensions[h_split];
 	c1.borders[(LEFT - h_split) % 4] = shared_border;
 	c2.borders[(RIGHT - h_split) % 4] = shared_border;
-	boundary_trace_fractal_r(camera, &c1, f);
-	boundary_trace_fractal_r(camera, &c2, f);
+	boundary_trace_fractal_r(camera, &c1, f, data);
+	boundary_trace_fractal_r(camera, &c2, f, data);
 	return (0);
 }
 
 static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
-	size_t (*f)(t_complex *, t_complex, size_t))
+	t_fractal_iterator *f, void *data)
 {
 	int	dir;
 	int	i;
 
-	if (iterate_chunk_borders(camera, chunk, f))
+	if (iterate_chunk_borders(camera, chunk, f, data))
 		return (1);
 	dir = -1;
 	if (chunk->dimensions[0] < 2 || chunk->dimensions[1] < 2)
@@ -118,17 +119,17 @@ static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 		while (i < chunk->dimensions[dir % 2])
 		{
 			if (chunk->borders[0][0].iter != chunk->borders[dir][i].iter)
-				return (subdivide_chunk(camera, chunk, f));
+				return (subdivide_chunk(camera, chunk, f, data));
 			i++;
 		}
 	}
 	if (chunk->borders[0][0].iter != camera->iter && contains_zero(chunk))
-		return (subdivide_chunk(camera, chunk, f));
+		return (subdivide_chunk(camera, chunk, f, data));
 	return (color_uniform_chunk(&camera->work_buffer, chunk, camera->iter), 0);
 }
 
 int	boundary_trace_fractal(t_camera *camera,
-	size_t (*f)(t_complex *, t_complex, size_t))
+	t_fractal_iterator *f, void *data)
 {
 	t_chunk			chnk;
 	t_iter_result	borders[4][WIDTH + HEIGHT];
@@ -142,5 +143,5 @@ int	boundary_trace_fractal(t_camera *camera,
 	chnk.borders[DOWN] = borders[DOWN];
 	chnk.borders[RIGHT] = borders[RIGHT];
 	chnk.filled = 0;
-	return (boundary_trace_fractal_r(camera, &chnk, f));
+	return (boundary_trace_fractal_r(camera, &chnk, f, data));
 }
