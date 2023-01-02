@@ -21,7 +21,8 @@ SRC				=	main.c\
 					mandelbrot.c\
 					debug.c\
 					camera.c\
-					winding.c
+					winding.c\
+					image.c
 
 
 SRC_FOLDER		=	srcs/

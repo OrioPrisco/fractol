@@ -44,7 +44,6 @@ typedef struct s_chunk
 
 }	t_chunk;
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter);
 void	color_small_chunk(t_img *img, t_chunk *chunk, int iter);
 

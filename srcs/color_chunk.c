@@ -42,7 +42,6 @@ static int	get_color(int i, int iter)
 
 void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter)
 {
-	int	x;
 	int	y;
 	int	color;
 
@@ -50,12 +49,8 @@ void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter)
 	color = get_color(chunk->borders[0][0].iter, iter);
 	while (y < chunk->top_left[1] + chunk->dimensions[1])
 	{
-		x = chunk->top_left[0];
-		while (x < chunk->top_left[0] + chunk->dimensions[0])
-		{
-			my_mlx_pixel_put(img, x, y, color);
-			x++;
-		}
+		img_put_line(img,
+			line(chunk->top_left[0], y, chunk->dimensions[0], color));
 		y++;
 	}
 }

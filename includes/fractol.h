@@ -17,17 +17,7 @@
 # define HEIGHT 800
 # include <stddef.h>
 # include "complex.h"
-
-typedef struct s_img
-{
-	void			*img;
-	unsigned char	*data;
-	int				line_length;
-	int				bits_per_pixel;
-	int				endian;
-	int				height;
-	int				width;
-}	t_img;
+# include "fractol_image.h"
 
 typedef struct s_camera
 {

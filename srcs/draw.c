@@ -22,14 +22,6 @@
 static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 				t_fractal_iterator *f, void *data);
 
-void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
-{
-	unsigned char	*dest;
-
-	dest = img->data + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int *)dest = color;
-}
-
 //TODO : if at any point in the iterations z is in one of these circles
 //       then it is definitely in the set
 //       or maybe not
