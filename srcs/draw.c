@@ -80,7 +80,7 @@ static int	subdivide_chunk(t_camera *camera, t_chunk *chunk,
 	c2 = *chunk;
 	h_split = !(!(chunk->filled & 1 << UP) || !(chunk->filled & 1 << DOWN));
 	c1.filled = ~(1 << (LEFT - h_split) % 4);
-	c2.filled = ~0;
+	c2.filled = ~(1 << (RIGHT - h_split) % 4);
 	c1.top_left[h_split] += chunk->dimensions[h_split] / 2;
 	c1.dimensions[h_split] -= chunk->dimensions[h_split] / 2;
 	c2.dimensions[h_split] -= c1.dimensions[h_split];
@@ -88,6 +88,7 @@ static int	subdivide_chunk(t_camera *camera, t_chunk *chunk,
 	c1.borders[(DOWN + h_split) % 4] += c2.dimensions[h_split];
 	c1.borders[(LEFT - h_split) % 4] = shared_border;
 	c2.borders[(RIGHT - h_split) % 4] = shared_border;
+	iterate_chunk_borders(camera, &c1, f, data);
 	boundary_trace_fractal_r(camera, &c1, f, data);
 	boundary_trace_fractal_r(camera, &c2, f, data);
 	return (0);
@@ -99,8 +100,6 @@ static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 	int	dir;
 	int	i;
 
-	if (iterate_chunk_borders(camera, chunk, f, data))
-		return (1);
 	dir = -1;
 	if (chunk->dimensions[0] < 2 || chunk->dimensions[1] < 2)
 		return (color_small_chunk
