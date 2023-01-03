@@ -23,6 +23,7 @@ typedef enum e_debug
 {
 	DBG_WINDING = 1 << 0,
 	DBG_CHUNK_BORDERS = 1 << 1,
+	DBG_WINDING_STEP = 1 << 2,
 }	t_debug;
 
 typedef struct s_camera

@@ -85,12 +85,13 @@ void	draw_3b1b_dbg(t_env *env)
 			c.imag = env->camera.top_left.imag + y * env->camera.step.imag;
 			z = complex(0, 0);
 			iter = mandelbrot_iterate(&z, c, env->camera.iter + 1, 0);
+			if (!(env->camera.debug & DBG_WINDING_STEP))
+				z = mandelbrot_i(z, c, env->camera.iter + 1 - iter);
 			if (iter == (size_t)env->camera.iter + 1)
 				my_mlx_pixel_put(&env->camera.work_buffer, x, y, 0x0);
 			else
 				my_mlx_pixel_put(&env->camera.work_buffer, x, y,
-					angle_to_color(get_angle(mandelbrot_i(z, c,
-								env->camera.iter - iter))));
+					angle_to_color(get_angle(z)));
 		}
 	}
 }

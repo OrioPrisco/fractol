@@ -24,6 +24,8 @@ static void	deal_key_dbg(int key, t_env *env)
 		env->camera.debug = env->camera.debug ^ DBG_WINDING;
 	if (key == XK_F2)
 		env->camera.debug = env->camera.debug ^ DBG_CHUNK_BORDERS;
+	if (key == XK_F3)
+		env->camera.debug = env->camera.debug ^ DBG_WINDING_STEP;
 }
 
 int	deal_key(int key, t_env *env)
