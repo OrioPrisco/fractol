@@ -40,7 +40,34 @@ static int	get_color(int i, int iter)
 	return (g_palette2[i % 9]);
 }
 
-void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter)
+static void	color_bound(t_img *img, t_chunk *chunk, int small)
+{
+	int	y;
+	int	color;
+	int	x;
+
+	color = 0x00ff0000;
+	y = 0;
+	while (y < chunk->dimensions[1])
+	{
+		my_mlx_pixel_put(img, chunk->top_left[0],
+			y + chunk->top_left[1], color);
+		my_mlx_pixel_put(img, chunk->top_left[0]
+			+ chunk->dimensions[0], y + chunk->top_left[1], color);
+		y++;
+	}
+	x = 0;
+	while (x < chunk->dimensions[0])
+	{
+		my_mlx_pixel_put(img, chunk->top_left[0]
+			+ x, chunk->top_left[1], color);
+		my_mlx_pixel_put(img, chunk->top_left[0]
+			+ x, chunk->top_left[1] + chunk->dimensions[1], color);
+		x++;
+	}
+}
+
+void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug)
 {
 	int	y;
 	int	color;
@@ -53,9 +80,11 @@ void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter)
 			line(chunk->top_left[0], y, chunk->dimensions[0], color));
 		y++;
 	}
+	if (debug & DBG_CHUNK_BORDERS)
+		color_bound(img, chunk, 0);
 }
 
-void	color_small_chunk(t_img *img, t_chunk *chunk, int iter)
+void	color_small_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug)
 {
 	int	x;
 	int	y;
@@ -79,4 +108,6 @@ void	color_small_chunk(t_img *img, t_chunk *chunk, int iter)
 		}
 		y++;
 	}
+	if (debug & DBG_CHUNK_BORDERS)
+		color_bound(img, chunk, 1);
 }

@@ -17,6 +17,7 @@ SRC				=	main.c\
 					draw.c\
 					env.c\
 					hooks.c\
+					deal_key.c\
 					color_chunk.c\
 					mandelbrot.c\
 					debug.c\

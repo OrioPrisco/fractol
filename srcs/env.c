@@ -43,7 +43,7 @@ int	init_env(t_env *env)
 	env->camera.iter = 10;
 	env->camera.scale = 400;
 	env->camera.center = complex(0, 0);
-	env->debug = 0;
+	env->camera.debug = 0;
 	if (init_img(env, &env->frame1, WIDTH, HEIGHT)
 		||init_img(env, &env->frame2, WIDTH, HEIGHT)
 		|| init_img(env, &env->camera.work_buffer, WIDTH, HEIGHT))

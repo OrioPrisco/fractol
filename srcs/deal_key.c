@@ -1,0 +1,54 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   deal_key.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/03 17:09:51 by OrioPrisc         #+#    #+#             */
+/*   Updated: 2023/01/03 17:13:19 by OrioPrisc        ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fractol_hooks.h"
+#include "fractol.h"
+#include <X11/X.h>
+#include <X11/keysym.h>
+#include "complex.h"
+#include <unistd.h>
+#include <stdio.h>
+
+static void	deal_key_dbg(int key, t_env *env)
+{
+	if (key == XK_F1)
+		env->camera.debug = env->camera.debug ^ DBG_WINDING;
+	if (key == XK_F2)
+		env->camera.debug = env->camera.debug ^ DBG_CHUNK_BORDERS;
+}
+
+int	deal_key(int key, t_env *env)
+{
+	write(1, &key, 1);
+	if (key == XK_p)
+		env->camera.iter++;
+	if (key == XK_m)
+		env->camera.iter--;
+	if (key == XK_8)
+		zoom_camera(&env->camera, 1.1);
+	if (key == XK_slash)
+		zoom_camera(&env->camera, 0.9);
+	if (key == XK_w || key == XK_Up)
+		move_camera(&env->camera, complex(0, -0.05));
+	if (key == XK_s || key == XK_Down)
+		move_camera(&env->camera, complex(0, 0.05));
+	if (key == XK_a || key == XK_Left)
+		move_camera(&env->camera, complex(-0.05, 0));
+	if (key == XK_d || key == XK_Right)
+		move_camera(&env->camera, complex(0.05, 0));
+	if (key == XK_Escape)
+		quit_prg(env);
+	deal_key_dbg(key, env);
+	draw(env);
+	printf("iter %d\n", env->camera.iter);
+	return (0);
+}

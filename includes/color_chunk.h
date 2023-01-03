@@ -13,6 +13,7 @@
 #ifndef COLOR_CHUNK_H
 # define COLOR_CHUNK_H
 # include "complex.h"
+# include "fractol.h"
 
 struct					s_img;
 typedef struct s_img	t_img;
@@ -44,7 +45,7 @@ typedef struct s_chunk
 
 }	t_chunk;
 
-void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter);
-void	color_small_chunk(t_img *img, t_chunk *chunk, int iter);
+void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter, t_debug dbug);
+void	color_small_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug);
 
 #endif
