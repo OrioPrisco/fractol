@@ -24,6 +24,8 @@ void	draw_3b1b_dbg(t_env *env);
 
 void	draw(t_env *env)
 {
+	switch_frame(env);
+	mlx_clear_window(env->mlx, env->win);
 	if (env->debug)
 		draw_3b1b_dbg(env);
 	else
@@ -36,8 +38,10 @@ int	quit_prg(t_env *env)
 {
 	if (!env->mlx)
 		exit(0);
-	if (env->frame->img)
-		mlx_destroy_image(env->mlx, env->frame->img);
+	if (env->frame1.img)
+		mlx_destroy_image(env->mlx, env->frame1.img);
+	if (env->frame2.img)
+		mlx_destroy_image(env->mlx, env->frame2.img);
 	if (env->camera.work_buffer.img)
 		mlx_destroy_image(env->mlx, env->camera.work_buffer.img);
 	if (env->win)

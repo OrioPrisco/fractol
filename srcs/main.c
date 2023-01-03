@@ -18,9 +18,8 @@
 int	main(void)
 {
 	t_env	env;
-	t_img	img;
 
-	if (init_env(&env, &img))
+	if (init_env(&env))
 		quit_prg(&env);
 	mlx_key_hook(env.win, &deal_key, &env);
 	mlx_expose_hook(env.win, my_expose, &env);

@@ -34,11 +34,14 @@ typedef struct s_env
 	void			*win;
 	void			*mlx;
 	t_img			*frame;
+	t_img			frame1;
+	t_img			frame2;
 	t_camera		camera;
 	char			debug;
 }	t_env;
 
-int		init_env(t_env *env, t_img *img);
+int		init_env(t_env *env);
+void	switch_frame(t_env *env);
 void	update_camera(t_camera *camera);
 void	zoom_camera(t_camera *camera, double scale);
 void	move_camera(t_camera *camera, t_complex movement);
