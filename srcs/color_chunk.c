@@ -40,7 +40,7 @@ static int	get_color(int i, int iter)
 	return (g_palette2[i % 9]);
 }
 
-static void	color_bound(t_img *img, t_chunk *chunk, int small)
+static void	color_bound(t_img *img, t_chunk *chunk)
 {
 	int	y;
 	int	color;
@@ -81,7 +81,7 @@ void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug)
 		y++;
 	}
 	if (debug & DBG_CHUNK_BORDERS)
-		color_bound(img, chunk, 0);
+		color_bound(img, chunk);
 }
 
 void	color_small_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug)
@@ -109,5 +109,5 @@ void	color_small_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug)
 		y++;
 	}
 	if (debug & DBG_CHUNK_BORDERS)
-		color_bound(img, chunk, 1);
+		color_bound(img, chunk);
 }
