@@ -62,9 +62,9 @@ int	contains_zero(t_chunk *chunk)
 
 	dir = 0;
 	winding = 0;
-	previous_angle = direction(chunk->borders[0][0].z);
 	while (dir < 4)
 	{
+		previous_angle = direction(chunk->borders[dir][0].z);
 		i = 0;
 		while (i < chunk->dimensions[dir % 2])
 		{
@@ -78,5 +78,5 @@ int	contains_zero(t_chunk *chunk)
 		}
 		dir++;
 	}
-	return (winding);
+	return (winding > 5 || winding < -5);
 }
