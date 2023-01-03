@@ -135,5 +135,6 @@ int	boundary_trace_fractal(t_camera *camera,
 	chnk.borders[DOWN] = borders[DOWN];
 	chnk.borders[RIGHT] = borders[RIGHT];
 	chnk.filled = 0;
+	iterate_chunk_borders(camera, &chnk, f, data);
 	return (boundary_trace_fractal_r(camera, &chnk, f, data));
 }
