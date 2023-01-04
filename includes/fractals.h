@@ -13,12 +13,13 @@
 #ifndef FRACTALS_H
 # define FRACTALS_H
 
-//the definition of t_complex and t_camera are needed
+//the definition of t_complex is needed
 # include "complex.h"
-# include "fractol.h"
 
+struct					s_camera;
 struct					s_chunk;
 typedef struct s_chunk	t_chunk;
+typedef struct s_camera	t_camera;
 typedef size_t			t_f_iterator (t_complex *, t_complex, size_t, void *);
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,

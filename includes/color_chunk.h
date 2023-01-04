@@ -13,8 +13,9 @@
 #ifndef COLOR_CHUNK_H
 # define COLOR_CHUNK_H
 # include "complex.h"
-# include "fractol.h"
 
+enum							e_debug;
+typedef enum e_debug			t_debug;
 struct							s_img;
 typedef struct s_img			t_img;
 
