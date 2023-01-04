@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 11:24:44 by OrioPrisco         #+#    #+#             */
-/*   Updated: 2023/01/03 16:32:30 by OrioPrisco       ###   ########.fr       */
+/*   Created: 2022/12/09 11:24:44 by OrioPrisc         #+#    #+#             */
+/*   Updated: 2023/01/04 14:17:58 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "fractals.h"
 
 static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
-				t_fractal_iterator *f, void *data);
+				t_f_iterator *f, void *data);
 
 //TODO : if at any point in the iterations z is in one of these circles
 //       then it is definitely in the set
@@ -31,31 +31,24 @@ static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 const t_complex	g_offset = {0.25, 0}; // dist = 0.5 // 
 const t_complex	g_offset2 = {0, 0}; // dist = 0.25 //super cheap to check
 
-static void	free_chunk(t_chunk	*chunk)
+static void	free_chunk(t_chunk	*chunk, int is_top_chunk)
 {
 	t_direction	dir;
 
 	if (!chunk)
 		return ;
 	dir = -1;
-	while (++dir < 4)
-		if (!(chunk->filled & (1 << dir)))
+	if (is_top_chunk)
+		while (++dir < 4)
 			free(chunk->borders[dir]);
-	if (chunk->childs[0] && chunk->childs[1])
+	if (chunk->childs)
 	{
-		while (dir < 4)
-		{
-			if (!(chunk->childs[0]->filled & (1 << dir)))
-			{
-				free(chunk->childs[0]->borders[dir]);
-				chunk->childs[1]->borders[(dir + 2) % 4] = 0;
-			}
-			dir++;
-		}
+		free_chunk(&chunk->childs->c1, 0);
+		free_chunk(&chunk->childs->c2, 0);
+		free(chunk->childs);
 	}
-	free_chunk(chunk->childs[0]);
-	free_chunk(chunk->childs[1]);
-	free(chunk);
+	if (is_top_chunk)
+		free(chunk);
 }
 
 //TODO : determine how many iterations are stricly required for crtain scale
@@ -66,7 +59,7 @@ static void	free_chunk(t_chunk	*chunk)
 // stable, and might require infinitely many iterations
 // seems like iterative deepening is the way
 static int	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
-	t_fractal_iterator *f, void *data)
+	t_f_iterator *f, void *data)
 {
 	t_direction	dir;
 	int			i;
@@ -96,47 +89,45 @@ static int	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 }
 
 static int	subdivide_chunk(t_camera *camera, t_chunk *c,
-	t_fractal_iterator *f, void *data)
+	t_f_iterator *f, void *data)
 {
-	t_chunk			*c1;
-	t_chunk			*c2;
 	int				h;
+	t_chunk_childs	*childs;
 
-	c1 = malloc(sizeof(*c1));
-	c2 = malloc(sizeof(*c2));
-	if (!c1 || !c2)
-		return (free(c1), free(c2), 1);
-	*c1 = *c;
-	*c2 = *c;
 	h = !(!(c->filled & 1 << UP) || !(c->filled & 1 << DOWN));
-	c1->filled = ~(1 << (LEFT - h) % 4);
-	c2->filled = ~0;
-	c1->top_left[h] += c->dimensions[h] / 2;
-	c1->dimensions[h] -= c->dimensions[h] / 2;
-	c2->dimensions[h] -= c1->dimensions[h];
-	c1->borders[(U + h) % 4] += c2->dimensions[h];
-	c1->borders[(D + h) % 4] += c2->dimensions[h];
-	c1->borders[(L - h) % 4] = malloc(sizeof(**c->borders) * c->dimensions[!h]);
-	c2->borders[(R - h) % 4] = c1->borders[(LEFT - h) % 4];
-	if (!c1->borders[(LEFT - h) % 4])
-		return (free(c1), free(c2), 1);
-	boundary_trace_fractal_r(camera, c1, f, data);
-	boundary_trace_fractal_r(camera, c2, f, data);
-	return (free(c1->borders[(LEFT - h) % 4]), free(c1), free(c2), 0);
+	childs = malloc(sizeof(*childs)
+			+ (sizeof(**c->borders) * c->dimensions[!h]));
+	if (!childs)
+		return (1);
+	childs->c1 = *c;
+	childs->c2 = *c;
+	childs->c1.dimensions[h] -= c->dimensions[h] / 2;
+	childs->c2.dimensions[h] -= childs->c1.dimensions[h];
+	c->childs = childs;
+	childs->c1.filled = ~(1 << (LEFT - h) % 4);
+	childs->c2.filled = ~(1 << (RIGHT - h) % 4);
+	childs->c1.top_left[h] += c->dimensions[h] / 2;
+	childs->c1.borders[(U + h) % 4] += childs->c2.dimensions[h];
+	childs->c1.borders[(D + h) % 4] += childs->c2.dimensions[h];
+	childs->c1.borders[(L - h) % 4] = (t_iter_result *)
+		(((char *)childs) + sizeof(*childs));
+	childs->c2.borders[(R - h) % 4] = childs->c1.borders[(LEFT - h) % 4];
+	iterate_chunk_borders(camera, &childs->c1, f, data);
+	boundary_trace_fractal_r(camera, &childs->c1, f, data);
+	boundary_trace_fractal_r(camera, &childs->c2, f, data);
+	return (0);
 }
 
 static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
-	t_fractal_iterator *f, void *data)
+	t_f_iterator *f, void *data)
 {
-	int	dir;
-	int	i;
+	t_direction	dir;
+	int			i;
 
-	if (iterate_chunk_borders(camera, chunk, f, data))
-		return (1);
 	dir = -1;
 	if (chunk->dimensions[0] < 2 || chunk->dimensions[1] < 2)
 		return (color_small_chunk
-			(&camera->work_buffer, chunk, camera->iter), 0);
+			(&camera->work_buffer, chunk, camera->iter, camera->debug), 0);
 	while (++dir < 4)
 	{
 		i = 0;
@@ -149,32 +140,29 @@ static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 	}
 	if (chunk->borders[0][0].iter != camera->iter && contains_zero(chunk))
 		return (subdivide_chunk(camera, chunk, f, data));
-	return (color_uniform_chunk(&camera->work_buffer, chunk, camera->iter), 0);
+	return (color_uniform_chunk
+		(&camera->work_buffer, chunk, camera->iter, camera->debug), 0);
 }
 
 t_chunk	*boundary_trace_fractal(t_camera *camera,
-	t_fractal_iterator *f, void *data)
+	t_f_iterator *f, void *data)
 {
 	t_chunk	*chnk;
-	int		res;
 
-	chnk = malloc(sizeof(*chnk));
+	chnk = ft_calloc(sizeof(*chnk), 1);
 	if (!chnk)
-		return (1);
-	chnk->childs[0] = 0;
-	chnk->childs[1] = 0;
-	chnk->top_left[0] = 0;
-	chnk->top_left[1] = 0;
+		return (0);
 	chnk->dimensions[0] = camera->work_buffer.width;
 	chnk->dimensions[1] = camera->work_buffer.height;
-	chnk->filled = 0;
 	chnk->borders[U] = malloc(sizeof(**chnk->borders) * chnk->dimensions[0]);
 	chnk->borders[L] = malloc(sizeof(**chnk->borders) * chnk->dimensions[1]);
 	chnk->borders[D] = malloc(sizeof(**chnk->borders) * chnk->dimensions[0]);
 	chnk->borders[R] = malloc(sizeof(**chnk->borders) * chnk->dimensions[1]);
 	if (!chnk->borders[U] || !chnk->borders[L] || !chnk->borders[D]
 		|| !chnk->borders[R])
-		return (free_chunk(chnk), 0);
+		return (free_chunk(chnk, 1), NULL);
+	iterate_chunk_borders(camera, chnk, f, data);
 	boundary_trace_fractal_r(camera, chnk, f, data);
-	return (chnk);
+	free_chunk(chnk, 1);
+	return (0);
 }

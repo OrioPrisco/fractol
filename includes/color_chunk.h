@@ -15,8 +15,8 @@
 # include "complex.h"
 # include "fractol.h"
 
-struct					s_img;
-typedef struct s_img	t_img;
+struct							s_img;
+typedef struct s_img			t_img;
 
 typedef enum e_direction {
 	UP = 0,
@@ -36,14 +36,22 @@ typedef struct s_iter_result
 	int			iter;
 }	t_iter_result;
 
+typedef struct s_chunk_childs	t_chunk_childs;
+
 typedef struct s_chunk
 {
 	t_iter_result	*borders[4];
+	t_chunk_childs	*childs;
 	int				top_left[2];
 	int				dimensions[2];
 	char			filled;
-
 }	t_chunk;
+
+struct s_chunk_childs
+{
+	t_chunk	c1;
+	t_chunk	c2;
+};
 
 void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter, t_debug dbug);
 void	color_small_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug);
