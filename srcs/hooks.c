@@ -14,6 +14,7 @@
 #include "fractol.h"
 #include "mlx.h"
 #include "fractals.h"
+#include "color_chunk.h"
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -27,7 +28,8 @@ void	draw(t_env *env)
 	if (env->camera.debug & DBG_WINDING)
 		draw_3b1b_dbg(env);
 	else
-		boundary_trace_fractal(&env->camera, mandelbrot_iterate, 0);
+		free_chunk
+			(boundary_trace_fractal(&env->camera, mandelbrot_iterate, 0), 1);
 	mlx_put_image_to_window(
 		env->mlx, env->win, env->camera.work_buffer.img, 0, 0);
 }
