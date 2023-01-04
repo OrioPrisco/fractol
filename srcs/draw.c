@@ -58,7 +58,7 @@ void	free_chunk(t_chunk	*chunk, int is_top_chunk)
 // near the tangent part of the cardiod and 1st continent, values are very
 // stable, and might require infinitely many iterations
 // seems like iterative deepening is the way
-static int	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
+static void	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 	t_f_iterator *f, void *data)
 {
 	t_direction	dir;
@@ -85,7 +85,6 @@ static int	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 			i++;
 		}
 	}
-	return (0);
 }
 
 static int	subdivide_chunk(t_camera *camera, t_chunk *c,
@@ -162,6 +161,7 @@ t_chunk	*boundary_trace_fractal(t_camera *camera,
 		|| !chnk->borders[R])
 		return (free_chunk(chnk, 1), NULL);
 	iterate_chunk_borders(camera, chnk, f, data);
-	boundary_trace_fractal_r(camera, chnk, f, data);
+	if (boundary_trace_fractal_r(camera, chnk, f, data))
+		return (free_chunk(chnk, 1), NULL);
 	return (chnk);
 }
