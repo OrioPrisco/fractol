@@ -46,6 +46,7 @@ void	draw(t_env *env)
 	switch_frame(env);
 	mlx_clear_window(env->mlx, env->win);
 	free_chunk(env->camera.chunk, 1);
+	env->camera.chunk = 0;
 	if (env->camera.debug & DBG_WINDING)
 		draw_3b1b_dbg(env);
 	else
