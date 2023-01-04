@@ -21,5 +21,6 @@ int		deal_key(int key, t_env *env);
 int		my_mouse_hook(int button, int x, int y, t_env *env);
 int		my_expose(t_env *env);
 void	draw(t_env *env);
+int		my_loop_hook(t_env *env);
 
 #endif

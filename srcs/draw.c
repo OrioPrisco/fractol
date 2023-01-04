@@ -19,8 +19,8 @@
 #include "winding.h"
 #include "fractals.h"
 
-static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
-				t_f_iterator *f, void *data);
+int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
+		t_f_iterator *f, void *data);
 
 //TODO : if at any point in the iterations z is in one of these circles
 //       then it is definitely in the set
@@ -117,7 +117,7 @@ static int	subdivide_chunk(t_camera *camera, t_chunk *c,
 	return (0);
 }
 
-static int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
+int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 	t_f_iterator *f, void *data)
 {
 	t_direction	dir;

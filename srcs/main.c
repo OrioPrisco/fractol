@@ -25,6 +25,7 @@ int	main(void)
 	mlx_expose_hook(env.win, my_expose, &env);
 	mlx_hook(env.win, DestroyNotify, StructureNotifyMask, &quit_prg, &env);
 	mlx_mouse_hook(env.win, my_mouse_hook, &env);
+	mlx_loop_hook(env.mlx, my_loop_hook, &env);
 	draw(&env);
 	my_expose(&env);
 	mlx_loop(env.mlx);

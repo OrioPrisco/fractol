@@ -35,6 +35,7 @@ int	init_env(t_env *env)
 	env->frame2.img = 0;
 	env->frame = &env->frame1;
 	env->camera.work_buffer.img = 0;
+	env->camera.chunk = 0;
 	if (!env->mlx)
 		return (1);
 	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fractol");

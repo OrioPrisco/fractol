@@ -26,6 +26,8 @@ size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
 			void *data);
 t_chunk	*boundary_trace_fractal(t_camera *camera,
 			t_f_iterator *f, void *data);
+int		deepen_chunk(t_camera *camera, t_chunk *chunk,
+			t_f_iterator *f, void *data);
 //if you want to destroy a chunk given by boundary_trace_fractal, it is always
 //the top chunk. therefore set is_top_chunk to 1
 void	free_chunk(t_chunk *chunk, int is_top_chunk);

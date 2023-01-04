@@ -20,16 +20,37 @@
 #include <stdlib.h>
 
 void	draw_3b1b_dbg(t_env *env);
+int		deepen_chunk(t_camera *camera, t_chunk *chunk,
+			t_f_iterator *f, void *data);
+
+int	my_loop_hook(t_env *env)
+{
+	switch_frame(env);
+	mlx_clear_window(env->mlx, env->win);
+	if (env->camera.chunk && env->camera.iter < 3000)
+	{
+		if (deepen_chunk(&env->camera, env->camera.chunk,
+				mandelbrot_iterate, 0))
+		{
+			free_chunk(env->camera.chunk, 1);
+			env->camera.chunk = 0;
+		}
+	}
+	mlx_put_image_to_window(
+		env->mlx, env->win, env->camera.work_buffer.img, 0, 0);
+	return (0);
+}
 
 void	draw(t_env *env)
 {
 	switch_frame(env);
 	mlx_clear_window(env->mlx, env->win);
+	free_chunk(env->camera.chunk, 1);
 	if (env->camera.debug & DBG_WINDING)
 		draw_3b1b_dbg(env);
 	else
-		free_chunk
-			(boundary_trace_fractal(&env->camera, mandelbrot_iterate, 0), 1);
+		env->camera.chunk = boundary_trace_fractal
+			(&env->camera, mandelbrot_iterate, 0);
 	mlx_put_image_to_window(
 		env->mlx, env->win, env->camera.work_buffer.img, 0, 0);
 }
@@ -46,6 +67,8 @@ int	quit_prg(t_env *env)
 		mlx_destroy_image(env->mlx, env->camera.work_buffer.img);
 	if (env->win)
 		mlx_destroy_window(env->mlx, env->win);
+	if (env->camera.chunk)
+		free_chunk(env->camera.chunk, 1);
 	mlx_destroy_display(env->mlx);
 	free(env->mlx);
 	exit(0);
@@ -65,6 +88,7 @@ int	my_mouse_hook(int button, int x, int y, t_env *env)
 				(x - env->frame->width / 2) / (double)env->frame->width,
 				(y - env->frame->height / 2) / (double)env->frame->height));
 	}
+	env->camera.iter = 10;
 	draw(env);
 	return (0);
 }

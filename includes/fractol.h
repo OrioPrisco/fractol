@@ -19,6 +19,9 @@
 # include "complex.h"
 # include "fractol_image.h"
 
+struct					s_chunk;
+typedef struct s_chunk	t_chunk;
+
 typedef enum e_debug
 {
 	DBG_WINDING = 1 << 0,
@@ -35,6 +38,7 @@ typedef struct s_camera
 	t_complex	step;
 	t_img		work_buffer;
 	t_debug		debug;
+	t_chunk		*chunk;
 }	t_camera;
 
 typedef struct s_env
