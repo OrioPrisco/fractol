@@ -23,7 +23,8 @@ SRC				=	main.c\
 					debug.c\
 					camera.c\
 					winding.c\
-					image.c
+					image.c\
+					deepen.c\
 
 
 SRC_FOLDER		=	srcs/
