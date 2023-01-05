@@ -39,6 +39,13 @@ typedef struct s_iter_result
 
 typedef struct s_chunk_childs	t_chunk_childs;
 
+typedef enum e_chunk_type
+{
+	NORMAL = 0,
+	UNIFORM,
+	NO_DEEPEN,
+}	t_chunk_type;
+
 typedef struct s_chunk
 {
 	t_iter_result	*borders[4];
@@ -46,6 +53,7 @@ typedef struct s_chunk
 	int				top_left[2];
 	int				dimensions[2];
 	char			filled;
+	t_chunk_type	type;
 }	t_chunk;
 
 struct s_chunk_childs
@@ -54,6 +62,7 @@ struct s_chunk_childs
 	t_chunk	c2;
 };
 
+void	color_bound(t_img *img, t_chunk *chunk);
 void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter, t_debug dbug);
 void	color_small_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug);
 

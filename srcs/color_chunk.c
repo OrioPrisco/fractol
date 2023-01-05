@@ -40,7 +40,7 @@ static int	get_color(int i, int iter)
 	return (g_palette2[i % 9]);
 }
 
-static void	color_bound(t_img *img, t_chunk *chunk)
+void	color_bound(t_img *img, t_chunk *chunk)
 {
 	int	y;
 	int	color;
@@ -72,6 +72,8 @@ void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug)
 	int	y;
 	int	color;
 
+	if (chunk->borders[0][0].iter != iter)
+		chunk->type = UNIFORM;
 	y = chunk->top_left[1];
 	color = get_color(chunk->borders[0][0].iter, iter);
 	while (y < chunk->top_left[1] + chunk->dimensions[1])
