@@ -82,14 +82,17 @@ int	my_mouse_hook(int button, int x, int y, t_env *env)
 		zoom_camera(&env->camera, 1.1);
 	if (button == 5)
 		zoom_camera(&env->camera, 0.9);
-	if (button == 1)
+	if (button == 1 || button == 4)
 	{
 		move_camera(&env->camera,
 			complex(
-				(x - env->frame->width / 2) / (double)env->frame->width,
-				(y - env->frame->height / 2) / (double)env->frame->height));
+				(x - env->frame->width / 2) / button
+				/ (double)env->frame->width,
+				(y - env->frame->height / 2) / button
+				/ (double)env->frame->height));
 	}
-	env->camera.iter = 10;
+	if (!(env->camera.debug & DBG_WINDING))
+		env->camera.iter = 10;
 	draw(env);
 	return (0);
 }
