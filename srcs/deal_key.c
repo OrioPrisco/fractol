@@ -51,6 +51,5 @@ int	deal_key(int key, t_env *env)
 		quit_prg(env);
 	deal_key_dbg(key, env);
 	draw(env);
-	printf("iter %d\n", env->camera.iter);
 	return (0);
 }

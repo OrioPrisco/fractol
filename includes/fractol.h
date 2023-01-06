@@ -31,7 +31,7 @@ typedef enum e_debug
 
 typedef struct s_camera
 {
-	int			iter;
+	size_t		iter;
 	long double	scale;
 	t_complex	center;
 	t_complex	top_left;
