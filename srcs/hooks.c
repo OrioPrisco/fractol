@@ -27,7 +27,6 @@ int		deepen_chunk(t_camera *camera, t_chunk *chunk,
 int	my_loop_hook(t_env *env)
 {
 	switch_frame(env);
-	mlx_clear_window(env->mlx, env->win);
 	if (env->camera.chunk && env->camera.iter != SIZE_MAX)
 	{
 		if (deepen_chunk(&env->camera, env->camera.chunk,
