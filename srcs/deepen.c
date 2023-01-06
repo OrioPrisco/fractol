@@ -18,7 +18,7 @@ static void	reiterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 	t_f_iterator *f, void *data)
 {
 	t_direction	dir;
-	int			i;
+	size_t		i;
 
 	dir = -1;
 	while (++dir < 4)

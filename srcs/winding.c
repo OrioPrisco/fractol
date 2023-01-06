@@ -57,7 +57,7 @@ int	contains_zero(t_chunk *chunk)
 	int				winding;
 	t_direction8	previous_angle;
 	t_direction8	current_angle;
-	int				i;
+	size_t			i;
 	t_direction		dir;
 
 	dir = 0;

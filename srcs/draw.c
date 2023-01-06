@@ -62,7 +62,7 @@ static void	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 	t_f_iterator *f, void *data)
 {
 	t_direction	dir;
-	int			i;
+	size_t		i;
 
 	dir = -1;
 	while (++dir < 4)
@@ -121,7 +121,7 @@ int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 	t_f_iterator *f, void *data)
 {
 	t_direction	dir;
-	int			i;
+	size_t			i;
 
 	dir = -1;
 	if (chunk->dimensions[0] < 2 || chunk->dimensions[1] < 2)

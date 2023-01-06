@@ -34,7 +34,7 @@ const int		g_palette2[] = {
 	0xff5700
 };
 
-static int	get_color(int i, int iter)
+static int	get_color(size_t i, size_t iter)
 {
 	if (i == iter)
 		return (0);
@@ -43,8 +43,8 @@ static int	get_color(int i, int iter)
 
 void	color_bound(t_img *img, t_chunk *chunk, int color)
 {
-	int	y;
-	int	x;
+	size_t	y;
+	size_t	x;
 
 	y = 0;
 	while (y < chunk->dimensions[1])
@@ -69,8 +69,8 @@ void	color_bound(t_img *img, t_chunk *chunk, int color)
 void	color_uniform_chunk(t_img *img, t_chunk *chunk, size_t iter,
 	t_debug debug)
 {
-	int	y;
-	int	color;
+	size_t	y;
+	int		color;
 
 	if (chunk->borders[0][0].iter != iter)
 		chunk->type = UNIFORM;
@@ -89,9 +89,9 @@ void	color_uniform_chunk(t_img *img, t_chunk *chunk, size_t iter,
 void	color_small_chunk(t_img *img, t_chunk *chunk, size_t iter,
 	t_debug debug)
 {
-	int	x;
-	int	y;
-	int	color;
+	size_t	x;
+	size_t	y;
+	int		color;
 
 	y = 0;
 	chunk->type = SMALL;

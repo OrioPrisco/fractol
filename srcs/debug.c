@@ -15,7 +15,7 @@
 #include "color_chunk.h"
 #include <math.h>
 
-const t_complex_part	g_tau = 2 * M_PI;
+const static t_complex_part	g_tau = 2 * M_PI;
 
 static t_complex_part	get_angle(t_complex num)
 {

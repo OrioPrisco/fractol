@@ -52,8 +52,8 @@ typedef struct s_chunk
 {
 	t_iter_result	*borders[4];
 	t_chunk_childs	*childs;
-	int				top_left[2];
-	int				dimensions[2];
+	size_t			top_left[2];
+	size_t				dimensions[2];
 	char			filled;
 	t_chunk_type	type;
 }	t_chunk;
