@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "camera.h"
 #include "libft.h"
 #include "color_chunk.h"
 #include <stdlib.h>

@@ -15,32 +15,8 @@
 
 # define WIDTH 800
 # define HEIGHT 800
-# include <stddef.h>
-# include "complex.h"
 # include "fractol_image.h"
-
-struct					s_chunk;
-typedef struct s_chunk	t_chunk;
-
-typedef enum e_debug
-{
-	DBG_WINDING = 1 << 0,
-	DBG_CHUNK_BORDERS = 1 << 1,
-	DBG_WINDING_STEP = 1 << 2,
-	DBG_SHOW_NO_DEEPEN = 1 << 3,
-}	t_debug;
-
-typedef struct s_camera
-{
-	size_t		iter;
-	long double	scale;
-	t_complex	center;
-	t_complex	top_left;
-	t_complex	step;
-	t_img		work_buffer;
-	t_debug		debug;
-	t_chunk		*chunk;
-}	t_camera;
+# include "camera.h"
 
 typedef struct s_env
 {
@@ -54,8 +30,5 @@ typedef struct s_env
 
 int		init_env(t_env *env);
 void	switch_frame(t_env *env);
-void	update_camera(t_camera *camera);
-void	zoom_camera(t_camera *camera, double scale);
-void	move_camera(t_camera *camera, t_complex movement);
 
 #endif

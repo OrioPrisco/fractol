@@ -27,7 +27,7 @@ SRC				=	main.c\
 					deepen.c\
 
 
-OBJ_FOLDER		=	srcs/
+OBJ_FOLDER		=	objs/
 
 CFLAGS			=	-Wall -Wextra -Werror
 
@@ -54,7 +54,7 @@ $(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c Makefile
 	$(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) -MMD -MP $< -o $@
 
 clean:
-	rm -f $(OBJS) $(LIBS)
+	rm -f $(OBJS) $(LIBS) $(DEPENDS)
 
 fclean: clean
 	rm -f $(NAME)

@@ -15,6 +15,7 @@
 
 //the definition of t_complex is needed
 # include "complex.h"
+# include <stddef.h>
 
 struct					s_camera;
 struct					s_chunk;

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "complex.h"
 
 t_complex_part	dist_origin_squared(t_complex num)
 {

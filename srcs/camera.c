@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
+#include "camera.h"
 
 void	update_camera(t_camera *camera)
 {

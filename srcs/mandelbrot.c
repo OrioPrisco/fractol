@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
 #include "fractals.h"
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,

@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractol.h"
 #include "color_chunk.h"
+#include "fractol_image.h"
+#include "camera.h"
 
 const int		g_palette[] = {
 	0x0000ff,
