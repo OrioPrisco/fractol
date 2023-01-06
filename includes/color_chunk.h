@@ -63,7 +63,7 @@ struct s_chunk_childs
 	t_chunk	c2;
 };
 
-void	color_bound(t_img *img, t_chunk *chunk);
+void	color_bound(t_img *img, t_chunk *chunk, int color);
 void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter, t_debug dbug);
 void	color_small_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug);
 

@@ -46,7 +46,7 @@ static int	deepen_chunk_r(t_camera *camera, t_chunk *chunk,
 	t_f_iterator *f, void *data)
 {
 	if (camera->debug & DBG_SHOW_NO_DEEPEN && chunk->type != NORMAL)
-		return (color_bound(&camera->work_buffer, chunk), 0);
+		return (color_bound(&camera->work_buffer, chunk, 0x000000ff), 0);
 	if (chunk->type != NORMAL)
 		return (0);
 	if (chunk->childs)
