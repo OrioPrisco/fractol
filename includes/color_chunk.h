@@ -13,6 +13,7 @@
 #ifndef COLOR_CHUNK_H
 # define COLOR_CHUNK_H
 # include "complex.h"
+# include <stddef.h>
 
 enum							e_debug;
 typedef enum e_debug			t_debug;
@@ -34,7 +35,7 @@ typedef struct s_iter_result
 {
 	t_complex	z;
 	t_complex	c;
-	int			iter;
+	size_t		iter;
 }	t_iter_result;
 
 typedef struct s_chunk_childs	t_chunk_childs;
@@ -64,7 +65,7 @@ struct s_chunk_childs
 };
 
 void	color_bound(t_img *img, t_chunk *chunk, int color);
-void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter, t_debug dbug);
-void	color_small_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug);
+void	color_uniform_chunk(t_img *img, t_chunk *chunk, size_t i, t_debug dbug);
+void	color_small_chunk(t_img *img, t_chunk *chunk, size_t i, t_debug debug);
 
 #endif

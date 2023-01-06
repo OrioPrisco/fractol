@@ -65,7 +65,8 @@ void	color_bound(t_img *img, t_chunk *chunk, int color)
 	}
 }
 
-void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug)
+void	color_uniform_chunk(t_img *img, t_chunk *chunk, size_t iter,
+	t_debug debug)
 {
 	int	y;
 	int	color;
@@ -84,7 +85,8 @@ void	color_uniform_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug)
 		color_bound(img, chunk, 0x00ff0000);
 }
 
-void	color_small_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug)
+void	color_small_chunk(t_img *img, t_chunk *chunk, size_t iter,
+	t_debug debug)
 {
 	int	x;
 	int	y;
