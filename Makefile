@@ -27,6 +27,10 @@ SRC				=	main.c\
 					deepen.c\
 
 
+OBJ_FOLDER		=	srcs/
+
+CFLAGS			=	-Wall -Wextra -Werror
+
 SRC_FOLDER		=	srcs/
 
 HEADERS_FOLDER	=	includes/\
@@ -35,9 +39,7 @@ HEADERS_FOLDER	=	includes/\
 
 OBJS = $(patsubst %.c,$(OBJ_FOLDER)%.o,$(SRC))
 
-OBJ_FOLDER = objs/
-
-CFLAGS = -Wall -Wextra -Werror
+DEPENDS := $(patsubst %.c,$(OBJ_FOLDER)%.d,$(SRC))
 
 all: $(NAME)
 
@@ -46,8 +48,10 @@ bonus: all
 $(NAME): $(OBJS) $(LIBS)
 	cc $(CFLAGS) $(OBJS) -Llibft -lft -Lminilibx-linux -lmlx -lXext -lX11 -lm -lbsd -o $(NAME)
 
-$(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c
-	$(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) $< -o $@
+-include $(DEPENDS)
+
+$(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c Makefile
+	$(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) -MMD -MP $< -o $@
 
 clean:
 	rm -f $(OBJS) $(LIBS)
