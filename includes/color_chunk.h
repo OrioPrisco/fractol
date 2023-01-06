@@ -44,6 +44,7 @@ typedef enum e_chunk_type
 	NORMAL = 0,
 	UNIFORM,
 	NO_DEEPEN,
+	SMALL,
 }	t_chunk_type;
 
 typedef struct s_chunk

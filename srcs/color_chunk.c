@@ -92,20 +92,21 @@ void	color_small_chunk(t_img *img, t_chunk *chunk, int iter, t_debug debug)
 	int	y;
 	int	color;
 
-	y = chunk->top_left[1];
-	color = get_color(chunk->borders[0][0].iter, iter);
-	while (y < chunk->top_left[1] + chunk->dimensions[1])
+	y = 0;
+	chunk->type = SMALL;
+	while (y < chunk->dimensions[1])
 	{
-		x = chunk->top_left[0];
-		while (x < chunk->top_left[0] + chunk->dimensions[0])
+		x = 0;
+		while (x < chunk->dimensions[0])
 		{
-			if (y == chunk->top_left[1])
-				color = get_color(chunk->borders[U]
-					[x - chunk->top_left[0]].iter, iter);
-			else if (x == chunk->top_left[0])
-				color = get_color(chunk->borders[L]
-					[y - chunk->top_left[1]].iter, iter);
-			my_mlx_pixel_put(img, x, y, color);
+			if (y == 0)
+				color = get_color(chunk->borders[U][x].iter, iter);
+			else if (x == 0)
+				color = get_color(chunk->borders[L][y].iter, iter);
+			if (color == 0x0)
+				chunk->type = NORMAL;
+			my_mlx_pixel_put
+				(img, x + chunk->top_left[0], y + chunk->top_left[1], color);
 			x++;
 		}
 		y++;
