@@ -12,7 +12,6 @@ Possible upgrades:
 	Add some post processing effect ?
 		color_bounds could then be done in post processing for example
 TODO:
-	Julia set
 	Args parsing stuff
 BONUS:
 	more fractals

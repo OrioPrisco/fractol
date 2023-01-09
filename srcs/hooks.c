@@ -30,7 +30,7 @@ int	my_loop_hook(t_env *env)
 	if (env->camera.chunk && env->camera.iter != SIZE_MAX)
 	{
 		if (deepen_chunk(&env->camera, env->camera.chunk,
-				mandelbrot_iterate, 0))
+				env->iterator, &env->julia_c))
 		{
 			free_chunk(env->camera.chunk, 1);
 			env->camera.chunk = 0;
@@ -51,7 +51,7 @@ void	draw(t_env *env)
 		draw_3b1b_dbg(env);
 	else
 		env->camera.chunk = boundary_trace_fractal
-			(&env->camera, mandelbrot_iterate, 0);
+			(&env->camera, env->iterator, &env->julia_c);
 	mlx_put_image_to_window(
 		env->mlx, env->win, env->camera.work_buffer.img, 0, 0);
 }
@@ -90,6 +90,12 @@ int	my_mouse_hook(int button, int x, int y, t_env *env)
 				/ (double)env->frame->width,
 				(y - env->frame->height / 2) / button
 				/ (double)env->frame->height));
+	}
+	if (button == 3)
+	{
+		env->julia_c = add_complex(env->camera.top_left,
+				complex(x * env->camera.step.real, y * env->camera.step.imag));
+		env->iterator = julia_iterate;
 	}
 	if (!(env->camera.debug & DBG_WINDING))
 		env->camera.iter = 10;

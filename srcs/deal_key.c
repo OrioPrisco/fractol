@@ -32,6 +32,8 @@ static void	deal_key_dbg(int key, t_env *env)
 		next_palette(&env->camera.palette);
 	if (key == XK_F6)
 		env->camera.palette.color_shift ++;
+	if (key == XK_F7)
+		switch_fractal(&env->iterator);
 }
 
 int	deal_key(int key, t_env *env)

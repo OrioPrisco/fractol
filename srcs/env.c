@@ -13,6 +13,7 @@
 #include "mlx.h"
 #include "fractol.h"
 #include "libft.h"
+#include <stdio.h>
 
 static const int			g_palette[] = {
 	0x0000ff,
@@ -218,6 +219,11 @@ static const t_palette_data	g_palettes[] = {
 {g_palette4, sizeof(g_palette4) / sizeof(g_palette4[0])},
 };
 
+static t_f_iterator *const	g_fractals[] = {
+	mandelbrot_iterate,
+	julia_iterate,
+};
+
 static int	init_img(t_env *env, t_img *img, int width, int height)
 {
 	img->img = 0;
@@ -236,6 +242,7 @@ int	init_env(t_env *env)
 	ft_bzero(env, sizeof(*env));
 	env->mlx = mlx_init();
 	env->frame = &env->frame1;
+	env->iterator = g_fractals[0];
 	if (!env->mlx)
 		return (1);
 	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fractol");
@@ -246,7 +253,7 @@ int	init_env(t_env *env)
 	env->camera.scale = 400;
 	env->camera.center = complex(0, 0);
 	if (init_img(env, &env->frame1, WIDTH, HEIGHT)
-		||init_img(env, &env->frame2, WIDTH, HEIGHT)
+		|| init_img(env, &env->frame2, WIDTH, HEIGHT)
 		|| init_img(env, &env->camera.work_buffer, WIDTH, HEIGHT))
 		return (1);
 	update_camera(&env->camera);
@@ -270,4 +277,17 @@ void	switch_frame(t_env *env)
 		env->frame = &env->frame2;
 	else
 		env->frame = &env->frame1;
+}
+
+void	switch_fractal(t_f_iterator **iterator)
+{
+	size_t	i;
+
+	i = 0;
+	while (++i < (sizeof(g_fractals) / sizeof(g_fractals[0])))
+		if (*iterator == g_fractals[i - 1])
+			break ;
+	if (i >= (sizeof(g_fractals) / sizeof(g_fractals[0])))
+		i = 0;
+	*iterator = g_fractals[i];
 }

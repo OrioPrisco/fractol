@@ -20,6 +20,7 @@ SRC				=	main.c\
 					deal_key.c\
 					color_chunk.c\
 					mandelbrot.c\
+					julia.c\
 					debug.c\
 					camera.c\
 					winding.c\
