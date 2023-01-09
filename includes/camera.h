@@ -16,8 +16,10 @@
 # include "fractol_image.h"
 # include <stddef.h>
 
-struct					s_chunk;
-typedef struct s_chunk	t_chunk;
+struct						s_chunk;
+struct						s_palette;
+typedef struct s_chunk		t_chunk;
+typedef struct s_palette	t_palette;
 
 typedef enum e_debug
 {

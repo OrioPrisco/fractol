@@ -15,9 +15,7 @@
 # include "complex.h"
 # include <stddef.h>
 
-enum							e_debug;
 typedef enum e_debug			t_debug;
-struct							s_img;
 typedef struct s_img			t_img;
 
 typedef enum e_direction {
@@ -53,7 +51,7 @@ typedef struct s_chunk
 	t_iter_result	*borders[4];
 	t_chunk_childs	*childs;
 	size_t			top_left[2];
-	size_t				dimensions[2];
+	size_t			dimensions[2];
 	char			filled;
 	t_chunk_type	type;
 }	t_chunk;
