@@ -222,6 +222,7 @@ static const t_palette_data	g_palettes[] = {
 static t_f_iterator *const	g_fractals[] = {
 	mandelbrot_iterate,
 	julia_iterate,
+	burning_ship_iterate,
 };
 
 static int	init_img(t_env *env, t_img *img, int width, int height)

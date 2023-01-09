@@ -21,6 +21,7 @@ SRC				=	main.c\
 					color_chunk.c\
 					mandelbrot.c\
 					julia.c\
+					burning_ship.c\
 					debug.c\
 					camera.c\
 					winding.c\
