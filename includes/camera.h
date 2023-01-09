@@ -16,10 +16,19 @@
 # include "fractol_image.h"
 # include <stddef.h>
 
-struct						s_chunk;
-struct						s_palette;
 typedef struct s_chunk		t_chunk;
-typedef struct s_palette	t_palette;
+
+typedef struct s_palette_data
+{
+	const int	*colors;
+	int			number_of_colors;
+}	t_palette_data;
+
+typedef struct s_palette
+{
+	const t_palette_data	*data;
+	size_t					color_shift;
+}	t_palette;
 
 typedef enum e_debug
 {
@@ -39,6 +48,7 @@ typedef struct s_camera
 	t_img		work_buffer;
 	t_debug		debug;
 	t_chunk		*chunk;
+	t_palette	palette;
 }	t_camera;
 
 void	update_camera(t_camera *camera);

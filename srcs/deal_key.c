@@ -28,6 +28,10 @@ static void	deal_key_dbg(int key, t_env *env)
 		env->camera.debug = env->camera.debug ^ DBG_WINDING_STEP;
 	if (key == XK_F4)
 		env->camera.debug = env->camera.debug ^ DBG_SHOW_NO_DEEPEN;
+	if (key == XK_F5)
+		next_palette(&env->camera.palette);
+	if (key == XK_F6)
+		env->camera.palette.color_shift ++;
 }
 
 int	deal_key(int key, t_env *env)

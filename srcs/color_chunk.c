@@ -14,31 +14,12 @@
 #include "fractol_image.h"
 #include "camera.h"
 
-const int		g_palette[] = {
-	0x0000ff,
-	0x00ff00,
-	0x000f60,
-	0xff0000,
-	0x0f6000
-};
-const int		g_palette2[] = {
-	0xb40982,
-	0x4e54cb,
-	0x4e94cb,
-	0x4edfcb,
-	0x4edf00,
-	0xb1df00,
-	0xffdf00,
-	0xff9a00,
-	0xff6b00,
-	0xff5700
-};
-
-static int	get_color(size_t i, size_t iter)
+static int	get_color(size_t iter, t_camera *camera)
 {
-	if (i == iter)
+	if (iter == camera->iter)
 		return (0);
-	return (g_palette2[i % 9]);
+	return (camera->palette.data->colors[(iter + camera->palette.color_shift)
+			% camera->palette.data->number_of_colors]);
 }
 
 void	color_bound(t_img *img, t_chunk *chunk, int color)
@@ -66,28 +47,26 @@ void	color_bound(t_img *img, t_chunk *chunk, int color)
 	}
 }
 
-void	color_uniform_chunk(t_img *img, t_chunk *chunk, size_t iter,
-	t_debug debug)
+void	color_uniform_chunk(t_img *img, t_chunk *chunk, t_camera *camera)
 {
 	size_t	y;
 	int		color;
 
-	if (chunk->borders[0][0].iter != iter)
+	if (chunk->borders[0][0].iter != camera->iter)
 		chunk->type = UNIFORM;
 	y = chunk->top_left[1];
-	color = get_color(chunk->borders[0][0].iter, iter);
+	color = get_color(chunk->borders[0][0].iter, camera);
 	while (y < chunk->top_left[1] + chunk->dimensions[1])
 	{
 		img_put_line(img,
 			line(chunk->top_left[0], y, chunk->dimensions[0], color));
 		y++;
 	}
-	if (debug & DBG_CHUNK_BORDERS)
+	if (camera->debug & DBG_CHUNK_BORDERS)
 		color_bound(img, chunk, 0x00ff0000);
 }
 
-void	color_small_chunk(t_img *img, t_chunk *chunk, size_t iter,
-	t_debug debug)
+void	color_small_chunk(t_img *img, t_chunk *chunk, t_camera *camera)
 {
 	size_t	x;
 	size_t	y;
@@ -101,9 +80,9 @@ void	color_small_chunk(t_img *img, t_chunk *chunk, size_t iter,
 		while (x < chunk->dimensions[0])
 		{
 			if (y == 0)
-				color = get_color(chunk->borders[U][x].iter, iter);
+				color = get_color(chunk->borders[U][x].iter, camera);
 			else if (x == 0)
-				color = get_color(chunk->borders[L][y].iter, iter);
+				color = get_color(chunk->borders[L][y].iter, camera);
 			if (color == 0x0)
 				chunk->type = NORMAL;
 			my_mlx_pixel_put
@@ -112,6 +91,6 @@ void	color_small_chunk(t_img *img, t_chunk *chunk, size_t iter,
 		}
 		y++;
 	}
-	if (debug & DBG_CHUNK_BORDERS)
+	if (camera->debug & DBG_CHUNK_BORDERS)
 		color_bound(img, chunk, 0x00ff0000);
 }

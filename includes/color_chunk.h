@@ -17,6 +17,7 @@
 
 typedef enum e_debug			t_debug;
 typedef struct s_img			t_img;
+typedef struct s_camera			t_camera;
 
 typedef enum e_direction {
 	UP = 0,
@@ -63,7 +64,7 @@ struct s_chunk_childs
 };
 
 void	color_bound(t_img *img, t_chunk *chunk, int color);
-void	color_uniform_chunk(t_img *img, t_chunk *chunk, size_t i, t_debug dbug);
-void	color_small_chunk(t_img *img, t_chunk *chunk, size_t i, t_debug debug);
+void	color_uniform_chunk(t_img *img, t_chunk *chunk, t_camera *camera);
+void	color_small_chunk(t_img *img, t_chunk *chunk, t_camera *camera);
 
 #endif

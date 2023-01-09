@@ -30,5 +30,6 @@ typedef struct s_env
 
 int		init_env(t_env *env);
 void	switch_frame(t_env *env);
+void	next_palette(t_palette *palette);
 
 #endif

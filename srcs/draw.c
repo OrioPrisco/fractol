@@ -126,7 +126,7 @@ int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 	dir = -1;
 	if (chunk->dimensions[0] < 2 || chunk->dimensions[1] < 2)
 		return (color_small_chunk
-			(&camera->work_buffer, chunk, camera->iter, camera->debug), 0);
+			(&camera->work_buffer, chunk, camera), 0);
 	while (++dir < 4)
 	{
 		i = 0;
@@ -140,7 +140,7 @@ int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 	if (chunk->borders[0][0].iter != camera->iter && contains_zero(chunk))
 		return (subdivide_chunk(camera, chunk, f, data));
 	return (color_uniform_chunk
-		(&camera->work_buffer, chunk, camera->iter, camera->debug), 0);
+		(&camera->work_buffer, chunk, camera), 0);
 }
 
 t_chunk	*boundary_trace_fractal(t_camera *camera,
