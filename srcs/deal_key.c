@@ -15,8 +15,6 @@
 #include <X11/X.h>
 #include <X11/keysym.h>
 #include "complex.h"
-#include <unistd.h>
-#include <stdio.h>
 
 static void	deal_key_dbg(int key, t_env *env)
 {
@@ -40,7 +38,6 @@ static void	deal_key_dbg(int key, t_env *env)
 
 int	deal_key(int key, t_env *env)
 {
-	write(1, &key, 1);
 	if (key == XK_p)
 		env->camera.iter++;
 	if (key == XK_m)

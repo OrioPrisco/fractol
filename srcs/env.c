@@ -13,7 +13,6 @@
 #include "mlx.h"
 #include "fractol.h"
 #include "libft.h"
-#include <stdio.h>
 
 static const int			g_palette[] = {
 	0x0000ff,
