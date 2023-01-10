@@ -36,8 +36,9 @@ int	my_loop_hook(t_env *env)
 			env->camera.chunk = 0;
 		}
 	}
+	cpy_img(env->frame, &env->camera.work_buffer);
 	mlx_put_image_to_window(
-		env->mlx, env->win, env->camera.work_buffer.img, 0, 0);
+		env->mlx, env->win, env->frame->img, 0, 0);
 	return (0);
 }
 
@@ -52,8 +53,9 @@ void	draw(t_env *env)
 	else
 		env->camera.chunk = boundary_trace_fractal
 			(&env->camera, env->iterator, &env->julia_c);
+	cpy_img(env->frame, &env->camera.work_buffer);
 	mlx_put_image_to_window(
-		env->mlx, env->win, env->camera.work_buffer.img, 0, 0);
+		env->mlx, env->win, env->frame->img, 0, 0);
 }
 
 int	quit_prg(t_env *env)
