@@ -2,14 +2,9 @@ Possible optimizations :
 	Find chunks whose points are always in the set, and mark them
 	Maybe do the same for individual iterations ?
 Possible upgrades:
-	make draw only recolor the screen if camera->chunk is not null
-		requires that other functions invalidate (free) the chunks in some circumenstances
 	When zooming, only display camera's buffer once things settle down a little
 		possibly make this togglable via a function key
 	When zooming, display a streched version of the previous buffer while we calculate stuff
 		could work really well if combined with previous point
-	Add a pallette  pointer to the camera so pallettes can be switched
 	Add some post processing effect ?
 		color_bounds could then be done in post processing for example
-TODO:
-	Args parsing stuff
