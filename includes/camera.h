@@ -54,5 +54,6 @@ typedef struct s_camera
 void	update_camera(t_camera *camera);
 void	zoom_camera(t_camera *camera, double scale);
 void	move_camera(t_camera *camera, t_complex movement);
+void	invalidate_chunks(t_camera *camera);
 
 #endif

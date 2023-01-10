@@ -24,20 +24,6 @@ static t_complex_part	get_angle(t_complex num)
 	return (2 * M_PI - acos(num.real / sqrt(dist_origin_squared(num))));
 }
 
-static t_complex	mandelbrot_i(t_complex z, t_complex c, size_t iterations)
-{
-	size_t		iter;
-	t_complex	num;
-
-	num = z;
-	iter = iterations;
-	while (iter--)
-	{
-		num = add_complex(square_complex(num), c);
-	}
-	return (num);
-}
-
 static int	angle_to_color(t_complex_part angle)
 {
 	int	red;
@@ -83,10 +69,8 @@ void	draw_3b1b_dbg(t_env *env)
 		{
 			c.real = env->camera.top_left.real + x * env->camera.step.real;
 			c.imag = env->camera.top_left.imag + y * env->camera.step.imag;
-			z = complex(0, 0);
-			iter = mandelbrot_iterate(&z, c, env->camera.iter + 1, 0);
-			if (!(env->camera.debug & DBG_WINDING_STEP))
-				z = mandelbrot_i(z, c, env->camera.iter + 1 - iter);
+			z = c;
+			iter = env->iterator(&z, c, env->camera.iter + 1, &env->julia_c);
 			if (iter == (size_t)env->camera.iter + 1)
 				my_mlx_pixel_put(&env->camera.work_buffer, x, y, 0x0);
 			else

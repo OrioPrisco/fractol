@@ -72,9 +72,9 @@ static int	deepen_chunk_r(t_camera *camera, t_chunk *chunk,
 int	deepen_chunk(t_camera *camera, t_chunk *chunk,
 	t_f_iterator *f, void *data)
 {
-	camera->iter++;
 	if (chunk->type != NORMAL)
 		return (0);
+	camera->iter++;
 	reiterate_chunk_borders(camera, chunk, f, data);
 	if (deepen_chunk_r(camera, chunk, f, data))
 		return (free_chunk(chunk, 1), 1);

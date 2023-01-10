@@ -94,3 +94,16 @@ void	color_small_chunk(t_img *img, t_chunk *chunk, t_camera *camera)
 	if (camera->debug & DBG_CHUNK_BORDERS)
 		color_bound(img, chunk, 0x00ff0000);
 }
+
+void	recolor_chunks(t_img *img, t_chunk *chunk, t_camera *camera)
+{
+	if (chunk->childs)
+	{
+		recolor_chunks(img, &chunk->childs->c1, camera);
+		recolor_chunks(img, &chunk->childs->c2, camera);
+		return ;
+	}
+	if (chunk->type == UNIFORM)
+		return ((void)color_uniform_chunk(img, chunk, camera));
+	color_small_chunk(img, chunk, camera);
+}

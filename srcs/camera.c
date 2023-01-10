@@ -11,6 +11,18 @@
 /* ************************************************************************** */
 
 #include "camera.h"
+#include "fractals.h"
+
+void	invalidate_chunks(t_camera *camera)
+{
+	if (!(camera->debug & DBG_WINDING))
+		camera->iter = 10;
+	if (camera->chunk)
+	{
+		free_chunk(camera->chunk, 1);
+		camera->chunk = 0;
+	}
+}
 
 void	update_camera(t_camera *camera)
 {
@@ -20,6 +32,7 @@ void	update_camera(t_camera *camera)
 			- ((camera->work_buffer.height / camera->scale) / 2));
 	camera->step.real = (1 / camera->scale);
 	camera->step.imag = (1 / camera->scale);
+	invalidate_chunks(camera);
 }
 
 void	zoom_camera(t_camera *camera, double scale)

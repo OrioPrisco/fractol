@@ -66,5 +66,6 @@ struct s_chunk_childs
 void	color_bound(t_img *img, t_chunk *chunk, int color);
 void	color_uniform_chunk(t_img *img, t_chunk *chunk, t_camera *camera);
 void	color_small_chunk(t_img *img, t_chunk *chunk, t_camera *camera);
+void	recolor_chunks(t_img *img, t_chunk *chunk, t_camera *camera);
 
 #endif

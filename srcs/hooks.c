@@ -45,15 +45,19 @@ int	my_loop_hook(t_env *env)
 void	draw(t_env *env)
 {
 	switch_frame(env);
-	mlx_clear_window(env->mlx, env->win);
-	free_chunk(env->camera.chunk, 1);
-	env->camera.chunk = 0;
 	if (env->camera.debug & DBG_WINDING)
 		draw_3b1b_dbg(env);
 	else
-		env->camera.chunk = boundary_trace_fractal
-			(&env->camera, env->iterator, &env->julia_c);
+	{
+		if (env->camera.chunk)
+			recolor_chunks
+				(&env->camera.work_buffer, env->camera.chunk, &env->camera);
+		else
+			env->camera.chunk = boundary_trace_fractal
+				(&env->camera, env->iterator, &env->julia_c);
+	}
 	cpy_img(env->frame, &env->camera.work_buffer);
+	mlx_clear_window(env->mlx, env->win);
 	mlx_put_image_to_window(
 		env->mlx, env->win, env->frame->img, 0, 0);
 }
@@ -79,30 +83,26 @@ int	quit_prg(t_env *env)
 
 int	my_mouse_hook(int button, int x, int y, t_env *env)
 {
-	printf("mouse event : %d \n", button);
 	if (button == 4)
 		zoom_camera(&env->camera, 1.1);
 	if (button == 5)
 		zoom_camera(&env->camera, 0.9);
 	if (button == 1 || button == 4)
-	{
 		move_camera(&env->camera,
 			complex(
 				(x - env->frame->width / 2) / button
 				/ (double)env->frame->width,
 				(y - env->frame->height / 2) / button
 				/ (double)env->frame->height));
-	}
 	if (button == 3)
 	{
 		env->julia_c = add_complex(env->camera.top_left,
 				complex(x * env->camera.step.real, y * env->camera.step.imag));
 		env->iterator = julia_iterate;
 	}
-	if (!(env->camera.debug & DBG_WINDING))
-		env->camera.iter = 10;
-	draw(env);
-	return (0);
+	if (button == 1 || button == 3 || button == 4 || button == 5)
+		invalidate_chunks(&env->camera);
+	return (draw(env), 0);
 }
 
 int	my_expose(t_env *env)
