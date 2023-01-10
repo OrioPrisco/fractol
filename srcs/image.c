@@ -31,8 +31,6 @@ void	img_put_line(t_img *img, t_line line)
 	}
 }
 
-//TODO : make a line putting function to save time ?
-//TODO : make an image copying function to help with image buffering
 void	my_mlx_pixel_put(t_img *img, size_t x, size_t y, int color)
 {
 	unsigned char	*dest;
