@@ -13,6 +13,7 @@
 NAME			=	fractol
 CC				=	cc
 SRC				=	main.c\
+					parse.c\
 					complex.c\
 					draw.c\
 					env.c\
@@ -39,6 +40,7 @@ HEADERS_FOLDER	=	includes/\
 					minilibx-linux/\
 					libft/includes/
 
+
 OBJS = $(patsubst %.c,$(OBJ_FOLDER)%.o,$(SRC))
 
 DEPENDS := $(patsubst %.c,$(OBJ_FOLDER)%.d,$(SRC))
@@ -47,8 +49,18 @@ all: $(NAME)
 
 bonus: all
 
-$(NAME): $(OBJS) $(LIBS)
-	cc $(CFLAGS) $(OBJS) -Llibft -lft -Lminilibx-linux -lmlx -lXext -lX11 -lm -lbsd -o $(NAME)
+
+minilibx-linux/libmlx.a:
+	make -C minilibx-linux MAKEFLAGS=
+
+libft/libft.a:
+	make -C libft
+
+libft/libftprintf.a:
+	make -C libft
+
+$(NAME): $(OBJS) minilibx-linux/libmlx.a libft/libft.a libft/libftprintf.a
+	cc $(CFLAGS) $(OBJS) -lftprintf -Llibft -lft -Lminilibx-linux -lmlx -lXext -lX11 -lm -lbsd -o $(NAME)
 
 -include $(DEPENDS)
 
@@ -56,10 +68,13 @@ $(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c Makefile
 	$(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) -MMD -MP $< -o $@
 
 clean:
-	rm -f $(OBJS) $(LIBS) $(DEPENDS)
+	rm -f $(OBJS) $(DEPENDS)
+	make -C libft clean
 
 fclean: clean
 	rm -f $(NAME)
+	make -C libft fclean
+	make -C minilibx-linux clean
 
 re: fclean all
 	

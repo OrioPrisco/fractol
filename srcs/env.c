@@ -239,10 +239,8 @@ static int	init_img(t_env *env, t_img *img, int width, int height)
 
 int	init_env(t_env *env)
 {
-	ft_bzero(env, sizeof(*env));
 	env->mlx = mlx_init();
 	env->frame = &env->frame1;
-	env->iterator = g_fractals[0];
 	if (!env->mlx)
 		return (1);
 	env->win = mlx_new_window(env->mlx, WIDTH, HEIGHT, "Fractol");

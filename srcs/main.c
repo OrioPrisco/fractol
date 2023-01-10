@@ -14,12 +14,15 @@
 #include "fractol.h"
 #include "fractol_hooks.h"
 #include <X11/X.h>
+#include "parse.h"
+#include "libft.h"
 
-int	main(void)
+int	main(int argc, char **argv)
 {
 	t_env	env;
 
-	if (init_env(&env))
+	ft_bzero(&env, sizeof(env));
+	if (parse(argc, argv, &env) || init_env(&env))
 		quit_prg(&env);
 	mlx_key_hook(env.win, &deal_key, &env);
 	mlx_expose_hook(env.win, my_expose, &env);
