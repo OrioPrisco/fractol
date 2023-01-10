@@ -14,6 +14,8 @@
 #include "fractals.h"
 #include "color_chunk.h"
 
+static const int	g_deepen_by = 3;
+
 static void	reiterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 	t_f_iterator *f, void *data)
 {
@@ -28,11 +30,11 @@ static void	reiterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 		i = 0;
 		while (i < chunk->dimensions[dir % 2])
 		{
-			if (chunk->borders[dir][i].iter == camera->iter - 1)
+			if (chunk->borders[dir][i].iter == camera->iter - g_deepen_by)
 			{
 				chunk->borders[dir][i].iter += f
 					(&chunk->borders[dir][i].z, chunk->borders[dir][i].c,
-						1, data);
+						g_deepen_by, data);
 			}
 			i++;
 		}
@@ -63,9 +65,6 @@ static int	deepen_chunk_r(t_camera *camera, t_chunk *chunk,
 	return (boundary_trace_fractal_r(camera, chunk, f, data));
 }
 
-//issue is both childs are iterating their shared borders
-//and it makes one of them not iterate further, making it think
-//it shouldn't deepen
 //pass by how much to deepen ?
 //returns 0 on success
 //returns 1 on failure, and destroys the t_chunk*
@@ -74,7 +73,7 @@ int	deepen_chunk(t_camera *camera, t_chunk *chunk,
 {
 	if (chunk->type != NORMAL)
 		return (0);
-	camera->iter++;
+	camera->iter += g_deepen_by;
 	reiterate_chunk_borders(camera, chunk, f, data);
 	if (deepen_chunk_r(camera, chunk, f, data))
 		return (free_chunk(chunk, 1), 1);
