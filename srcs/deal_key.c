@@ -38,9 +38,9 @@ static void	deal_key_dbg(int key, t_env *env)
 
 int	deal_key(int key, t_env *env)
 {
-	if (key == XK_p)
+	if (key == XK_p && env->camera.debug & DBG_WINDING)
 		env->camera.iter++;
-	if (key == XK_m)
+	if (key == XK_m && env->camera.debug & DBG_WINDING)
 		env->camera.iter--;
 	if (key == XK_8)
 		zoom_camera(&env->camera, 1.1);
