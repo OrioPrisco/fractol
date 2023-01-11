@@ -13,7 +13,7 @@
 #include "fractals.h"
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
-			void *data)
+			t_param *data)
 {
 	size_t		iter;
 	t_complex	num;

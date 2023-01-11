@@ -17,7 +17,7 @@
 static const int	g_deepen_by = 3;
 
 static void	reiterate_chunk_borders(t_camera *camera, t_chunk *chunk,
-	t_f_iterator *f, void *data)
+	t_f_iterator *f, t_param *data)
 {
 	t_direction	dir;
 	size_t		i;
@@ -42,10 +42,10 @@ static void	reiterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 }
 
 int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
-				t_f_iterator *f, void *data);
+				t_f_iterator *f, t_param *data);
 
 static int	deepen_chunk_r(t_camera *camera, t_chunk *chunk,
-	t_f_iterator *f, void *data)
+	t_f_iterator *f, t_param *data)
 {
 	if (camera->debug & DBG_SHOW_NO_DEEPEN && chunk->type != NORMAL)
 		return (color_bound(&camera->work_buffer, chunk, 0x000000ff), 0);
@@ -69,7 +69,7 @@ static int	deepen_chunk_r(t_camera *camera, t_chunk *chunk,
 //returns 0 on success
 //returns 1 on failure, and destroys the t_chunk*
 int	deepen_chunk(t_camera *camera, t_chunk *chunk,
-	t_f_iterator *f, void *data)
+	t_f_iterator *f, t_param *data)
 {
 	if (chunk->type != NORMAL)
 		return (0);

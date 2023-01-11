@@ -11,9 +11,10 @@
 /* ************************************************************************** */
 
 #include "fractals.h"
+#include "fractol.h"
 
 size_t	julia_iterate(t_complex *z, t_complex c, size_t iterations,
-			void *data)
+			t_param *data)
 {
 	t_complex	temp;
 	size_t		iter;
@@ -21,7 +22,7 @@ size_t	julia_iterate(t_complex *z, t_complex c, size_t iterations,
 	temp = c;
 	c = *z;
 	*z = temp;
-	iter = mandelbrot_iterate(&c, *(t_complex *)data, iterations, 0);
+	iter = mandelbrot_iterate(&c, data->julia_c, iterations, 0);
 	temp = c;
 	c = *z;
 	*z = temp;

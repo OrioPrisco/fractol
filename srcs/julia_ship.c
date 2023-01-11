@@ -11,9 +11,10 @@
 /* ************************************************************************** */
 
 #include "fractals.h"
+#include "fractol.h"
 
 size_t	julia_ship_iterate(t_complex *z, t_complex c, size_t iterations,
-			void *data)
+			t_param *data)
 {
 	t_complex	temp;
 	size_t		iter;

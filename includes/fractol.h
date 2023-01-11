@@ -19,6 +19,12 @@
 # include "camera.h"
 # include "fractals.h"
 
+typedef struct s_param
+{
+	t_complex	julia_c;
+	size_t		mandelbrot_heads;
+}	t_param;
+
 typedef struct s_env
 {
 	void			*win;
@@ -27,7 +33,7 @@ typedef struct s_env
 	t_img			frame1;
 	t_img			frame2;
 	t_camera		camera;
-	t_complex		julia_c;
+	t_param			params;
 	t_f_iterator	*iterator;
 }	t_env;
 

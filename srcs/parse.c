@@ -48,8 +48,8 @@ int	parse(int argc, char **argv, t_env *env)
 	{
 		if (argc < 4)
 			return (print_usage(NO_JULIA_PARAMS), 1);
-		if (ft_atod(argv[2], &env->julia_c.real)
-			|| ft_atod(argv[3], &env->julia_c.imag))
+		if (ft_atod(argv[2], &env->params.julia_c.real)
+			|| ft_atod(argv[3], &env->params.julia_c.imag))
 			return (print_usage(BAD_JULIA_PARAMS), 1);
 	}
 	return (0);

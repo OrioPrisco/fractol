@@ -19,20 +19,22 @@
 
 typedef struct s_chunk	t_chunk;
 typedef struct s_camera	t_camera;
-typedef size_t			t_f_iterator (t_complex *, t_complex, size_t, void *);
+typedef struct s_param	t_param;
+typedef size_t			t_f_iterator (t_complex *, t_complex, size_t,
+			t_param *);
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
-			void *data);
+			t_param *data);
 size_t	julia_iterate(t_complex *z, t_complex c, size_t iterations,
-			void *data);
+			t_param *data);
 size_t	burning_ship_iterate(t_complex *z, t_complex c, size_t iterations,
-			void *data);
+			t_param *data);
 size_t	julia_ship_iterate(t_complex *z, t_complex c, size_t iterations,
-			void *data);
+			t_param *data);
 t_chunk	*boundary_trace_fractal(t_camera *camera,
-			t_f_iterator *f, void *data);
+			t_f_iterator *f, t_param *data);
 int		deepen_chunk(t_camera *camera, t_chunk *chunk,
-			t_f_iterator *f, void *data);
+			t_f_iterator *f, t_param *data);
 //if you want to destroy a chunk given by boundary_trace_fractal, it is always
 //the top chunk. therefore set is_top_chunk to 1
 void	free_chunk(t_chunk *chunk, int is_top_chunk);

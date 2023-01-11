@@ -20,7 +20,7 @@
 #include "fractals.h"
 
 int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
-		t_f_iterator *f, void *data);
+		t_f_iterator *f, t_param *data);
 
 //TODO : if at any point in the iterations z is in one of these circles
 //       then it is definitely in the set
@@ -59,7 +59,7 @@ void	free_chunk(t_chunk	*chunk, int is_top_chunk)
 // stable, and might require infinitely many iterations
 // seems like iterative deepening is the way
 static void	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
-	t_f_iterator *f, void *data)
+	t_f_iterator *f, t_param *data)
 {
 	t_direction	dir;
 	size_t		i;
@@ -88,7 +88,7 @@ static void	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 }
 
 static int	subdivide_chunk(t_camera *camera, t_chunk *c,
-	t_f_iterator *f, void *data)
+	t_f_iterator *f, t_param *data)
 {
 	int				h;
 	t_chunk_childs	*childs;
@@ -118,7 +118,7 @@ static int	subdivide_chunk(t_camera *camera, t_chunk *c,
 }
 
 int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
-	t_f_iterator *f, void *data)
+	t_f_iterator *f, t_param *data)
 {
 	t_direction	dir;
 	size_t		i;
@@ -144,7 +144,7 @@ int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 }
 
 t_chunk	*boundary_trace_fractal(t_camera *camera,
-	t_f_iterator *f, void *data)
+	t_f_iterator *f, t_param *data)
 {
 	t_chunk	*chnk;
 
