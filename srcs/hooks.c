@@ -96,7 +96,10 @@ int	my_mouse_hook(int button, int x, int y, t_env *env)
 	{
 		env->julia_c = add_complex(env->camera.top_left,
 				complex(x * env->camera.step.real, y * env->camera.step.imag));
-		env->iterator = julia_iterate;
+		if (env->iterator == mandelbrot_iterate)
+			env->iterator = julia_iterate;
+		if (env->iterator == burning_ship_iterate)
+			env->iterator = julia_ship_iterate;
 	}
 	if (button == 1 || button == 3 || button == 4 || button == 5)
 		invalidate_chunks(&env->camera);
