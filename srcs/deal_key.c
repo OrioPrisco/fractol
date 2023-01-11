@@ -18,9 +18,10 @@
 
 static void	deal_key_dbg(int key, t_env *env)
 {
+	if (key == XK_F1 || key == XK_F8 || key == XK_F9)
+		invalidate_chunks(&env->camera);
 	if (key == XK_F1)
-		return (invalidate_chunks(&env->camera),
-			(void)(env->camera.debug = env->camera.debug ^ DBG_WINDING));
+			env->camera.debug = env->camera.debug ^ DBG_WINDING;
 	if (key == XK_F2)
 		env->camera.debug = env->camera.debug ^ DBG_CHUNK_BORDERS;
 	if (key == XK_F3)
@@ -34,6 +35,12 @@ static void	deal_key_dbg(int key, t_env *env)
 	if (key == XK_F7)
 		return (invalidate_chunks(&env->camera),
 			switch_fractal(&env->iterator));
+	if (key == XK_F8)
+		env->camera.debug = env->camera.debug ^ DBG_X_FLIP;
+	if (key == XK_F9)
+		env->camera.debug = env->camera.debug ^ DBG_Y_FLIP;
+	if (key == XK_F8 || key == XK_F9)
+		update_camera(&env->camera);
 }
 
 int	deal_key(int key, t_env *env)

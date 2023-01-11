@@ -26,12 +26,18 @@ void	invalidate_chunks(t_camera *camera)
 
 void	update_camera(t_camera *camera)
 {
+	if (camera->debug & DBG_X_FLIP)
+		camera->step.real = -(1 / camera->scale);
+	else
+		camera->step.real = (1 / camera->scale);
+	if (camera->debug & DBG_Y_FLIP)
+		camera->step.imag = (1 / camera->scale);
+	else
+		camera->step.imag = -(1 / camera->scale);
 	camera->top_left.real = (camera->center.real
-			- ((camera->work_buffer.width / camera->scale) / 2));
+			- ((camera->work_buffer.width * camera->step.real) / 2));
 	camera->top_left.imag = (camera->center.imag
-			- ((camera->work_buffer.height / camera->scale) / 2));
-	camera->step.real = (1 / camera->scale);
-	camera->step.imag = (1 / camera->scale);
+			- ((camera->work_buffer.height * camera->step.imag) / 2));
 	invalidate_chunks(camera);
 }
 
