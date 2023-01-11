@@ -1,30 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   julia.c                                            :+:      :+:    :+:   */
+/*   params.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/28 11:54:05 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/01/09 15:17:13 by OrioPrisc        ###   ########.fr       */
+/*   Created: 2023/01/11 19:38:35 by OrioPrisc         #+#    #+#             */
+/*   Updated: 2023/01/11 19:39:31 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fractals.h"
-#include "params.h"
+#ifndef PARAMS_H
+# define PARAMS_H
 
-size_t	julia_iterate(t_complex *z, t_complex c, size_t iterations,
-			t_param *data)
+# include "complex.h"
+# include <stddef.h>
+
+typedef struct s_param
 {
-	t_complex	temp;
-	size_t		iter;
+	t_complex	julia_c;
+	size_t		mandelbrot_heads;
+}	t_param;
 
-	temp = c;
-	c = *z;
-	*z = temp;
-	iter = mandelbrot_iterate(&c, data->julia_c, iterations, 0);
-	temp = c;
-	c = *z;
-	*z = temp;
-	return (iter);
-}
+#endif

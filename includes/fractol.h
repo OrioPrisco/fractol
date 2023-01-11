@@ -18,12 +18,7 @@
 # include "fractol_image.h"
 # include "camera.h"
 # include "fractals.h"
-
-typedef struct s_param
-{
-	t_complex	julia_c;
-	size_t		mandelbrot_heads;
-}	t_param;
+# include "params.h"
 
 typedef struct s_env
 {
