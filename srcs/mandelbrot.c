@@ -11,19 +11,26 @@
 /* ************************************************************************** */
 
 #include "fractals.h"
+#include "params.h"
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
 			t_param *data)
 {
 	size_t		iter;
 	t_complex	num;
+	size_t		heads;
 
-	(void)data;
 	num = *z;
 	iter = iterations;
 	while (iter)
 	{
-		num = add_complex(square_complex(num), c);
+		heads = 0;
+		while (heads <= data->mandelbrot_heads)
+		{
+			num = square_complex(num);
+			heads++;
+		}
+		num = add_complex(num, c);
 		if (dist_origin_squared(num) > 4)
 			return (*z = num, iterations - iter);
 		iter--;

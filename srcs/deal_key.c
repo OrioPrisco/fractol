@@ -18,7 +18,8 @@
 
 static void	deal_key_dbg(int key, t_env *env)
 {
-	if (key == XK_F1 || key == XK_F8 || key == XK_F9)
+	if (key == XK_F1 || key == XK_F8 || key == XK_F9 || key == XK_m
+		|| key == XK_p)
 		invalidate_chunks(&env->camera);
 	if (key == XK_F1)
 			env->camera.debug = env->camera.debug ^ DBG_WINDING;
@@ -63,6 +64,10 @@ int	deal_key(int key, t_env *env)
 		move_camera(&env->camera, complex(0.05, 0));
 	if (key == XK_Escape)
 		quit_prg(env);
+	if (key == XK_p)
+		env->params.mandelbrot_heads++;
+	if (key == XK_m && env->params.mandelbrot_heads != 0)
+		env->params.mandelbrot_heads--;
 	deal_key_dbg(key, env);
 	draw(env);
 	return (0);

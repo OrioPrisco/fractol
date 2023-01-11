@@ -22,7 +22,7 @@ size_t	julia_iterate(t_complex *z, t_complex c, size_t iterations,
 	temp = c;
 	c = *z;
 	*z = temp;
-	iter = mandelbrot_iterate(&c, data->julia_c, iterations, 0);
+	iter = mandelbrot_iterate(&c, data->julia_c, iterations, data);
 	temp = c;
 	c = *z;
 	*z = temp;
