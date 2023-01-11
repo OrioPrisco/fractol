@@ -26,7 +26,8 @@ static void	print_usage(t_parse_error error)
 		ft_printf("Error : Julia requires 2 parameters\n");
 	if (error == BAD_JULIA_PARAMS)
 		ft_printf("Error : Arguments for Julia have to be doubles\n");
-	ft_printf("Usage : ./fractol <mandelbrot|julia|ship> <params>\n");
+	ft_printf
+		("Usage : ./fractol <mandelbrot|julia|ship|julia_ship> <params>\n");
 }
 
 int	parse(int argc, char **argv, t_env *env)
@@ -39,9 +40,11 @@ int	parse(int argc, char **argv, t_env *env)
 		env->iterator = julia_iterate;
 	else if (!ft_strcmp(argv[1], "ship"))
 		env->iterator = burning_ship_iterate;
+	else if (!ft_strcmp(argv[1], "julia_ship"))
+		env->iterator = julia_ship_iterate;
 	else
 		return (print_usage(BAD_FRACTAL_NAME), 1);
-	if (env->iterator == julia_iterate)
+	if (env->iterator == julia_iterate || env->iterator == julia_ship_iterate)
 	{
 		if (argc < 4)
 			return (print_usage(NO_JULIA_PARAMS), 1);

@@ -23,6 +23,7 @@ SRC				=	main.c\
 					mandelbrot.c\
 					julia.c\
 					burning_ship.c\
+					julia_ship.c\
 					debug.c\
 					camera.c\
 					winding.c\
