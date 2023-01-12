@@ -14,7 +14,6 @@
 #include "libft.h"
 #include "color_chunk.h"
 #include <stdlib.h>
-#include <stdio.h>
 #include "mlx.h"
 #include "winding.h"
 #include "fractals.h"
