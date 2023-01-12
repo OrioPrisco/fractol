@@ -21,15 +21,6 @@
 int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 		t_f_iterator *f, t_param *data);
 
-//TODO : if at any point in the iterations z is in one of these circles
-//       then it is definitely in the set
-//       or maybe not
-//       maybe only check this after at least 10/20 iterations,
-//       then i think it's safe
-//       make my own tools to check that
-const t_complex	g_offset = {0.25, 0}; // dist = 0.5 // 
-const t_complex	g_offset2 = {0, 0}; // dist = 0.25 //super cheap to check
-
 void	free_chunk(t_chunk	*chunk, int is_top_chunk)
 {
 	t_direction	dir;
@@ -50,13 +41,6 @@ void	free_chunk(t_chunk	*chunk, int is_top_chunk)
 		free(chunk);
 }
 
-//TODO : determine how many iterations are stricly required for crtain scale
-//       and how many are recommended. Then increase iterations 
-//       in the background when you have nothing to do
-// depending on where we are, values are more or less stable
-// near the tangent part of the cardiod and 1st continent, values are very
-// stable, and might require infinitely many iterations
-// seems like iterative deepening is the way
 static void	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 	t_f_iterator *f, t_param *data)
 {
@@ -111,9 +95,8 @@ static int	subdivide_chunk(t_camera *camera, t_chunk *c,
 		(((char *)childs) + sizeof(*childs));
 	childs->c2.borders[(R - h) % 4] = childs->c1.borders[(LEFT - h) % 4];
 	iterate_chunk_borders(camera, &childs->c1, f, data);
-	boundary_trace_fractal_r(camera, &childs->c1, f, data);
-	boundary_trace_fractal_r(camera, &childs->c2, f, data);
-	return (0);
+	return (boundary_trace_fractal_r(camera, &childs->c1, f, data)
+		|| boundary_trace_fractal_r(camera, &childs->c2, f, data));
 }
 
 int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
