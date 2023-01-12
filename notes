@@ -1,6 +1,10 @@
 Possible optimizations :
 	Find chunks whose points are always in the set, and mark them
 	Maybe do the same for individual iterations ?
+	bit tricks like replacing % 2 with & 0x1
+	Randomly attempt to calculate all values for a chunk, in an attempt to detect damage
+		I noticed there's some very slight damage on the colored part on a few julia sets
+		and this could help repair the burning ship too
 Possible upgrades:
 	When zooming, only display camera's buffer once things settle down a little
 		possibly make this togglable via a function key
@@ -12,3 +16,13 @@ Possible upgrades:
 		without the norm losing its mind.
 		that struct could contain info about what kind of optimizations work
 		like boundary/chunk tracing or marching square.
+		or which fractal is the corresponding julia fractal if any
+	Menu that shows values and what the keys do
+	Implement proper power function for complex numbers and use it on the mandelbrot set
+		Can even use non integer values to get a super cool animation
+			Probably disable zoom ? and don't blit the camera until enough iterations have been calculated
+	Have julia constantly update based on Pointer position ?
+		Or have the right click toggle animation Mode ?
+			same comments as for mandelbrot animations
+Cleanup:
+	Put some of the very blocky code (mostly in draw.c) into separate functions for lisibility
