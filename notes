@@ -8,3 +8,7 @@ Possible upgrades:
 		could work really well if combined with previous point
 	Add some post processing effect ?
 		color_bounds could then be done in post processing for example
+	Now that t_f_iterator is a typedef, can probably make a fractal struct
+		without the norm losing its mind.
+		that struct could contain info about what kind of optimizations work
+		like boundary/chunk tracing or marching square.
