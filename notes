@@ -24,5 +24,7 @@ Possible upgrades:
 	Have julia constantly update based on Pointer position ?
 		Or have the right click toggle animation Mode ?
 			same comments as for mandelbrot animations
+	Show a dot for where the current julia c is
+		togglable ?
 Cleanup:
 	Put some of the very blocky code (mostly in draw.c) into separate functions for lisibility
