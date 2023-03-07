@@ -30,7 +30,7 @@ size_t	burning_ship_iterate(t_complex *z, t_complex c, size_t iterations,
 						fabsl(num.real),
 						fabsl(num.imag))),
 				c);
-		if (dist_origin_squared(num) > 4)
+		if (complex_mod2(num) > 4)
 			return (*z = num, iterations - iter);
 		iter--;
 	}

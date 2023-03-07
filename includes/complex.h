@@ -24,7 +24,8 @@ typedef struct s_complex
 struct					s_env;
 typedef struct s_env	t_env;
 
-t_complex_part		dist_origin_squared(t_complex num);
+t_complex_part		complex_mod2(t_complex num);
+t_complex_part		complex_mod(t_complex num);
 t_complex			add_complex(t_complex c1, t_complex c2);
 t_complex			square_complex(t_complex num);
 t_complex			calculate_top_left(t_env *env);

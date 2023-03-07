@@ -15,14 +15,15 @@
 #include "color_chunk.h"
 #include <math.h>
 
-const static t_complex_part	g_tau = 2 * M_PI;
+static const t_complex_part	g_tau = 2 * M_PI;
 
 static t_complex_part	get_angle(t_complex num)
 {
 	if (num.imag < 0)
-		return (acos(num.real / sqrt(dist_origin_squared(num))));
-	return (2 * M_PI - acos(num.real / sqrt(dist_origin_squared(num))));
+		return (acos(num.real / complex_mod(num)));
+	return (2 * M_PI - acos(num.real / complex_mod(num)));
 }
+
 
 static int	angle_to_color(t_complex_part angle)
 {

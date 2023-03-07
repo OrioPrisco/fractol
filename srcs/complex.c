@@ -11,8 +11,14 @@
 /* ************************************************************************** */
 
 #include "complex.h"
+#include "math.h"
 
-t_complex_part	dist_origin_squared(t_complex num)
+t_complex_part	complex_mod(t_complex num)
+{
+	return (sqrtl(num.real * num.real + num.imag * num.imag));
+}
+
+t_complex_part	complex_mod2(t_complex num)
 {
 	return (num.real * num.real + num.imag * num.imag);
 }
