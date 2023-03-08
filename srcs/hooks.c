@@ -26,7 +26,7 @@ int	my_loop_hook(t_env *env)
 	if (env->camera.chunk && env->camera.iter != SIZE_MAX)
 	{
 		if (deepen_chunk(&env->camera, env->camera.chunk,
-				env->fractal->iterate, &env->params))
+				env->fractal, &env->params))
 		{
 			free_chunk(env->camera.chunk, 1);
 			env->camera.chunk = 0;
@@ -50,7 +50,7 @@ void	draw(t_env *env)
 				(&env->camera.work_buffer, env->camera.chunk, &env->camera);
 		else
 			env->camera.chunk = boundary_trace_fractal
-				(&env->camera, env->fractal->iterate, &env->params);
+				(&env->camera, env->fractal, &env->params);
 	}
 	cpy_img(env->frame, &env->camera.work_buffer);
 	mlx_clear_window(env->mlx, env->win);

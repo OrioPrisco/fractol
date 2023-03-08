@@ -19,7 +19,7 @@
 #include "fractals.h"
 
 int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
-		t_f_iterator *f, t_param *data);
+		const t_fractal *fractal, t_param *data);
 
 void	free_chunk(t_chunk	*chunk, int is_top_chunk)
 {
@@ -42,7 +42,7 @@ void	free_chunk(t_chunk	*chunk, int is_top_chunk)
 }
 
 static void	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
-	t_f_iterator *f, t_param *data)
+	const t_fractal *fractal, t_param *data)
 {
 	t_direction	dir;
 	size_t		i;
@@ -63,15 +63,16 @@ static void	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 					complex(chunk->top_left[0] * camera->step.real,
 						chunk->top_left[1] * camera->step.imag));
 			chunk->borders[dir][i].c = chunk->borders[dir][i].z;
-			chunk->borders[dir][i].iter = f(&chunk->borders[dir][i].z,
-					chunk->borders[dir][i].z, camera->iter, data);
+			chunk->borders[dir][i].iter = fractal->iterate
+				(&chunk->borders[dir][i].z, chunk->borders[dir][i].z,
+					camera->iter, data);
 			i++;
 		}
 	}
 }
 
 static int	subdivide_chunk(t_camera *camera, t_chunk *c,
-	t_f_iterator *f, t_param *data)
+	const t_fractal *fractal, t_param *data)
 {
 	int				h;
 	t_chunk_childs	*childs;
@@ -94,13 +95,13 @@ static int	subdivide_chunk(t_camera *camera, t_chunk *c,
 	childs->c1.borders[(L - h) % 4] = (t_iter_result *)
 		(((char *)childs) + sizeof(*childs));
 	childs->c2.borders[(R - h) % 4] = childs->c1.borders[(LEFT - h) % 4];
-	iterate_chunk_borders(camera, &childs->c1, f, data);
-	return (boundary_trace_fractal_r(camera, &childs->c1, f, data)
-		|| boundary_trace_fractal_r(camera, &childs->c2, f, data));
+	iterate_chunk_borders(camera, &childs->c1, fractal, data);
+	return (boundary_trace_fractal_r(camera, &childs->c1, fractal, data)
+		|| boundary_trace_fractal_r(camera, &childs->c2, fractal, data));
 }
 
 int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
-	t_f_iterator *f, t_param *data)
+	const t_fractal *fractal, t_param *data)
 {
 	t_direction	dir;
 	size_t		i;
@@ -115,18 +116,18 @@ int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 		while (i < chunk->dimensions[dir % 2])
 		{
 			if (chunk->borders[0][0].iter != chunk->borders[dir][i].iter)
-				return (subdivide_chunk(camera, chunk, f, data));
+				return (subdivide_chunk(camera, chunk, fractal, data));
 			i++;
 		}
 	}
 	if (chunk->borders[0][0].iter != camera->iter && contains_zero(chunk))
-		return (subdivide_chunk(camera, chunk, f, data));
+		return (subdivide_chunk(camera, chunk, fractal, data));
 	return (color_uniform_chunk
 		(&camera->work_buffer, chunk, camera), 0);
 }
 
 t_chunk	*boundary_trace_fractal(t_camera *camera,
-	t_f_iterator *f, t_param *data)
+	const t_fractal *fractal, t_param *data)
 {
 	t_chunk	*chnk;
 
@@ -142,8 +143,8 @@ t_chunk	*boundary_trace_fractal(t_camera *camera,
 	if (!chnk->borders[U] || !chnk->borders[L] || !chnk->borders[D]
 		|| !chnk->borders[R])
 		return (free_chunk(chnk, 1), NULL);
-	iterate_chunk_borders(camera, chnk, f, data);
-	if (boundary_trace_fractal_r(camera, chnk, f, data))
+	iterate_chunk_borders(camera, chnk, fractal, data);
+	if (boundary_trace_fractal_r(camera, chnk, fractal, data))
 		return (free_chunk(chnk, 1), NULL);
 	return (chnk);
 }
