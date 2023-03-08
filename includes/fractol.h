@@ -19,6 +19,7 @@
 # include "camera.h"
 # include "fractals.h"
 # include "params.h"
+# include <stdbool.h>
 
 typedef struct s_env
 {
@@ -29,12 +30,14 @@ typedef struct s_env
 	t_img			frame2;
 	t_camera		camera;
 	t_param			params;
-	t_f_iterator	*iterator;
+	const t_fractal	*fractal;
 }	t_env;
 
 int		init_env(t_env *env);
 void	switch_frame(t_env *env);
 void	next_palette(t_palette *palette);
-void	switch_fractal(t_f_iterator **env);
+void	switch_fractal(const t_fractal **env);
+bool	assign_fractal(const char *name, const t_fractal **fractal);
+void	default_palette(t_palette *palette);
 
 #endif

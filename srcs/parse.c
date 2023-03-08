@@ -34,17 +34,9 @@ int	parse(int argc, char **argv, t_env *env)
 {
 	if (argc < 2)
 		return (print_usage(NO_FRACTAL_NAME), 1);
-	if (!ft_strcmp(argv[1], "mandelbrot"))
-		env->iterator = mandelbrot_iterate;
-	else if (!ft_strcmp(argv[1], "julia"))
-		env->iterator = julia_iterate;
-	else if (!ft_strcmp(argv[1], "ship"))
-		env->iterator = burning_ship_iterate;
-	else if (!ft_strcmp(argv[1], "julia_ship"))
-		env->iterator = julia_ship_iterate;
-	else
+	if (assign_fractal(argv[1], &env->fractal))
 		return (print_usage(BAD_FRACTAL_NAME), 1);
-	if (env->iterator == julia_iterate || env->iterator == julia_ship_iterate)
+	if (!ft_strncmp("julia", argv[1], ft_strlen("julia")))
 	{
 		if (argc < 4)
 			return (print_usage(NO_JULIA_PARAMS), 1);

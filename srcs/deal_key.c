@@ -35,7 +35,7 @@ static void	deal_key_dbg(int key, t_env *env)
 		env->camera.palette.color_shift ++;
 	if (key == XK_F7)
 		return (invalidate_chunks(&env->camera),
-			switch_fractal(&env->iterator));
+			switch_fractal(&env->fractal));
 	if (key == XK_F8)
 		env->camera.debug = env->camera.debug ^ DBG_X_FLIP;
 	if (key == XK_F9)

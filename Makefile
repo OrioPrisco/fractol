@@ -29,6 +29,7 @@ SRC				=	main.c\
 					winding.c\
 					image.c\
 					deepen.c\
+					palette.c\
 
 
 OBJ_FOLDER		=	objs/

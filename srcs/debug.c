@@ -24,7 +24,6 @@ static t_complex_part	get_angle(t_complex num)
 	return (2 * M_PI - acos(num.real / complex_mod(num)));
 }
 
-
 static int	angle_to_color(t_complex_part angle)
 {
 	int	red;
@@ -71,7 +70,8 @@ void	draw_3b1b_dbg(t_env *env)
 			c.real = env->camera.top_left.real + x * env->camera.step.real;
 			c.imag = env->camera.top_left.imag + y * env->camera.step.imag;
 			z = c;
-			iter = env->iterator(&z, c, env->camera.iter + 1, &env->params);
+			iter = env->fractal->iterate
+				(&z, c, env->camera.iter + 1, &env->params);
 			if (iter == (size_t)env->camera.iter + 1)
 				my_mlx_pixel_put(&env->camera.work_buffer, x, y, 0x0);
 			else

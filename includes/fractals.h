@@ -17,11 +17,21 @@
 # include "complex.h"
 # include <stddef.h>
 
-typedef struct s_chunk	t_chunk;
-typedef struct s_camera	t_camera;
-typedef struct s_param	t_param;
-typedef size_t			t_f_iterator (t_complex *, t_complex, size_t,
+typedef struct s_chunk		t_chunk;
+typedef struct s_camera		t_camera;
+typedef struct s_param		t_param;
+typedef struct s_fractal	t_fractal;
+typedef size_t				t_f_iterator (t_complex *, t_complex, size_t,
 			t_param *);
+
+//leave julia to null if this is a julia function
+typedef struct s_fractal
+{
+	t_f_iterator	*iterate;
+	const t_fractal	*julia;
+	//damage repair fct
+	//smooth color function
+}	t_fractal;
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
 			t_param *data);
