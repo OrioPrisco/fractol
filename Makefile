@@ -20,6 +20,7 @@ SRC				=	main.c\
 					hooks.c\
 					deal_key.c\
 					color_chunk.c\
+					color.c\
 					mandelbrot.c\
 					julia.c\
 					burning_ship.c\

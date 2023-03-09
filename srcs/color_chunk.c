@@ -13,14 +13,7 @@
 #include "color_chunk.h"
 #include "fractol_image.h"
 #include "camera.h"
-
-static int	get_color(size_t iter, t_camera *camera)
-{
-	if (iter == camera->iter)
-		return (0);
-	return (camera->palette.data->colors[(iter + camera->palette.color_shift)
-			% camera->palette.data->number_of_colors]);
-}
+#include "color.h"
 
 void	color_bound(t_img *img, t_chunk *chunk, int color)
 {
