@@ -13,6 +13,7 @@
 #include "mlx.h"
 #include "fractol.h"
 #include "libft.h"
+#include "winding.h"
 
 /*
 static t_f_iterator *const	g_fractals[] = {
@@ -26,18 +27,26 @@ static t_f_iterator *const	g_fractals[] = {
 static const t_fractal	g_julia = {
 	julia_iterate,
 	NULL,
+	contains_zero,
+	NULL,
 };
 static const t_fractal	g_mandelbrot = {
 	mandelbrot_iterate,
 	&g_julia,
+	contains_zero,
+	mandelbrot_smooth,
 };
 static const t_fractal	g_julia_ship = {
 	julia_ship_iterate,
+	NULL,
+	NULL,
 	NULL,
 };
 static const t_fractal	g_burning_ship = {
 	burning_ship_iterate,
 	&g_julia_ship,
+	NULL,
+	NULL,
 };
 
 static const t_fractal	*g_fractals[] = {

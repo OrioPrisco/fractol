@@ -120,7 +120,8 @@ int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 			i++;
 		}
 	}
-	if (chunk->borders[0][0].iter != camera->iter && contains_zero(chunk))
+	if (chunk->borders[0][0].iter != camera->iter
+		&& fractal->should_repair && fractal->should_repair(chunk))
 		return (subdivide_chunk(camera, chunk, fractal, data));
 	return (color_uniform_chunk
 		(&camera->work_buffer, chunk, camera), 0);

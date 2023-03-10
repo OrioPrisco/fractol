@@ -24,18 +24,24 @@ typedef struct s_param		t_param;
 typedef struct s_fractal	t_fractal;
 typedef size_t				t_f_iterator (t_complex *, t_complex, size_t,
 			t_param *);
+typedef int					t_f_repair (t_chunk *);
+typedef int					t_f_smooth (size_t, t_complex, t_camera *);
 
 //leave julia to null if this is a julia function
+//TODO : specify what kinf of optimization should be used by default
+//leave should_repair null if fractal cannot be repaired
+//smooth color currently unused
 typedef struct s_fractal
 {
 	t_f_iterator	*iterate;
 	const t_fractal	*julia;
-	//damage repair fct
-	//smooth color function
+	t_f_repair		*should_repair;
+	t_f_smooth		*smooth_color;
 }	t_fractal;
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
 			t_param *data);
+int		mandelbrot_smooth(size_t iter, t_complex z, t_camera *camera);
 size_t	julia_iterate(t_complex *z, t_complex c, size_t iterations,
 			t_param *data);
 size_t	burning_ship_iterate(t_complex *z, t_complex c, size_t iterations,
