@@ -29,5 +29,4 @@ t_complex_part		complex_mod(t_complex num);
 t_complex			add_complex(t_complex c1, t_complex c2);
 t_complex			square_complex(t_complex num);
 t_complex			calculate_top_left(t_env *env);
-t_complex			complex(t_complex_part real, t_complex_part imag);
 #endif
