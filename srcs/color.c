@@ -12,7 +12,7 @@
 
 #include "camera.h"
 #include "color.h"
-#include "math.h"
+#include  <math.h>
 
 int	get_color(size_t iter, t_camera *camera)
 {
