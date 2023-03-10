@@ -16,6 +16,7 @@
 //the definition of t_complex is needed
 # include "complex.h"
 # include <stddef.h>
+# define RADIUS 6
 
 typedef struct s_chunk		t_chunk;
 typedef struct s_camera		t_camera;

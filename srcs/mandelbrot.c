@@ -31,7 +31,7 @@ size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
 			heads++;
 		}
 		num = add_complex(num, c);
-		if (complex_mod2(num) > 4)
+		if (complex_mod2(num) > (RADIUS * RADIUS))
 			return (*z = num, iterations - iter);
 		iter--;
 	}
