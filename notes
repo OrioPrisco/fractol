@@ -12,11 +12,6 @@ Possible upgrades:
 		could work really well if combined with previous point
 	Add some post processing effect ?
 		color_bounds could then be done in post processing for example
-	Now that t_f_iterator is a typedef, can probably make a fractal struct
-		without the norm losing its mind.
-		that struct could contain info about what kind of optimizations work
-		like boundary/chunk tracing or marching square.
-		or which fractal is the corresponding julia fractal if any
 	Menu that shows values and what the keys do
 	Implement proper power function for complex numbers and use it on the mandelbrot set
 		Can even use non integer values to get a super cool animation
@@ -25,6 +20,7 @@ Possible upgrades:
 		Or have the right click toggle animation Mode ?
 			same comments as for mandelbrot animations
 	Show a dot for where the current julia c is
+		shift + mov keys to move julia c by step.real/imag ?
 		togglable ?
 Cleanup:
 	Put some of the very blocky code (mostly in draw.c) into separate functions for lisibility
