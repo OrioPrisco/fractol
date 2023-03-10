@@ -52,21 +52,21 @@ static void	iterate_chunk_borders(t_camera *camera, t_chunk *chunk,
 	{
 		if (chunk->filled & (1 << dir))
 			continue ;
-		i = 0;
-		while (i < chunk->dimensions[dir % 2])
+		i = -1;
+		while (++i < chunk->dimensions[dir % 2])
 		{
-			chunk->borders[dir][i].z = add_complex(add_complex(
-						camera->top_left, complex
-						(((dir == 3) * chunk->dimensions[0] + i * (!(dir % 2)))
-							* camera->step.real, ((dir == D) * chunk->dimensions
-							[1] + i * (dir % 2)) * camera->step.imag)),
-					complex(chunk->top_left[0] * camera->step.real,
-						chunk->top_left[1] * camera->step.imag));
+			chunk->borders[dir][i].z = add_complex(
+					add_complex(camera->top_left, (t_complex){
+						((dir == 3) * chunk->dimensions[0] + i * !(dir % 2))
+						* camera->step.real,
+						((dir == D) * chunk->dimensions[1] + i * (dir % 2))
+						* camera->step.imag}),
+					(t_complex){chunk->top_left[0] * camera->step.real,
+					chunk->top_left[1] * camera->step.imag});
 			chunk->borders[dir][i].c = chunk->borders[dir][i].z;
 			chunk->borders[dir][i].iter = fractal->iterate
 				(&chunk->borders[dir][i].z, chunk->borders[dir][i].z,
 					camera->iter, data);
-			i++;
 		}
 	}
 }

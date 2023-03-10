@@ -26,9 +26,9 @@ size_t	burning_ship_iterate(t_complex *z, t_complex c, size_t iterations,
 	{
 		num = add_complex(
 				square_complex(
-					complex(
-						fabsl(num.real),
-						fabsl(num.imag))),
+					(t_complex){
+					fabsl(num.real),
+					fabsl(num.imag)}),
 				c);
 		if (complex_mod2(num) > 4)
 			return (*z = num, iterations - iter);

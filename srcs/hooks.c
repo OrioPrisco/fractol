@@ -85,15 +85,15 @@ int	my_mouse_hook(int button, int x, int y, t_env *env)
 		zoom_camera(&env->camera, 0.9);
 	if (button == 1 || button == 4)
 		move_camera(&env->camera,
-			complex(
-				(x - env->frame->width / 2) / button
-				/ (double)env->frame->width,
-				(y - env->frame->height / 2) / button
-				/ (double)env->frame->height));
+			(t_complex){
+			(x - env->frame->width / 2) / button
+			/ (double)env->frame->width,
+			(y - env->frame->height / 2) / button
+			/ (double)env->frame->height});
 	if (button == 3)
 	{
-		env->params.julia_c = add_complex(env->camera.top_left,
-				complex(x * env->camera.step.real, y * env->camera.step.imag));
+		env->params.julia_c = add_complex(env->camera.top_left, (t_complex)
+			{x * env->camera.step.real, y * env->camera.step.imag});
 		if (env->fractal->julia)
 			env->fractal = env->fractal->julia;
 	}

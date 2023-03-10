@@ -55,13 +55,13 @@ int	deal_key(int key, t_env *env)
 	if (key == XK_slash)
 		zoom_camera(&env->camera, 0.9);
 	if (key == XK_w || key == XK_Up)
-		move_camera(&env->camera, complex(0, -0.05));
+		move_camera(&env->camera, (t_complex){0, -0.05});
 	if (key == XK_s || key == XK_Down)
-		move_camera(&env->camera, complex(0, 0.05));
+		move_camera(&env->camera, (t_complex){0, 0.05});
 	if (key == XK_a || key == XK_Left)
-		move_camera(&env->camera, complex(-0.05, 0));
+		move_camera(&env->camera, (t_complex){-0.05, 0});
 	if (key == XK_d || key == XK_Right)
-		move_camera(&env->camera, complex(0.05, 0));
+		move_camera(&env->camera, (t_complex){0.05, 0});
 	if (key == XK_Escape)
 		quit_prg(env);
 	if (key == XK_p)
