@@ -18,6 +18,8 @@
 typedef enum e_debug			t_debug;
 typedef struct s_img			t_img;
 typedef struct s_camera			t_camera;
+typedef struct s_fractal		t_fractal;
+typedef struct s_param			t_param;
 
 typedef enum e_direction {
 	UP = 0,
@@ -67,5 +69,7 @@ void	color_bound(t_img *img, t_chunk *chunk, int color);
 void	color_uniform_chunk(t_img *img, t_chunk *chunk, t_camera *camera);
 void	color_small_chunk(t_img *img, t_chunk *chunk, t_camera *camera);
 void	recolor_chunks(t_img *img, t_chunk *chunk, t_camera *camera);
+void	color_smooth_chunk(t_img *img, t_chunk *chunk, t_camera *camera,
+			const t_fractal *fractal);
 
 #endif

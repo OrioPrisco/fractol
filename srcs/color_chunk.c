@@ -14,6 +14,9 @@
 #include "fractol_image.h"
 #include "camera.h"
 #include "color.h"
+#include "fractals.h"
+#include "fractol.h"
+#include "mlx.h"
 
 void	color_bound(t_img *img, t_chunk *chunk, int color)
 {
@@ -99,4 +102,32 @@ void	recolor_chunks(t_img *img, t_chunk *chunk, t_camera *camera)
 	if (chunk->type == UNIFORM)
 		return ((void)color_uniform_chunk(img, chunk, camera));
 	color_small_chunk(img, chunk, camera);
+}
+
+void	color_smooth_chunk(t_img *img, t_chunk *chunk, t_camera *camera,
+	const t_fractal *fractal)
+{
+	size_t		i;
+	t_complex	z;
+	size_t		iter;
+
+	if (!fractal->smooth_color)
+		return (color_small_chunk(img, chunk, camera));
+	i = 0;
+	while (i < (chunk->dimensions[0] * chunk->dimensions[1]))
+	{
+		z = add_complex(add_complex(camera->top_left, (t_complex){
+					(i % chunk->dimensions[0]) * camera->step.real,
+					(i / chunk->dimensions[0]) * camera->step.imag}),
+				(t_complex){chunk->top_left[0] * camera->step.real,
+				chunk->top_left[1] * camera->step.imag});
+		iter = fractal->iterate(&z, z, camera->iter, &camera->params);
+		my_mlx_pixel_put(img,
+			chunk->top_left[0] + (i % chunk->dimensions[0]),
+			chunk->top_left[1] + (i / chunk->dimensions[0]),
+			fractal->smooth_color(iter, z, camera));
+		i++;
+	}
+	if (camera->debug & DBG_CHUNK_BORDERS)
+		color_bound(img, chunk, 0x00ff0000);
 }

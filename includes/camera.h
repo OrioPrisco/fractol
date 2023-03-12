@@ -39,6 +39,7 @@ typedef enum e_debug
 	DBG_SHOW_NO_DEEPEN = 1 << 3,
 	DBG_X_FLIP = 1 << 4,
 	DBG_Y_FLIP = 1 << 5,
+	DBG_SMOOTH_COLOR = 1 << 6,
 }	t_debug;
 
 typedef struct s_camera
