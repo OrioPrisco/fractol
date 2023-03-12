@@ -65,9 +65,9 @@ int	deal_key(int key, t_env *env)
 	if (key == XK_Escape)
 		quit_prg(env);
 	if (key == XK_p)
-		env->params.mandelbrot_heads++;
-	if (key == XK_m && env->params.mandelbrot_heads != 0)
-		env->params.mandelbrot_heads--;
+		env->camera.params.mandelbrot_heads++;
+	if (key == XK_m && env->camera.params.mandelbrot_heads != 0)
+		env->camera.params.mandelbrot_heads--;
 	deal_key_dbg(key, env);
 	draw(env);
 	return (0);

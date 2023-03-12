@@ -15,6 +15,7 @@
 # include "complex.h"
 # include "fractol_image.h"
 # include <stddef.h>
+# include "params.h"
 
 typedef struct s_chunk		t_chunk;
 
@@ -51,6 +52,7 @@ typedef struct s_camera
 	t_debug		debug;
 	t_chunk		*chunk;
 	t_palette	palette;
+	t_param		params;
 }	t_camera;
 
 void	update_camera(t_camera *camera);

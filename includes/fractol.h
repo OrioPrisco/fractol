@@ -18,7 +18,6 @@
 # include "fractol_image.h"
 # include "camera.h"
 # include "fractals.h"
-# include "params.h"
 # include <stdbool.h>
 
 typedef struct s_env
@@ -29,7 +28,6 @@ typedef struct s_env
 	t_img			frame1;
 	t_img			frame2;
 	t_camera		camera;
-	t_param			params;
 	const t_fractal	*fractal;
 }	t_env;
 

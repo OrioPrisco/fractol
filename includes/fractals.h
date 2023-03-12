@@ -49,9 +49,9 @@ size_t	burning_ship_iterate(t_complex *z, t_complex c, size_t iterations,
 size_t	julia_ship_iterate(t_complex *z, t_complex c, size_t iterations,
 			t_param *data);
 t_chunk	*boundary_trace_fractal(t_camera *camera,
-			const t_fractal *f, t_param *data);
+			const t_fractal *f);
 int		deepen_chunk(t_camera *camera, t_chunk *chunk,
-			const t_fractal *f, t_param *data);
+			const t_fractal *f);
 //if you want to destroy a chunk given by boundary_trace_fractal, it is always
 //the top chunk. therefore set is_top_chunk to 1
 void	free_chunk(t_chunk *chunk, int is_top_chunk);
