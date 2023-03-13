@@ -126,7 +126,8 @@ int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 	if (chunk->borders[0][0].iter != camera->iter
 		&& fractal->should_repair && fractal->should_repair(chunk))
 		return (subdivide_chunk(camera, chunk, fractal));
-	if (camera->debug & DBG_SMOOTH_COLOR)
+	if (chunk->borders[0][0].iter != camera->iter
+		&& camera->debug & DBG_SMOOTH_COLOR)
 		return (color_smooth_chunk
 			(&camera->work_buffer, chunk, camera, fractal), 0);
 	return (color_uniform_chunk(&camera->work_buffer, chunk, camera), 0);
