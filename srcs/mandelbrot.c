@@ -45,6 +45,6 @@ int	mandelbrot_smooth(size_t iter, t_complex z, t_camera *camera)
 {
 	double	smooth_iter;
 
-	smooth_iter = iter + 1 - log(log(complex_mod(z))/log(RADIUS))/log(2.0f);
+	smooth_iter = iter + 1 - log(log(complex_mod(z)) / log(RADIUS)) / log(2.0f);
 	return (smooth_color(smooth_iter, camera));
 }

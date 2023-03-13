@@ -92,7 +92,8 @@ int	my_mouse_hook(int button, int x, int y, t_env *env)
 	if (button == 3)
 	{
 		env->camera.params.julia_c = add_complex(env->camera.top_left,
-			(t_complex){x * env->camera.step.real, y * env->camera.step.imag});
+				(t_complex)
+			{x * env->camera.step.real, y * env->camera.step.imag});
 		if (env->fractal->julia)
 			env->fractal = env->fractal->julia;
 	}
