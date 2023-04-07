@@ -35,7 +35,7 @@ SRC				=	main.c\
 
 OBJ_FOLDER		=	objs/
 
-CFLAGS			=	-Wall -Wextra -Werror -Ofast -flto
+CFLAGS			=	-Wall -Wextra -Werror -O2 -flto
 
 SRC_FOLDER		=	srcs/
 
