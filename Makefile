@@ -35,7 +35,7 @@ SRC				=	main.c\
 
 OBJ_FOLDER		=	objs/
 
-CFLAGS			=	-Wall -Wextra -Werror
+CFLAGS			=	-Wall -Wextra -Werror -Ofast -flto
 
 SRC_FOLDER		=	srcs/
 
@@ -46,9 +46,10 @@ HEADERS_FOLDER	=	includes/\
 
 OBJS = $(patsubst %.c,$(OBJ_FOLDER)%.o,$(SRC))
 
-DEPENDS := $(patsubst %.c,$(OBJ_FOLDER)%.d,$(SRC))
+DEPENDS		:=	$(patsubst %.c,$(OBJ_FOLDER)%.d,$(SRC))
+COMMANDS	:=	$(patsubst %.c,$(OBJ_FOLDER)%.cc,$(SRC))
 
-all: $(NAME)
+all: $(NAME) compile_commands.json
 
 bonus: all
 
@@ -67,15 +68,24 @@ $(NAME): $(OBJS) minilibx-linux/libmlx.a libft/libft.a libft/libftprintf.a
 
 -include $(DEPENDS)
 
-$(OBJ_FOLDER)%.o : $(SRC_FOLDER)%.c Makefile
-	$(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) -MMD -MP $< -o $@
+COMP_COMMAND = $(CC) -c $(CFLAGS) $(addprefix -I,$(HEADERS_FOLDER)) -MMD -MP $< -o $@
+CONCAT = awk 'FNR==1 && NR!=1 {print ","}{print}'
+
+$(OBJ_FOLDER)%.o $(OBJ_FOLDER)%.cc: $(SRC_FOLDER)%.c Makefile
+	$(COMP_COMMAND)
+	printf '{\n\t"directory" : "$(shell pwd)",\n\t"command" : "$(COMP_COMMAND)",\n\t"file" : "$<"\n}' > $(OBJ_FOLDER)$*.cc
+
+compile_commands.json : $(COMMANDS) Makefile
+	echo "[" > compile_commands.json
+	$(CONCAT) $(COMMANDS) >> compile_commands.json
+	echo "]" >> compile_commands.json
 
 clean:
-	rm -f $(OBJS) $(DEPENDS)
+	rm -f $(OBJS) $(DEPENDS) $(COMMANDS)
 	make -C libft clean
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) compile_commands.json
 	make -C libft fclean
 	make -C minilibx-linux clean
 
