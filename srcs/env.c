@@ -29,36 +29,42 @@ static const t_fractal	g_julia = {
 	NULL,
 	contains_zero,
 	NULL,
+	"julia",
 };
 static const t_fractal	g_mandelbrot = {
 	mandelbrot_iterate,
 	&g_julia,
 	contains_zero,
 	mandelbrot_smooth,
+	"mandelbrot",
 };
 static const t_fractal	g_metajulia = {
 	metajulia_iterate,
 	NULL,
 	contains_zero,
 	NULL,
+	"julia meta",
 };
 static const t_fractal	g_metamandelbrot = {
 	metamandelbrot_iterate,
 	&g_metajulia,
 	contains_zero,
 	NULL,
+	"metamandelbrot"
 };
 static const t_fractal	g_julia_ship = {
 	julia_ship_iterate,
 	NULL,
 	NULL,
 	NULL,
+	"julia ship",
 };
 static const t_fractal	g_burning_ship = {
 	burning_ship_iterate,
 	&g_julia_ship,
 	NULL,
 	NULL,
+	"ship",
 };
 
 static const t_fractal	*g_fractals[] = {
@@ -70,23 +76,14 @@ static const t_fractal	*g_fractals[] = {
 	&g_metajulia,
 };
 
-static const char		*g_fractal_names[] = {
-	"mandelbrot",
-	"julia",
-	"ship",
-	"julia ship",
-	"metamandelbrot",
-	"julia meta",
-};
-
 bool	assign_fractal(const char *name, const t_fractal **fractal)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < sizeof(g_fractal_names) / sizeof(*g_fractal_names))
+	while (i < sizeof(g_fractals) / sizeof(*g_fractals))
 	{
-		if (!ft_strcmp(name, g_fractal_names[i]))
+		if (!ft_strcmp(name, g_fractals[i]->name))
 		{
 			*fractal = g_fractals[i];
 			return (0);

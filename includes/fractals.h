@@ -37,6 +37,7 @@ typedef struct s_fractal
 	const t_fractal	*julia;
 	t_f_repair		*should_repair;
 	t_f_smooth		*smooth_color;
+	const char		*name;
 }	t_fractal;
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
