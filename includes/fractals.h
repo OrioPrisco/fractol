@@ -23,9 +23,9 @@ typedef struct s_camera		t_camera;
 typedef struct s_param		t_param;
 typedef struct s_fractal	t_fractal;
 typedef size_t				t_f_iterator (t_complex *, t_complex, size_t,
-			t_param *);
+			const t_param *);
 typedef int					t_f_repair (t_chunk *);
-typedef int					t_f_smooth (t_complex, t_camera *);
+typedef int					t_f_smooth (t_complex, const t_camera *);
 
 //leave julia to null if this is a julia function
 //TODO : specify what kinf of optimization should be used by default
@@ -41,18 +41,18 @@ typedef struct s_fractal
 }	t_fractal;
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
-			t_param *data);
-int		mandelbrot_smooth(t_complex z, t_camera *camera);
+			const t_param *data);
+int		mandelbrot_smooth(t_complex z, const t_camera *camera);
 size_t	julia_iterate(t_complex *z, t_complex c, size_t iterations,
-			t_param *data);
+			const t_param *data);
 size_t	metamandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
-			t_param *data);
+			const t_param *data);
 size_t	metajulia_iterate(t_complex *z, t_complex c, size_t iterations,
-			t_param *data);
+			const t_param *data);
 size_t	burning_ship_iterate(t_complex *z, t_complex c, size_t iterations,
-			t_param *data);
+			const t_param *data);
 size_t	julia_ship_iterate(t_complex *z, t_complex c, size_t iterations,
-			t_param *data);
+			const t_param *data);
 t_chunk	*boundary_trace_fractal(t_camera *camera,
 			const t_fractal *f);
 int		deepen_chunk(t_camera *camera, t_chunk *chunk,

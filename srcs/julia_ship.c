@@ -14,7 +14,7 @@
 #include "params.h"
 
 size_t	julia_ship_iterate(t_complex *z, t_complex c, size_t iterations,
-			t_param *data)
+			const t_param *data)
 {
 	(void)c;
 	return (burning_ship_iterate(z, *(t_complex *)data, iterations, 0));

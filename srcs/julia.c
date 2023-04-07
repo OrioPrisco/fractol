@@ -14,7 +14,7 @@
 #include "params.h"
 
 size_t	julia_iterate(t_complex *z, t_complex c, size_t iterations,
-			t_param *data)
+			const t_param *data)
 {
 	(void)c;
 	return (mandelbrot_iterate(z, data->julia_c, iterations, data));

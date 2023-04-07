@@ -17,7 +17,7 @@
 #include <math.h>
 
 size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
-			t_param *data)
+			const t_param *data)
 {
 	size_t		iter;
 	t_complex	num;
@@ -41,7 +41,7 @@ size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
 	return (*z = num, iterations);
 }
 
-int	mandelbrot_smooth(t_complex z, t_camera *camera)
+int	mandelbrot_smooth(t_complex z, const t_camera *camera)
 {
 	double	smooth_iter;
 	size_t	iter;

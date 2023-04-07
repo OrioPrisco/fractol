@@ -14,7 +14,7 @@
 #include "color.h"
 #include  <math.h>
 
-int	get_color(size_t iter, t_camera *camera)
+int	get_color(size_t iter, const t_camera *camera)
 {
 	if (iter == camera->iter)
 		return (0);
@@ -37,7 +37,7 @@ int	multiply_color(int color, double multiplication)
 	return ((red << 16) + (green << 8) + blue);
 }
 
-int	smooth_color(double smooth_iter, t_camera *camera)
+int	smooth_color(double smooth_iter, const t_camera *camera)
 {
 	long	iter_whole;
 	double	iter_decimal;

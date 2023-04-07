@@ -14,7 +14,7 @@
 #include <math.h>
 
 size_t	burning_ship_iterate(t_complex *z, t_complex c, size_t iterations,
-			t_param *data)
+			const t_param *data)
 {
 	size_t		iter;
 	t_complex	num;

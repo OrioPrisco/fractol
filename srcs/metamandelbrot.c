@@ -17,7 +17,7 @@
 #include <math.h>
 
 static t_complex	metamandelbrot(t_complex z, t_complex c, size_t lvl,
-	t_param *data)
+	const t_param *data)
 {
 	size_t	heads;
 
@@ -36,7 +36,7 @@ static t_complex	metamandelbrot(t_complex z, t_complex c, size_t lvl,
 }
 
 size_t	metamandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
-			t_param *data)
+			const t_param *data)
 {
 	size_t		iter;
 	t_complex	num;

@@ -17,8 +17,8 @@
 
 typedef struct s_camera	t_camera;
 
-int	get_color(size_t iter, t_camera *camera);
-int	smooth_color(double smooth_iter, t_camera *camera);
+int	get_color(size_t iter, const t_camera *camera);
+int	smooth_color(double smooth_iter, const t_camera *camera);
 int	multiply_color(int color, double multiplication);
 
 #endif
