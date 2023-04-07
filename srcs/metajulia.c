@@ -16,15 +16,6 @@
 size_t	metajulia_iterate(t_complex *z, t_complex c, size_t iterations,
 			t_param *data)
 {
-	t_complex	temp;
-	size_t		iter;
-
-	temp = c;
-	c = *z;
-	*z = temp;
-	iter = metamandelbrot_iterate(&c, data->julia_c, iterations, data);
-	temp = c;
-	c = *z;
-	*z = temp;
-	return (iter);
+	(void)c;
+	return (metamandelbrot_iterate(z, data->julia_c, iterations, data));
 }

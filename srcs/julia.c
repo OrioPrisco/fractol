@@ -16,15 +16,6 @@
 size_t	julia_iterate(t_complex *z, t_complex c, size_t iterations,
 			t_param *data)
 {
-	t_complex	temp;
-	size_t		iter;
-
-	temp = c;
-	c = *z;
-	*z = temp;
-	iter = mandelbrot_iterate(&c, data->julia_c, iterations, data);
-	temp = c;
-	c = *z;
-	*z = temp;
-	return (iter);
+	(void)c;
+	return (mandelbrot_iterate(z, data->julia_c, iterations, data));
 }

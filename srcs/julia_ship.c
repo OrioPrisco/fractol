@@ -16,15 +16,6 @@
 size_t	julia_ship_iterate(t_complex *z, t_complex c, size_t iterations,
 			t_param *data)
 {
-	t_complex	temp;
-	size_t		iter;
-
-	temp = c;
-	c = *z;
-	*z = temp;
-	iter = burning_ship_iterate(&c, *(t_complex *)data, iterations, 0);
-	temp = c;
-	c = *z;
-	*z = temp;
-	return (iter);
+	(void)c;
+	return (burning_ship_iterate(z, *(t_complex *)data, iterations, 0));
 }
