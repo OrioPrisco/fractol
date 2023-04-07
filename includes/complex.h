@@ -13,7 +13,7 @@
 #ifndef COMPLEX_H
 # define COMPLEX_H
 
-typedef double			t_complex_part;
+typedef long double			t_complex_part;
 
 typedef struct s_complex
 {
@@ -21,8 +21,8 @@ typedef struct s_complex
 	t_complex_part	imag;
 }	t_complex;
 
-struct					s_env;
-typedef struct s_env	t_env;
+struct						s_env;
+typedef struct s_env		t_env;
 
 t_complex_part		complex_mod2(t_complex num);
 t_complex_part		complex_mod(t_complex num);
