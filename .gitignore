@@ -8,3 +8,4 @@ a.out
 *.cc
 compile_commands.json
 fractol
+.gdb_history
