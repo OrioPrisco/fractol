@@ -27,7 +27,6 @@ int	julia_smooth(t_complex z, const t_camera *camera)
 {
 	double	smooth_iter;
 	size_t	i;
-//	size_t	ret;
 
 	i = 0;
 	smooth_iter = expl(-complex_mod(z));

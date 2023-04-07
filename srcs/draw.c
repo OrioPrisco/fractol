@@ -117,11 +117,8 @@ int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 	{
 		i = 0;
 		while (i < chunk->dimensions[dir % 2])
-		{
-			if (chunk->borders[0][0].iter != chunk->borders[dir][i].iter)
+			if (chunk->borders[0][0].iter != chunk->borders[dir][i++].iter)
 				return (subdivide_chunk(camera, chunk, fractal));
-			i++;
-		}
 	}
 	if (chunk->borders[0][0].iter != camera->iter
 		&& fractal->should_repair && fractal->should_repair(chunk))
