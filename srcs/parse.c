@@ -18,7 +18,7 @@
 
 //ideally, should join all the fractal name
 const static char	*g_fractals
-	= "<mandelbrot|julia|ship|julia|metamandelbrot|julia meta>";
+	= "<mandelbrot|julia|ship|julia ship|metamandelbrot|julia meta>";
 
 static void	print_usage(t_parse_error error)
 {
