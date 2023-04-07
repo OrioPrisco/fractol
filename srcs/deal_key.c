@@ -19,7 +19,7 @@
 static void	deal_key_dbg(int key, t_env *env)
 {
 	if (key == XK_F1 || key == XK_F8 || key == XK_F9 || key == XK_m
-		|| key == XK_p)
+		|| key == XK_p || key == XK_F3)
 		invalidate_chunks(&env->camera);
 	if (key == XK_F1)
 			env->camera.debug = env->camera.debug ^ DBG_WINDING;
