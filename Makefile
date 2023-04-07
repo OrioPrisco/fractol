@@ -31,6 +31,8 @@ SRC				=	main.c\
 					image.c\
 					deepen.c\
 					palette.c\
+					metamandelbrot.c\
+					metajulia.c\
 
 
 OBJ_FOLDER		=	objs/

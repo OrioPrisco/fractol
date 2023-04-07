@@ -44,6 +44,10 @@ size_t	mandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
 int		mandelbrot_smooth(size_t iter, t_complex z, t_camera *camera);
 size_t	julia_iterate(t_complex *z, t_complex c, size_t iterations,
 			t_param *data);
+size_t	metamandelbrot_iterate(t_complex *z, t_complex c, size_t iterations,
+			t_param *data);
+size_t	metajulia_iterate(t_complex *z, t_complex c, size_t iterations,
+			t_param *data);
 size_t	burning_ship_iterate(t_complex *z, t_complex c, size_t iterations,
 			t_param *data);
 size_t	julia_ship_iterate(t_complex *z, t_complex c, size_t iterations,

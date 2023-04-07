@@ -16,6 +16,10 @@
 #include "fractals.h"
 #include "parse.h"
 
+//ideally, should join all the fractal name
+const static char	*g_fractals
+	= "<mandelbrot|julia|ship|julia|metamandelbrot|julia meta>";
+
 static void	print_usage(t_parse_error error)
 {
 	if (error == NO_FRACTAL_NAME)
@@ -27,7 +31,7 @@ static void	print_usage(t_parse_error error)
 	if (error == BAD_JULIA_PARAMS)
 		ft_printf("Error : Arguments for Julia have to be doubles\n");
 	ft_printf
-		("Usage : ./fractol <mandelbrot|julia|ship|julia_ship> <params>\n");
+		("Usage : ./fractol %s <params>\n", g_fractals);
 }
 
 int	parse(int argc, char **argv, t_env *env)

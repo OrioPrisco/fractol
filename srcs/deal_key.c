@@ -19,7 +19,7 @@
 static void	deal_key_dbg(int key, t_env *env)
 {
 	if (key == XK_F1 || key == XK_F8 || key == XK_F9 || key == XK_m
-		|| key == XK_p || key == XK_F3)
+		|| key == XK_p || key == XK_o || key == XK_l || key == XK_F3)
 		invalidate_chunks(&env->camera);
 	if (key == XK_F1)
 			env->camera.debug = env->camera.debug ^ DBG_WINDING;
@@ -44,6 +44,18 @@ static void	deal_key_dbg(int key, t_env *env)
 		update_camera(&env->camera);
 }
 
+static void	deal_param_keys(int key, t_env *env)
+{
+	if (key == XK_p)
+		env->camera.params.mandelbrot_heads++;
+	if (key == XK_m && env->camera.params.mandelbrot_heads != 0)
+		env->camera.params.mandelbrot_heads--;
+	if (key == XK_o)
+		env->camera.params.meta_mandelbrot_level++;
+	if (key == XK_l && env->camera.params.meta_mandelbrot_level != 0)
+		env->camera.params.meta_mandelbrot_level--;
+}
+
 int	deal_key(int key, t_env *env)
 {
 	if (key == XK_p && env->camera.debug & DBG_WINDING)
@@ -64,11 +76,8 @@ int	deal_key(int key, t_env *env)
 		move_camera(&env->camera, (t_complex){0.05, 0});
 	if (key == XK_Escape)
 		quit_prg(env);
-	if (key == XK_p)
-		env->camera.params.mandelbrot_heads++;
-	if (key == XK_m && env->camera.params.mandelbrot_heads != 0)
-		env->camera.params.mandelbrot_heads--;
 	deal_key_dbg(key, env);
+	deal_param_keys(key, env);
 	draw(env);
 	return (0);
 }

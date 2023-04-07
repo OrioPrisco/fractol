@@ -1,26 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   params.h                                           :+:      :+:    :+:   */
+/*   metajulia.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/11 19:38:35 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/01/11 19:39:31 by OrioPrisc        ###   ########.fr       */
+/*   Created: 2022/12/28 11:54:05 by OrioPrisc         #+#    #+#             */
+/*   Updated: 2023/04/07 15:04:12 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARAMS_H
-# define PARAMS_H
+#include "fractals.h"
+#include "params.h"
 
-# include "complex.h"
-# include <stddef.h>
-
-typedef struct s_param
+size_t	metajulia_iterate(t_complex *z, t_complex c, size_t iterations,
+			t_param *data)
 {
-	t_complex	julia_c;
-	size_t		mandelbrot_heads;
-	size_t		meta_mandelbrot_level;
-}	t_param;
+	t_complex	temp;
+	size_t		iter;
 
-#endif
+	temp = c;
+	c = *z;
+	*z = temp;
+	iter = metamandelbrot_iterate(&c, data->julia_c, iterations, data);
+	temp = c;
+	c = *z;
+	*z = temp;
+	return (iter);
+}
