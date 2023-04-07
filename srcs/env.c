@@ -28,7 +28,7 @@ static const t_fractal	g_julia = {
 	julia_iterate,
 	NULL,
 	contains_zero,
-	NULL,
+	julia_smooth,
 	"julia",
 };
 static const t_fractal	g_mandelbrot = {
