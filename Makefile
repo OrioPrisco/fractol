@@ -33,6 +33,7 @@ SRC				=	main.c\
 					palette.c\
 					metamandelbrot.c\
 					metajulia.c\
+					complex_power.c\
 
 
 OBJ_FOLDER		=	objs/
