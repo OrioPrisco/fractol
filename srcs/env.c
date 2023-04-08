@@ -81,7 +81,7 @@ bool	assign_fractal(const char *name, const t_fractal **fractal)
 	size_t	i;
 
 	i = 0;
-	while (i < sizeof(g_fractals) / sizeof(*g_fractals))
+	while (i < sizeof(g_fractals) / sizeof(g_fractals[0]))
 	{
 		if (!ft_strcmp(name, g_fractals[i]->name))
 		{
