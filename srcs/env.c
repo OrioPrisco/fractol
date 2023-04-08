@@ -120,6 +120,7 @@ int	init_env(t_env *env)
 	env->camera.scale = 400;
 	env->camera.center = (t_complex){0, 0};
 	env->camera.params.meta_mandelbrot_level = 1;
+	env->camera.params.meta_mandelbrot_power = 2;
 	if (init_img(env, &env->frame1, WIDTH, HEIGHT)
 		|| init_img(env, &env->frame2, WIDTH, HEIGHT)
 		|| init_img(env, &env->camera.work_buffer, WIDTH, HEIGHT))

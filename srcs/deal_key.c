@@ -19,7 +19,8 @@
 static void	deal_key_dbg(int key, t_env *env)
 {
 	if (key == XK_F1 || key == XK_F8 || key == XK_F9 || key == XK_m
-		|| key == XK_p || key == XK_o || key == XK_l || key == XK_F3)
+		|| key == XK_p || key == XK_o || key == XK_l || key == XK_F3
+		|| key == XK_i || key == XK_k)
 		invalidate_chunks(&env->camera);
 	if (key == XK_F1)
 			env->camera.debug = env->camera.debug ^ DBG_WINDING;
@@ -54,6 +55,10 @@ static void	deal_param_keys(int key, t_env *env)
 		env->camera.params.meta_mandelbrot_level++;
 	if (key == XK_l && env->camera.params.meta_mandelbrot_level != 0)
 		env->camera.params.meta_mandelbrot_level--;
+	if (key == XK_i)
+		env->camera.params.meta_mandelbrot_power += 0.01;
+	if (key == XK_k)
+		env->camera.params.meta_mandelbrot_power -= 0.01;
 }
 
 int	deal_key(int key, t_env *env)

@@ -21,6 +21,7 @@ typedef struct s_param
 	t_complex	julia_c;
 	size_t		mandelbrot_heads;
 	size_t		meta_mandelbrot_level;
+	double		meta_mandelbrot_power;
 }	t_param;
 
 #endif
