@@ -36,6 +36,8 @@ static void	print_usage(t_parse_error error)
 
 int	parse(int argc, char **argv, t_env *env)
 {
+	char	*endptr;
+
 	if (argc < 2)
 		return (print_usage(NO_FRACTAL_NAME), 1);
 	if (assign_fractal(argv[1], &env->fractal))
@@ -44,8 +46,11 @@ int	parse(int argc, char **argv, t_env *env)
 	{
 		if (argc < 4)
 			return (print_usage(NO_JULIA_PARAMS), 1);
-		if (ft_atold(argv[2], &env->camera.params.julia_c.real)
-			|| ft_atold(argv[3], &env->camera.params.julia_c.imag))
+		env->camera.params.julia_c.real = ft_strtold(argv[2], &endptr);
+		if (*endptr)
+			return (print_usage(BAD_JULIA_PARAMS), 1);
+		env->camera.params.julia_c.imag = ft_strtold(argv[3], &endptr);
+		if (*endptr)
 			return (print_usage(BAD_JULIA_PARAMS), 1);
 	}
 	return (0);
