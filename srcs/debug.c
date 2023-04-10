@@ -13,6 +13,7 @@
 #include "fractol.h"
 #include "fractals.h"
 #include "color_chunk.h"
+#undef __STRICT_ANSI__
 #include <math.h>
 
 static const t_complex_part	g_tau = 2 * M_PI;
