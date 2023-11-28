@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 12:26:16 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/11/28 17:40:43 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/11/28 18:06:09 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define REPAIR_H
 
 typedef struct s_chunk		t_chunk;
+typedef struct s_camera		t_camera;
 
 // 0 1 2
 // 7   3
@@ -30,5 +31,5 @@ typedef enum e_direction8
 	LEFT8 = 7,
 }	t_direction8;
 
-int	contains_zero(const t_chunk *chunk);
+int	contains_zero(const t_chunk *chunk, const t_camera *_);
 #endif

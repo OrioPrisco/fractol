@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 12:53:38 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/11/28 17:41:18 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/11/28 17:57:53 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_param		t_param;
 typedef struct s_fractal	t_fractal;
 typedef size_t				t_f_iterator (t_complex *, t_complex, size_t,
 			const t_param *);
-typedef int					t_f_repair (const t_chunk *);
+typedef int					t_f_repair (const t_chunk *, const t_camera *);
 typedef int					t_f_smooth (t_complex, const t_camera *);
 
 //leave julia to null if this is a julia function

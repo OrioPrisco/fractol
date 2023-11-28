@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:51:38 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/11/28 17:40:33 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/11/28 18:12:37 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static	int	angle(t_direction8 a, t_direction8 b)
 	return (b - a);
 }
 
-int	contains_zero(const t_chunk *chunk)
+int	contains_zero(const t_chunk *chunk, const t_camera *_)
 {
 	int				winding;
 	t_direction8	previous_angle;
@@ -60,6 +60,7 @@ int	contains_zero(const t_chunk *chunk)
 	size_t			i;
 	t_direction		dir;
 
+	(void)_;
 	dir = 0;
 	winding = 0;
 	while (dir < 4)
@@ -68,13 +69,12 @@ int	contains_zero(const t_chunk *chunk)
 		i = 0;
 		while (i < chunk->dimensions[dir % 2])
 		{
-			current_angle = direction(chunk->borders[dir][i].z);
+			current_angle = direction(chunk->borders[dir][i++].z);
 			if (dir == UP || dir == RIGHT)
 				winding += angle(previous_angle, current_angle);
 			else
 				winding -= angle(previous_angle, current_angle);
 			previous_angle = current_angle;
-			i++;
 		}
 		dir++;
 	}

@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 11:24:44 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/11/28 17:36:54 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/11/28 17:58:03 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
 				return (subdivide_chunk(camera, chunk, fractal));
 	}
 	if (chunk->borders[0][0].iter != camera->iter
-		&& fractal->should_repair && fractal->should_repair(chunk))
+		&& fractal->should_repair && fractal->should_repair(chunk, camera))
 		return (subdivide_chunk(camera, chunk, fractal));
 	if (chunk->borders[0][0].iter != camera->iter
 		&& camera->debug & DBG_SMOOTH_COLOR)
