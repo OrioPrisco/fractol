@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 11:24:44 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2022/12/09 12:32:21 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/11/28 17:36:54 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include "color_chunk.h"
 #include <stdlib.h>
 #include "mlx.h"
-#include "winding.h"
+#include "repair.h"
 #include "fractals.h"
 
 int	boundary_trace_fractal_r(t_camera *camera, t_chunk *chunk,
