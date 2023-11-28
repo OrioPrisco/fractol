@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 11:51:38 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/11/28 17:34:51 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/11/28 17:40:33 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static	int	angle(t_direction8 a, t_direction8 b)
 	return (b - a);
 }
 
-int	contains_zero(t_chunk *chunk)
+int	contains_zero(const t_chunk *chunk)
 {
 	int				winding;
 	t_direction8	previous_angle;
