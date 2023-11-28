@@ -6,12 +6,14 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 12:26:16 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2022/12/30 13:00:28 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/11/28 17:27:27 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef WINDING_H
 # define WINDING_H
+
+typedef struct s_chunk		t_chunk;
 
 // 0 1 2
 // 7   3
