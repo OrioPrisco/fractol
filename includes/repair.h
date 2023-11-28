@@ -32,4 +32,5 @@ typedef enum e_direction8
 }	t_direction8;
 
 int	contains_zero(const t_chunk *chunk, const t_camera *_);
+int	contains_unit_circle(const t_chunk *chunk, const t_camera *camera);
 #endif

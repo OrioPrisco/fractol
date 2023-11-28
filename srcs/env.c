@@ -6,7 +6,7 @@
 /*   By: OrioPrisco <47635210+OrioPrisco@users      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/09 15:29:17 by OrioPrisc         #+#    #+#             */
-/*   Updated: 2023/11/28 17:37:16 by OrioPrisc        ###   ########.fr       */
+/*   Updated: 2023/11/28 18:23:02 by OrioPrisc        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ static const t_fractal	g_metamandelbrot = {
 static const t_fractal	g_julia_ship = {
 	julia_ship_iterate,
 	NULL,
-	NULL,
+	contains_unit_circle,
 	NULL,
 	"julia ship",
 };
 static const t_fractal	g_burning_ship = {
 	burning_ship_iterate,
 	&g_julia_ship,
-	NULL,
+	contains_unit_circle,
 	NULL,
 	"ship",
 };

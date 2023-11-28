@@ -14,6 +14,7 @@
 #include "complex.h"
 #include "repair.h"
 #include <math.h>
+#include "camera.h"
 
 //returns the rough direction of a vector
 static t_direction8	direction(t_complex num)
@@ -79,4 +80,19 @@ int	contains_zero(const t_chunk *chunk, const t_camera *_)
 		dir++;
 	}
 	return (winding > 5 || winding < -5);
+}
+
+int	contains_unit_circle(const t_chunk *chunk, const t_camera *camera)
+{
+	t_complex	chunk_top_left;
+	t_complex	chunk_bot_right;
+
+	chunk_top_left = add_complex(camera->top_left,
+			(t_complex){camera->step.real * chunk->top_left[0],
+			camera->step.imag * chunk->top_left[1]});
+	chunk_bot_right = add_complex(chunk_top_left,
+			(t_complex){camera->step.real * chunk->dimensions[0],
+			camera->step.imag * chunk->dimensions[1]});
+	return (chunk_top_left.real < -1 && chunk_top_left.imag > 1
+		&& chunk_bot_right.real > 1 && chunk_bot_right.imag < -1);
 }
