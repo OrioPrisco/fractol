@@ -13,9 +13,8 @@ Possible upgrades:
 	Add some post processing effect ?
 		color_bounds could then be done in post processing for example
 	Menu that shows values and what the keys do
-	Implement proper power function for complex numbers and use it on the mandelbrot set
-		Can even use non integer values to get a super cool animation
-			Probably disable zoom ? and don't blit the camera until enough iterations have been calculated
+	use proper power function with non integer values to get a super cool animation
+		Probably disable zoom ? and don't blit the camera until enough iterations have been calculated
 	Have julia constantly update based on Pointer position ?
 		Or have the right click toggle animation Mode ?
 			same comments as for mandelbrot animations
